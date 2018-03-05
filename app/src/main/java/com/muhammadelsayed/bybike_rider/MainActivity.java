@@ -11,6 +11,11 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.muhammadelsayed.bybike_rider.Fragments.AccountFragment;
+import com.muhammadelsayed.bybike_rider.Fragments.EarningsFragment;
+import com.muhammadelsayed.bybike_rider.Fragments.HomeFragment;
+import com.muhammadelsayed.bybike_rider.Fragments.RatingFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
