@@ -1,4 +1,4 @@
-package com.muhammadelsayed.bybike_rider;
+package com.muhammadelsayed.bybike_rider.Fragments;
 
 
 import android.os.Bundle;
@@ -8,32 +8,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.muhammadelsayed.bybike_rider.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#homeFragmentInstance} factory method to
+ * Use the {@link AccountFragment#accountFragmentInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class AccountFragment extends Fragment {
 
-    // The fragment initialization parameters
-    public static final String ARG_TITLE = "Home Fragment";
+    // the fragment initialization parameters
+    private static final String ARG_TITLE = "Account Fragment";
     private String mTitle;
-    private TextView mTvHomeFragment;
+    private TextView tvAccountFragment;
 
-    public HomeFragment() {
+    public AccountFragment() {
         // Required empty public constructor
     }
-
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param title The title of fragment HomeFragment.
-     * @return A new instance of fragment HomeFragment.
+     * @param title The title of fragment RatingFragment.
+     * @return A new instance of fragment AccountFragment.
      */
-    public static HomeFragment homeFragmentInstance(String title) {
-        HomeFragment fragment = new HomeFragment();
+    public static AccountFragment accountFragmentInstance(String title) {
+        AccountFragment fragment = new AccountFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         fragment.setArguments(args);
@@ -52,11 +53,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
-        mTvHomeFragment = rootView.findViewById(R.id.tv_home_fragment);
+        tvAccountFragment = rootView.findViewById(R.id.tv_account_fragment);
         String title = getArguments().getString(ARG_TITLE, "");
-        mTvHomeFragment.setText(title);
+        tvAccountFragment.setText(title);
 
         return rootView;
     }

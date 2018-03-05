@@ -1,4 +1,4 @@
-package com.muhammadelsayed.bybike_rider;
+package com.muhammadelsayed.bybike_rider.Fragments;
 
 
 import android.os.Bundle;
@@ -8,19 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.muhammadelsayed.bybike_rider.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AccountFragment#accountFragmentInstance} factory method to
+ * Use the {@link EarningsFragment#earningsFragmentInstance} factory method to
  * create an instance of this fragment.
  */
-public class AccountFragment extends Fragment {
+public class EarningsFragment extends Fragment {
 
     // the fragment initialization parameters
-    private static final String ARG_TITLE = "Account Fragment";
+    private static final String ARG_TITLE = "Earning Fragment";
     private String mTitle;
-    private TextView tvAccountFragment;
+    private TextView mTvEarningsFragment;
 
-    public AccountFragment() {
+
+    public EarningsFragment() {
         // Required empty public constructor
     }
 
@@ -28,11 +31,11 @@ public class AccountFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param title The title of fragment RatingFragment.
-     * @return A new instance of fragment AccountFragment.
+     * @param title The title of fragment EarningsFragment.
+     * @return A new instance of fragment EarningsFragment.
      */
-    public static AccountFragment accountFragmentInstance(String title) {
-        AccountFragment fragment = new AccountFragment();
+    public static EarningsFragment earningsFragmentInstance(String title) {
+        EarningsFragment fragment = new EarningsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         fragment.setArguments(args);
@@ -51,11 +54,11 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_account, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_earnings, container, false);
 
-        tvAccountFragment = rootView.findViewById(R.id.tv_account_fragment);
+        mTvEarningsFragment = rootView.findViewById(R.id.tv_earnings_fragment);
         String title = getArguments().getString(ARG_TITLE, "");
-        tvAccountFragment.setText(title);
+        mTvEarningsFragment.setText(title);
 
         return rootView;
     }
