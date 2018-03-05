@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhammadelsayed.bybike_rider.Fragments.AccountFragment;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBar mActionBar;
     private BottomNavigationView MBottomNavigation;
     private Toast mStateToast;
+    private TextView mTvState;
 
     private List<Fragment> mFragmentsList = new ArrayList<>(INT_FRAGMENTS_COUNT);
 
@@ -63,14 +65,17 @@ public class MainActivity extends AppCompatActivity {
     private Switch.OnCheckedChangeListener mOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
             if (isChecked) {
                 if (mStateToast != null)
                     mStateToast.cancel();
+                mTvState.setText(getResources().getString(R.string.state_online));
                 mStateToast = Toast.makeText(getApplicationContext(), getString(R.string.state_online), Toast.LENGTH_SHORT);
                 mStateToast.show();
-            } else{
+            } else {
                 if (mStateToast != null)
                     mStateToast.cancel();
+                mTvState.setText(getResources().getString(R.string.state_offline));
                 mStateToast = Toast.makeText(getApplicationContext(), getString(R.string.state_offline), Toast.LENGTH_SHORT);
                 mStateToast.show();
             }
@@ -95,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
         mActionBar.setCustomView(R.layout.switch_layout);
         mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
+        mTvState = findViewById(R.id.tv_state);
+
         mActionbarSwitch = findViewById(R.id.switch_actionbar);
         mActionbarSwitch.setOnCheckedChangeListener(mOnCheckedChangeListener);
     }
@@ -102,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Use this  method to create a new instance of
      * any of the fragments using the fragments' factory methods.
-     *
+     * <p>
      * Then, the method puts the created fragments in the "mFragmentsList"
      */
     private void buildFragmentsList() {
