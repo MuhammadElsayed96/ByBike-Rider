@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.muhammadelsayed.bybike_rider.EarningsFragment">
+
+    <TextView
+        android:id="@+id/tv_earnings_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/text_view_earnings_fragment"
+        android:textSize="32sp" />
+
+</FrameLayout>

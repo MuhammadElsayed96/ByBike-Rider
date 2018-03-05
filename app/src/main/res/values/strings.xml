@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">ByBike-Rider</string>
+    <string name="title_home">Home</string>
+    <string name="title_earnings">Earnings</string>
+    <string name="title_rating">Rating</string>
+    <string name="title_account">Account</string>
+
+    <string name="state_online">Online</string>
+    <string name="state_offline">Offline</string>
+
+    <string name="text_view_home_fragment">Home Fragment</string>
+    <string name="text_view_earnings_fragment">Earnings Fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_view_ratings_fragment">Ratings Fragment</string>
+    <string name="text_view_account_fragment">Account Fragment</string>
 </resources>

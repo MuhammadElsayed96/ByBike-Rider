@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="BottomNavigation">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="itemBackground">@color/navigation_bar_item_bg</item>
+        <item name="itemIconTint">@color/navigation_bar_txt_color</item>
+        <item name="itemTextColor">@color/navigation_bar_txt_color</item>
+        <item name="paddingStart">@dimen/activity_horizontal_margin</item>
+        <item name="paddingEnd">@dimen/activity_vertical_margin</item>
+    </style>
+
 </resources>
