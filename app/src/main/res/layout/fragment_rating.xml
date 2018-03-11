@@ -1,16 +1,306 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f6f6f5"
     tools:context="com.muhammadelsayed.bybike_rider.Fragments.RatingFragment">
 
-    <TextView
-        android:id="@+id/tv_rating_fragment"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/sub_parent_one"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:text="@string/text_view_ratings_fragment"
-        android:textSize="32sp" />
+        android:layout_height="wrap_content"
+        android:background="#161725"
+        android:paddingBottom="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tv_five_star_ratings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="25dp"
+            android:text="90"
+            android:textColor="@android:color/white"
+            android:textSize="55sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="48dp"
+            android:minHeight="48dp"
+            android:progressBackgroundTint="#FFD700"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_five_star_ratings" />
+
+        <TextView
+            android:id="@+id/fixed_5_star_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="38dp"
+            android:paddingTop="10dp"
+            android:text="@string/five_star_biker"
+            android:textColor="@android:color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ratingBar" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#fff"
+            app:layout_constraintBottom_toTopOf="@id/horizontal_liner_layout"
+            app:layout_constraintLeft_toLeftOf="@id/sub_parent_one"
+            app:layout_constraintRight_toRightOf="@id/sub_parent_one"
+            app:layout_constraintTop_toBottomOf="@id/fixed_5_star_label" />
+
+        <LinearLayout
+            android:id="@+id/horizontal_liner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/sub_parent_one"
+            app:layout_constraintLeft_toLeftOf="@id/sub_parent_one"
+            app:layout_constraintRight_toRightOf="@id/sub_parent_one"
+            app:layout_constraintTop_toBottomOf="@id/separator">
+
+
+            <LinearLayout
+                android:id="@+id/ll_star_rating"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/tv_star_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:singleLine="true"
+                        android:text="4.75"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        autofit:minTextSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  >"
+                        android:textColor="@android:color/darker_gray" />
+                </LinearLayout>
+
+                <me.grantland.widget.AutofitTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:text="STAR\nRATING"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    autofit:minTextSize="8sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_acceptance_rate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/tv_acceptance_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:singleLine="true"
+                        android:text="100%"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        autofit:minTextSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  >"
+                        android:textColor="@android:color/darker_gray" />
+                </LinearLayout>
+
+                <me.grantland.widget.AutofitTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:text="ACCEPTANCE RATE"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    autofit:minTextSize="8sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_cancellation_rate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/tv_cancellation_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:singleLine="true"
+                        android:text="0%"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        autofit:minTextSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  >"
+                        android:textColor="@android:color/darker_gray" />
+                </LinearLayout>
+
+                <me.grantland.widget.AutofitTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:text="CANCELLATION RATE"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    autofit:minTextSize="8sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/mid_activity_separator"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="#e2e2e3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sub_parent_one" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/sub_parent_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mid_activity_separator">
+
+
+        <ImageView
+            android:id="@+id/ic_favorite"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_favorite_black_48px"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/rider_compliments_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:text="Rider Compliments"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@id/ic_favorite"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/total_compliments_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:paddingTop="4dp"
+            android:text="Total compliments"
+            app:layout_constraintLeft_toLeftOf="@id/rider_compliments_label"
+            app:layout_constraintTop_toBottomOf="@id/rider_compliments_label" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tv_num_of_compliments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:paddingTop="4dp"
+            android:text="2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Header"
+            android:textColor="@android:color/black"
+            app:layout_constraintLeft_toLeftOf="@id/total_compliments_label"
+            app:layout_constraintTop_toBottomOf="@id/total_compliments_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>

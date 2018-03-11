@@ -17,16 +17,41 @@
         <!-- Maps Android Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD3cYuwx8O6ZDGtr7ARgf9iKLn2-W6nG4A" />
+            android:value="AIzaSyDQS-fqcIljw_FuD9mzhCbc8PjX9iu9bhg" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".RatingActivities.CancellationDetails"
+            android:label="@string/cancellation_details_label"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".RatingActivities.AcceptanceDetails"
+            android:label="@string/acceptance_details_label"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".RatingActivities.RatingDetails"
+            android:label="@string/rating_details_label"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".RatingActivities.RiderCompliments"
+            android:launchMode="singleTop"
+            android:label="@string/rider_compliments_label"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

@@ -1,14 +1,21 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.RatingActivities.AcceptanceDetails;
+import com.muhammadelsayed.bybike_rider.RatingActivities.CancellationDetails;
+import com.muhammadelsayed.bybike_rider.RatingActivities.RatingDetails;
+import com.muhammadelsayed.bybike_rider.RatingActivities.RiderCompliments;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +27,37 @@ public class RatingFragment extends Fragment {
     // the fragment initialization parameters
     private static final String ARG_TITLE = "Rating Fragment";
     private String mTitle;
-    private TextView mTvRatingFragment;
+    private TextView mTvFiveStareRatings;
+    private LinearLayout mLlStarRating;
+    private LinearLayout mLlAcceptanceRate;
+    private LinearLayout mLlCancellationRate;
+    private ConstraintLayout mClRiderCompliments;
+    private TextView mTvNumOfCompliments;
+
+    private LinearLayout.OnClickListener  mOnLlAcceptanceRateClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(getContext(), AcceptanceDetails.class));
+        }
+    };
+    private LinearLayout.OnClickListener mOnLlStarRatingClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(getContext(), RatingDetails.class));
+        }
+    };
+    private LinearLayout.OnClickListener mOnLlCancellationRateClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(getContext(), CancellationDetails.class));
+        }
+    };
+    private ConstraintLayout.OnClickListener mOnClRiderComplimentsClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(getContext(), RiderCompliments.class));
+        }
+    };
 
 
     public RatingFragment() {
@@ -57,9 +94,18 @@ public class RatingFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_rating, container, false);
 
-        mTvRatingFragment = rootView.findViewById(R.id.tv_rating_fragment);
-        String title = getArguments().getString(ARG_TITLE, "");
-        mTvRatingFragment.setText(title);
+        mTvFiveStareRatings = rootView.findViewById(R.id.tv_five_star_ratings);
+        mLlStarRating = rootView.findViewById(R.id.ll_star_rating);
+        mLlAcceptanceRate = rootView.findViewById(R.id.ll_acceptance_rate);
+        mLlCancellationRate = rootView.findViewById(R.id.ll_cancellation_rate);
+        mClRiderCompliments = rootView.findViewById(R.id.sub_parent_two);
+        mTvNumOfCompliments = rootView.findViewById(R.id.tv_num_of_compliments);
+
+        mLlAcceptanceRate.setOnClickListener(mOnLlAcceptanceRateClickListener);
+        mLlCancellationRate.setOnClickListener(mOnLlCancellationRateClickListener);
+        mLlStarRating.setOnClickListener(mOnLlStarRatingClickListener);
+        mClRiderCompliments.setOnClickListener(mOnClRiderComplimentsClickListener);
+
 
         return rootView;
     }

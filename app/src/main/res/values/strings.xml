@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ByBiker</string>
+    <string name="app_name">ByBike</string>
     <string name="title_home">Home</string>
     <string name="title_earnings">Earnings</string>
     <string name="title_rating">Rating</string>
@@ -15,4 +15,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_view_ratings_fragment">Ratings Fragment</string>
     <string name="text_view_account_fragment">Account Fragment</string>
+    <string name="five_star_biker">5-STAR BIKER</string>
+    <string name="cancellation_details_label">CANCELLATION DETAILS</string>
+    <string name="acceptance_details_label">ACCEPTANCE DETAILS</string>
+    <string name="rating_details_label">RATING DETAILS</string>
+    <string name="rider_compliments_label">RIDER COMPLIMENTS</string>
+    <string name="current_acceptance_rate_label">CURRENT ACCEPTANCE RATE</string>
+    <string name="acceptance_details_information_label">Your Acceptance Rate is based on the percentage of delivers requests you\'ve accepted over the last 7 days. if you see your rate drastically change, it\'s likely that you haven\'t had a high number of recent requests.</string>
+    <string name="cancellation_details_information_label">Your cancellation rate is on the percentage of deliveries you cancel after accepting them over the last 7 days. low rates lead to better reliability and efficiency. if you see your rate drastically change, it\'s likely that you haven\'t had a high number of recent requests.</string>
+    <string name="current_star_rating_label">CURRENT STAR RATING</string>
+    <string name="current_star_rating_information_label">Your clients rate delivers on a scale of 1-5 stars. Your rating is the average of client\'s ratings from your last 500 rated deliveries.</string>
+    <string name="current_cancellation_rate_label">CURRENT CANCELLATION RATE</string>
+
 </resources>
