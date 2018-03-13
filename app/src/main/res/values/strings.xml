@@ -26,5 +26,7 @@
     <string name="current_star_rating_label">CURRENT STAR RATING</string>
     <string name="current_star_rating_information_label">Your clients rate delivers on a scale of 1-5 stars. Your rating is the average of client\'s ratings from your last 500 rated deliveries.</string>
     <string name="current_cancellation_rate_label">CURRENT CANCELLATION RATE</string>
+    <string name="edit_account_label">Edit Account</string>
+    <string name="rider_profile_label">Rider Profile</string>
 
 </resources>

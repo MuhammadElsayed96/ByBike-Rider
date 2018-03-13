@@ -98,7 +98,7 @@ public class RatingFragment extends Fragment {
         mLlStarRating = rootView.findViewById(R.id.ll_star_rating);
         mLlAcceptanceRate = rootView.findViewById(R.id.ll_acceptance_rate);
         mLlCancellationRate = rootView.findViewById(R.id.ll_cancellation_rate);
-        mClRiderCompliments = rootView.findViewById(R.id.sub_parent_two);
+        mClRiderCompliments = rootView.findViewById(R.id.cl_rider_profile);
         mTvNumOfCompliments = rootView.findViewById(R.id.tv_num_of_compliments);
 
         mLlAcceptanceRate.setOnClickListener(mOnLlAcceptanceRateClickListener);

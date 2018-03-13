@@ -1,16 +1,213 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f6f6f5"
     tools:context="com.muhammadelsayed.bybike_rider.Fragments.AccountFragment">
 
-    <TextView
-        android:id="@+id/tv_account_fragment"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/sub_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:text="@string/text_view_account_fragment"
-        android:textSize="32sp" />
+        android:layout_height="wrap_content"
+        android:background="#161725"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:layout_constraintBottom_toTopOf="@id/mid_activity_separator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/profile_image_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="32dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/trump"
+                app:civ_border_width="2dp"
+                />
+        </LinearLayout>
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trumpw"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/profile_image_layout"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/mid_activity_separator"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="#e2e2e3"
+        app:layout_constraintBottom_toTopOf="@id/cl_rider_profile"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sub_parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_rider_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fcfcfb"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mid_activity_separator">
+
+        <ImageView
+            android:id="@+id/ic_account"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_account_black_48px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/rider_profile_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:text="Rider Profile"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/ic_account"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/rider_prof_info_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:paddingTop="4dp"
+            android:text="Your clients will see this"
+            app:layout_constraintLeft_toLeftOf="@id/rider_profile_label"
+            app:layout_constraintTop_toBottomOf="@id/rider_profile_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/mid_activity_separator_two"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e2e2e3"
+        app:layout_constraintBottom_toTopOf="@id/cl_edit_rider_profile"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_rider_profile" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_edit_rider_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fcfcfb"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_rider_profile">
+
+        <ImageView
+            android:id="@+id/ic_edit_account"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_edit_account_black_48px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/edit_profile_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:text="Edit Profile"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/ic_edit_account"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/sub_parent_four"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fcfcfb"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintBottom_toTopOf="@id/end_activity_separator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign out"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/end_activity_separator"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="#e2e2e3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</android.support.constraint.ConstraintLayout>

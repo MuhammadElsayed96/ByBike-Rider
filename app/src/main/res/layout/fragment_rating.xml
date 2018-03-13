@@ -16,7 +16,8 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_five_star_ratings"
@@ -230,7 +231,7 @@
         app:layout_constraintTop_toBottomOf="@id/sub_parent_one" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/sub_parent_two"
+        android:id="@+id/cl_rider_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"

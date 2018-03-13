@@ -74,7 +74,7 @@
 
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/sub_parent_two"
+        android:id="@+id/cl_rider_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#f6f6f5"
@@ -96,8 +96,8 @@
             android:text="&quot;Thank you for your effort&quot;"
             android:textColor="@android:color/black"
             android:textSize="22sp"
-            app:layout_constraintLeft_toLeftOf="@id/sub_parent_two"
-            app:layout_constraintRight_toRightOf="@id/sub_parent_two" />
+            app:layout_constraintLeft_toLeftOf="@id/cl_rider_profile"
+            app:layout_constraintRight_toRightOf="@id/cl_rider_profile" />
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
             android:id="@+id/ratingBar_two"
@@ -108,8 +108,8 @@
             android:minHeight="22dp"
             android:progressBackgroundTint="#FFD700"
             app:layout_constraintBottom_toTopOf="@id/date_two"
-            app:layout_constraintLeft_toLeftOf="@id/sub_parent_two"
-            app:layout_constraintRight_toRightOf="@id/sub_parent_two"
+            app:layout_constraintLeft_toLeftOf="@id/cl_rider_profile"
+            app:layout_constraintRight_toRightOf="@id/cl_rider_profile"
             app:layout_constraintTop_toBottomOf="@id/second_comment" />
 
         <TextView
@@ -120,9 +120,9 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:paddingBottom="22dp"
-            app:layout_constraintBottom_toBottomOf="@id/sub_parent_two"
-            app:layout_constraintLeft_toLeftOf="@id/sub_parent_two"
-            app:layout_constraintRight_toRightOf="@id/sub_parent_two"
+            app:layout_constraintBottom_toBottomOf="@id/cl_rider_profile"
+            app:layout_constraintLeft_toLeftOf="@id/cl_rider_profile"
+            app:layout_constraintRight_toRightOf="@id/cl_rider_profile"
             app:layout_constraintTop_toBottomOf="@id/ratingBar_two" />
 
     </android.support.constraint.ConstraintLayout>
