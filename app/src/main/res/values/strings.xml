@@ -28,5 +28,6 @@
     <string name="current_cancellation_rate_label">CURRENT CANCELLATION RATE</string>
     <string name="edit_account_label">Edit Account</string>
     <string name="rider_profile_label">Rider Profile</string>
+    <string name="sign_in_label">SIGN IN</string>
 
 </resources>
