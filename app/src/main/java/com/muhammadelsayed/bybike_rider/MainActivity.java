@@ -1,7 +1,12 @@
 package com.muhammadelsayed.bybike_rider;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -17,6 +22,7 @@ import com.muhammadelsayed.bybike_rider.Fragments.EarningsFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.HomeFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.RatingFragment;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Switch mActionbarSwitch;
     private ActionBar mActionBar;
-    private BottomNavigationView MBottomNavigation;
+    private BottomNavigationView mBottomNavigation;
     private Toast mStateToast;
     private TextView mTvState;
 
@@ -83,15 +89,16 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MBottomNavigation = findViewById(R.id.bottom_navigation_view);
-        MBottomNavigation.getMenu().getItem(0).setChecked(true);
-        MBottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        mBottomNavigation = findViewById(R.id.bottom_navigation_view);
+        mBottomNavigation.getMenu().getItem(0).setChecked(true);
+        mBottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        disableShiftMode(mBottomNavigation);
         buildFragmentsList();
         // Set the 0th Fragment to be displayed by default.
         switchFragment(0, TAG_FRAGMENT_HOME);
@@ -134,5 +141,36 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_fragment_holder, mFragmentsList.get(pos), tag)
                 .commit();
+    }
+
+
+    /**
+     * This method will force the BottomNavigationView to show both the icon and the label
+     * of each element in the BottomNavigationView, not only the highlighted element
+     * <p>
+     * I got this method from STACKOVERFLOW.com and here's the link
+     * see <a href="https://stackoverflow.com/questions/41352934/force-showing-icon-and-title-in-bottomnavigationview-support-android/41374515"</a>
+     *
+     * @param view is the BottomNavigationView object on which the force showing will be applied
+     */
+    @SuppressLint("RestrictedApi")
+    public static void disableShiftMode(BottomNavigationView view) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                item.setShiftingMode(false);
+                // set once again checked value, so view will be updated
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            //Timber.e(e, "Unable to get shift mode field");
+        } catch (IllegalAccessException e) {
+            //Timber.e(e, "Unable to change value of shift mode");
+        }
     }
 }

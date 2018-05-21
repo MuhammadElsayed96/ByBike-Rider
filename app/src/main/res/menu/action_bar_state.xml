@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_bar_state"
-        android:title=""
         android:actionLayout="@layout/switch_layout"
+        android:title=""
         app:showAsAction="always" />
 </menu>
