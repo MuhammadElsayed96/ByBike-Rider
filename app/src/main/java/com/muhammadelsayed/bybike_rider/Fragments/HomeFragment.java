@@ -7,9 +7,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +38,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private MapView mMapView;
     private View mRootView;
 
+    private Boolean mLocationPermissionGranted = false;
+    public static String TAG = "HomeFragment";
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 99;
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -58,6 +64,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
 
@@ -82,7 +90,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
         mMapView.getMapAsync(this);
 
+
         return mRootView;
+
     }
 
     @Override
@@ -95,43 +105,54 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        getLocationPermission();
+        initMap();
+
+    }
+
+    private void setMyLocationEnabled(boolean b) {
         // For showing a move to my location button
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
+        if (mLocationPermissionGranted) {
+            try {
+                mMap.setMyLocationEnabled(b);
+            } catch (SecurityException ex) {
+                Log.e(TAG, "initMap: SecurityException" + ex.getMessage());
+            }
         } else {
             Toast.makeText(getContext(), "You have to accept to enjoy all app's services!", Toast.LENGTH_LONG).show();
-            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                mMap.setMyLocationEnabled(true);
-            }
-
-            // For dropping a marker at a point on the Map "Mansoura"
-            LatLng mansoura = new LatLng(31.037933, 31.381523);
-            mMap.addMarker(new MarkerOptions()
-                    .title("Mansoura")
-                    .snippet("The is where we start.")
-                    .position(mansoura));
-
-            // For zooming automatically to the location of the marker
-            CameraPosition cameraPosition = CameraPosition.builder()
-                    .target(mansoura).zoom(16).bearing(0).tilt(45).build();
-
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-            if (mMap != null) {
-                mMap.setOnMyLocationClickListener(new GoogleMap.OnMyLocationClickListener() {
-                    @Override
-                    public void onMyLocationClick(@NonNull Location location) {
-                        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-                        CameraUpdate zoom = CameraUpdateFactory.zoomTo(12);
-
-                        mMap.moveCamera(center);
-                        mMap.animateCamera(zoom);
-                    }
-                });
-            }
         }
+
+    }
+
+
+    private void initMap() {
+
+        // For dropping a marker at a point on the Map "Mansoura"
+        LatLng mansoura = new LatLng(31.037933, 31.381523);
+        mMap.addMarker(new MarkerOptions()
+                .title("Mansoura")
+                .snippet("The is where we start.")
+                .position(mansoura));
+
+        // For zooming automatically to the location of the marker
+        CameraPosition cameraPosition = CameraPosition.builder()
+                .target(mansoura).zoom(16).bearing(0).tilt(45).build();
+
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        if (mMap != null) {
+            mMap.setOnMyLocationClickListener(new GoogleMap.OnMyLocationClickListener() {
+                @Override
+                public void onMyLocationClick(@NonNull Location location) {
+                    CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                    CameraUpdate zoom = CameraUpdateFactory.zoomTo(12);
+
+                    mMap.moveCamera(center);
+                    mMap.animateCamera(zoom);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -157,4 +178,55 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
         mMapView.onResume();
     }
+
+    /**
+     * gets the required permissions from the user to access his location
+     */
+    private void getLocationPermission() {
+        Log.d(TAG, "getLocationPermission: getting location permissions");
+        String[] permissions = {
+                FINE_LOCATION,
+                COARSE_LOCATION
+        };
+
+        if (ContextCompat.checkSelfPermission(getContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(getContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionGranted = true;
+
+                setMyLocationEnabled(true);
+
+            } else {
+                requestPermissions(permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        } else {
+            requestPermissions(permissions, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "onRequestPermissionsResult: called !!");
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    // some permission was granted
+                    for (int grantResult : grantResults) {
+                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                            Log.d(TAG, "onRequestPermissionsResult: permission failed");
+                            mLocationPermissionGranted = false;
+
+                            return;
+                        }
+                    }
+                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
+                    mLocationPermissionGranted = true;
+
+                    setMyLocationEnabled(true);
+                }
+        }
+    }
+
 }

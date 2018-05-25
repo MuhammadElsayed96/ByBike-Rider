@@ -73,11 +73,7 @@
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/sign_in_label"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".StartActivity"></activity>
     </application>
 
 </manifest>

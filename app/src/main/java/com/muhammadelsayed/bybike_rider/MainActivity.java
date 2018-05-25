@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
      * @param tag The tag name for the fragment.
      */
     private void switchFragment(int pos, String tag) {
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_fragment_holder, mFragmentsList.get(pos), tag)
                 .commit();
