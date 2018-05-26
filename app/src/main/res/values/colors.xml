@@ -7,4 +7,8 @@
 
     <color name="navigation_bar_item_bg">#000000</color>
     <color name="navigation_bar_txt_color">#FFFFFF</color>
+    <color name="white">#ffffff</color>
+    <color name="error">#C0392B</color>
+    <color name="white_greyish">#EEEEEE</color>
+    <color name="background_color">#ffffff</color>
 </resources>
