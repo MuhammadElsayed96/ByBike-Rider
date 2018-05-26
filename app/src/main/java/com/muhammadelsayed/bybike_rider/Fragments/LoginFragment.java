@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,10 +45,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_layout, container, false);
-
         initViews();
         setListeners();
-
         return view;
     }
 
@@ -67,7 +69,25 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         Log.d(TAG, "setListeners: setting listeners for corresponding widgets");
         mLoginButton.setOnClickListener(this);
         mSignUp.setOnClickListener(this);
+        mForgotPassword.setOnClickListener(this);
 
+        mShowHidePassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mShowHidePassword.setText(R.string.hide_pwd);
+                    mPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    mPassword.setTransformationMethod(HideReturnsTransformationMethod
+                            .getInstance());// show password
+                } else {
+                    mShowHidePassword.setText(R.string.show_pwd);
+
+                    mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    mPassword.setTransformationMethod(PasswordTransformationMethod
+                            .getInstance());// hide password
+                }
+            }
+        });
     }
 
     @Override
@@ -81,6 +101,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                         .replace(R.id.frameContainer, new SignUpFragment(), Utils.SignUpFragment)
                         .commit();
+                break;
+            case R.id.forgot_password:
+                Log.d(TAG, "onClick: navigating to ForgotPasswordFragment...");
+
+                mFragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        .replace(R.id.frameContainer, new ForgotPasswordFragment(), Utils.ForgotPasswordFragment)
+                        .commit();
+
                 break;
         }
     }

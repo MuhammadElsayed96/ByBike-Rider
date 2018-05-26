@@ -11,4 +11,5 @@
     <color name="error">#C0392B</color>
     <color name="white_greyish">#EEEEEE</color>
     <color name="background_color">#ffffff</color>
+    <color name="ET_Background_tint">#49a3bb</color>
 </resources>

@@ -33,6 +33,11 @@
     <string name="already_user">Have an account? Log In</string>
     <string name="newUser">Ride with ByBike? Sign Up</string>
     <string name="show_pwd">Show Password</string>
+    <string name="hide_pwd">Hide Password</string>
     <string name="forgot">Forgot Password?</string>
+    <string name="registered_email">Registered Email</string>
+    <string name="back">Back</string>
+    <string name="submit">Submit</string>
+    <string name="email">Email</string>
 
 </resources>
