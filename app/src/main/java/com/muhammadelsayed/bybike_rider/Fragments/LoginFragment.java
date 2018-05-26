@@ -145,9 +145,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 getActivity().finish();
 
                             } else {
-
                                 Toast.makeText(getActivity(), "I have no Idea what's happening\nbut, something is terribly wrong !!", Toast.LENGTH_SHORT).show();
-
                             }
 
                             progressDialog.dismiss();
