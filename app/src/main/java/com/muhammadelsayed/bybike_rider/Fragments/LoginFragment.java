@@ -1,6 +1,11 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,12 +26,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.muhammadelsayed.bybike_rider.MainActivity;
+import com.muhammadelsayed.bybike_rider.Model.User;
+import com.muhammadelsayed.bybike_rider.Model.UserModel;
+import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
+import com.muhammadelsayed.bybike_rider.Network.UserClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.Utils.CustomToast;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
@@ -94,7 +108,59 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                Toast.makeText(getContext(), "Clicked!", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onClick: validating input...");
+                if (checkValidation()) {
+                    final ProgressDialog progressDialog = new ProgressDialog(getActivity(), R.style.ProgressDialogTheme);
+                    progressDialog.setMessage("Authenticating...");
+                    progressDialog.setCancelable(true);
+                    progressDialog.show();
+
+
+                    String email = mEmail.getText().toString();
+                    String password = mPassword.getText().toString();
+
+                    final User currentUser = new User(email, password);
+
+                    UserClient service = RetrofitClientInstance.getRetrofitInstance()
+                            .create(UserClient.class);
+
+                    Call<UserModel> call = service.loginRider(currentUser);
+
+                    call.enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(@NonNull Call<UserModel> call, Response<UserModel> response) {
+
+                            if (response.body() != null) {
+
+                                User currentUser = response.body().getUser();
+
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                intent.putExtra("user", currentUser);
+                                startActivity(intent);
+
+                                SharedPreferences.Editor prefEditor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+                                prefEditor.putString("USER_TOKEN", response.body().getToken());
+                                prefEditor.apply();
+
+                                getActivity().finish();
+
+                            } else {
+
+                                Toast.makeText(getActivity(), "I have no Idea what's happening\nbut, something is terribly wrong !!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            progressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), "network error !!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
                 break;
             case R.id.createAccount:
                 mFragmentManager.beginTransaction()

@@ -10,5 +10,5 @@ import retrofit2.http.POST;
 public interface UserClient {
 
     @POST("/rider/login/")
-    Call<UserModel> loginUser(@Body User user);
+    Call<UserModel> loginRider(@Body User user);
 }
