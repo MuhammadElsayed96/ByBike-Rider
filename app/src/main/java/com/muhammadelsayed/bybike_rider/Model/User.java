@@ -11,27 +11,27 @@ public class User implements Serializable {
     private String password;
     private String phone;
     private String image;
-    private String vehicle_ID;
-    private String vehicle_Data;
+    private String Vehicle_ID;
+    private String Vehicle_Data;
     private String api_token;
     private String created_at;
     private String updated_at;
 
 
     public String getVehicle_ID() {
-        return vehicle_ID;
+        return Vehicle_ID;
     }
 
     public void setVehicle_ID(String vehicle_ID) {
-        this.vehicle_ID = vehicle_ID;
+        this.Vehicle_ID = vehicle_ID;
     }
 
     public String getVehicle_Data() {
-        return vehicle_Data;
+        return Vehicle_Data;
     }
 
     public void setVehicle_Data(String vehicle_Data) {
-        this.vehicle_Data = vehicle_Data;
+        this.Vehicle_Data = vehicle_Data;
     }
 
 
