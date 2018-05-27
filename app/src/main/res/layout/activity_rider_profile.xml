@@ -73,7 +73,7 @@
             android:orientation="horizontal"
             android:paddingBottom="32dp"
             android:paddingTop="16dp"
-            app:layout_constraintBottom_toBottomOf="@id/horizontal_liner_layout"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/separator">
