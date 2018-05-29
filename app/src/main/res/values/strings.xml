@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">ByBike</string>
+    <string name="app_name">RIDER</string>
     <string name="title_home">Home</string>
     <string name="title_earnings">Earnings</string>
     <string name="title_rating">Rating</string>
     <string name="title_account">Account</string>
+    <string name="title_requests">Requests</string>
 
     <string name="state_online">Online</string>
     <string name="state_offline">Offline</string>

@@ -12,21 +12,28 @@
     <item
         android:id="@+id/navigation_earnings"
         android:enabled="true"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_euro_symbol"
         android:title="@string/title_earnings"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/navigation_rating"
         android:enabled="true"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_stars"
         android:title="@string/title_rating"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/navigation_account"
         android:enabled="true"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_account_box"
         android:title="@string/title_account"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_requests"
+        android:enabled="true"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/title_requests"
         app:showAsAction="ifRoom" />
 </menu>

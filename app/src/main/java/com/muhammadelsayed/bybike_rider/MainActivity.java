@@ -21,6 +21,7 @@ import com.muhammadelsayed.bybike_rider.Fragments.AccountFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.EarningsFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.HomeFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.RatingFragment;
+import com.muhammadelsayed.bybike_rider.Fragments.RequestsFragment;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -33,11 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_FRAGMENT_EARNINGS = "tag_frag_earnings";
     private static final String TAG_FRAGMENT_RATING = "tag_frag_rating";
     private static final String TAG_FRAGMENT_ACCOUNT = "tag_frag_account";
+    private static final String TAG_FRAGMENT_REQUESTS = "tag_frag_request";
     private static final int INT_FRAGMENTS_COUNT = 4;
     private static final int INT_FRAGMENT_HOME_POS = 0;
     private static final int INT_FRAGMENT_EARNINGS_POS = 1;
     private static final int INT_FRAGMENT_RATING_POS = 2;
     private static final int INT_FRAGMENT_ACCOUNT_POS = 3;
+    private static final int INT_FRAGMENT_REQUESTS_POS = 4;
 
     private Switch mActionbarSwitch;
     private ActionBar mActionBar;
@@ -63,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_account:
                     switchFragment(INT_FRAGMENT_ACCOUNT_POS, TAG_FRAGMENT_ACCOUNT);
+                    return true;
+                case R.id.navigation_requests:
+                    switchFragment(INT_FRAGMENT_REQUESTS_POS, TAG_FRAGMENT_REQUESTS);
                     return true;
             }
             return false;
@@ -124,11 +130,13 @@ public class MainActivity extends AppCompatActivity {
         EarningsFragment earningsFragment = EarningsFragment.earningsFragmentInstance("Earnings Fragment");
         RatingFragment ratingFragment = RatingFragment.ratingFragmentInstance("Rating Fragment");
         AccountFragment accountFragment = AccountFragment.accountFragmentInstance("Account Fragment");
+        RequestsFragment requestsFragment = RequestsFragment.requestsFragmentInstance("Requests Fragment");
 
         mFragmentsList.add(homeFragment);
         mFragmentsList.add(earningsFragment);
         mFragmentsList.add(ratingFragment);
         mFragmentsList.add(accountFragment);
+        mFragmentsList.add(requestsFragment);
     }
 
     /**
