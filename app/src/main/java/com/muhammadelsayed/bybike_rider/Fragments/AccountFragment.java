@@ -2,25 +2,20 @@ package com.muhammadelsayed.bybike_rider.Fragments;
 
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.muhammadelsayed.bybike_rider.AccountActivities.EditAccount;
 import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
 import com.muhammadelsayed.bybike_rider.R;
-
-
-
-
-import static com.muhammadelsayed.bybike_rider.R.drawable.muhammad;
+import com.muhammadelsayed.bybike_rider.StartActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,12 +24,14 @@ import static com.muhammadelsayed.bybike_rider.R.drawable.muhammad;
  */
 public class AccountFragment extends Fragment {
 
+    private static final String TAG = "AccountFragment";
     // the fragment initialization parameters
     private static final String ARG_TITLE = "Account Fragment";
     private String mTitle;
     private TextView mTvAccountFragment;
     private ConstraintLayout mClRiderProfile;
     private ConstraintLayout mClEditRiderProfile;
+    private ConstraintLayout mSignout;
     private CircularImageView mUserImage;
 
     private ConstraintLayout.OnClickListener mOnClEditRiderProfile = new View.OnClickListener() {
@@ -47,6 +44,15 @@ public class AccountFragment extends Fragment {
         @Override
         public void onClick(View v) {
             startActivity(new Intent(getContext(), RiderProfile.class));
+        }
+    };
+    private ConstraintLayout.OnClickListener mOnClSignOut = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.wtf(TAG, "Sign out Text Clicked");
+            Intent startActivityIntent = new Intent(getContext(), StartActivity.class);
+            startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(startActivityIntent);
         }
     };
 
@@ -89,7 +95,8 @@ public class AccountFragment extends Fragment {
         mUserImage.setImageResource(R.drawable.trump);
         mClRiderProfile.setOnClickListener(mOnClRiderProfile);
         mClEditRiderProfile.setOnClickListener(mOnClEditRiderProfile);
-
+        mSignout = rootView.findViewById(R.id.cl_signout);
+        mSignout.setOnClickListener(mOnClSignOut);
 
         return rootView;
     }
