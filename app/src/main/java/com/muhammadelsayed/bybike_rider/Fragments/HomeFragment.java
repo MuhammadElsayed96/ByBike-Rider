@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 .title("Mansoura")
                 .snippet("The is where we start.")
                 .position(mansoura));
-
+        mMap.setTrafficEnabled(true);
         // For zooming automatically to the location of the marker
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(mansoura).zoom(16).bearing(0).tilt(45).build();
