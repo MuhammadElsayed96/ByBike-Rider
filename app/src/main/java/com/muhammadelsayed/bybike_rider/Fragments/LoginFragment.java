@@ -1,10 +1,10 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,10 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhammadelsayed.bybike_rider.MainActivity;
-import com.muhammadelsayed.bybike_rider.Model.User;
-import com.muhammadelsayed.bybike_rider.Model.UserModel;
+import com.muhammadelsayed.bybike_rider.Model.Rider;
+import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
-import com.muhammadelsayed.bybike_rider.Network.UserClient;
+import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.Utils.CustomToast;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
@@ -53,7 +53,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextView mForgotPassword, mSignUp;
     private Button mLoginButton;
     private LinearLayout mLoginLayout;
-    private UserModel currentUser;
+    private RiderModel currentUser;
 
     @Nullable
     @Override
@@ -64,6 +64,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    /**
+     * sets up all Fragment Views
+     */
     private void initViews() {
         Log.d(TAG, "initViews: initializing the view...");
         mFragmentManager = getActivity().getSupportFragmentManager();
@@ -119,17 +122,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     String email = mEmail.getText().toString();
                     String password = mPassword.getText().toString();
 
-                    currentUser = new UserModel();
-                    currentUser.setUser(new User(email, password));
+                    currentUser = new RiderModel();
+                    currentUser.setRider(new Rider(email, password));
 
-                    UserClient service = RetrofitClientInstance.getRetrofitInstance()
-                            .create(UserClient.class);
+                    RiderClient service = RetrofitClientInstance.getRetrofitInstance()
+                            .create(RiderClient.class);
 
-                    Call<UserModel> call = service.loginRider(currentUser.getUser());
+                    Call<RiderModel> call = service.loginRider(currentUser.getRider());
 
-                    call.enqueue(new Callback<UserModel>() {
+                    call.enqueue(new Callback<RiderModel>() {
                         @Override
-                        public void onResponse(@NonNull Call<UserModel> call, Response<UserModel> response) {
+                        public void onResponse(@NonNull Call<RiderModel> call, Response<RiderModel> response) {
 
                             if (response.body() != null) {
 
@@ -138,8 +141,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
                                 intent.putExtra("current_user", currentUser);
                                 startActivity(intent);
-
-                                SharedPreferences.Editor prefEditor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+                                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences.Editor prefEditor = sharedPref.edit();
                                 prefEditor.putString("USER_TOKEN", response.body().getToken());
                                 prefEditor.apply();
 
@@ -153,7 +156,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         }
 
                         @Override
-                        public void onFailure(Call<UserModel> call, Throwable t) {
+                        public void onFailure(Call<RiderModel> call, Throwable t) {
 
                             progressDialog.dismiss();
                             Toast.makeText(getActivity(), "network error !!", Toast.LENGTH_SHORT).show();
@@ -185,7 +188,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
      *
      * @return false if input is not valid, true if valid
      */
-
     private boolean checkValidation() {
         boolean isValid = true;
         Log.d(TAG, "checkValidation: validating user input...");

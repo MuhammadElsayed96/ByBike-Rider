@@ -24,7 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="25dp"
-            android:text="90"
             android:textColor="@android:color/white"
             android:textSize="55sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -89,35 +88,35 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
-                    <me.grantland.widget.AutofitTextView
+                    <TextView
                         android:id="@+id/tv_star_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:singleLine="true"
-                        android:text="4.75"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        autofit:minTextSize="10sp" />
+                        android:textSize="24sp"
+                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="  >"
                         android:textColor="@android:color/darker_gray" />
                 </LinearLayout>
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:maxLines="2"
                     android:minLines="2"
                     android:text="STAR\nRATING"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     autofit:minTextSize="8sp" />
             </LinearLayout>
 
@@ -137,35 +136,35 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
-                    <me.grantland.widget.AutofitTextView
+                    <TextView
                         android:id="@+id/tv_acceptance_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:singleLine="true"
-                        android:text="100%"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        autofit:minTextSize="10sp" />
+                        android:textSize="24sp"
+                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="  >"
                         android:textColor="@android:color/darker_gray" />
                 </LinearLayout>
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:maxLines="2"
                     android:minLines="2"
-                    android:text="ACCEPTANCE RATE"
+                    android:text="ACCEPT\nRATE"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     autofit:minTextSize="8sp" />
             </LinearLayout>
 
@@ -184,35 +183,35 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
-                    <me.grantland.widget.AutofitTextView
+                    <TextView
                         android:id="@+id/tv_cancellation_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:singleLine="true"
-                        android:text="0%"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        autofit:minTextSize="10sp" />
+                        android:textSize="24sp"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="  >"
                         android:textColor="@android:color/darker_gray" />
                 </LinearLayout>
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:maxLines="2"
                     android:minLines="2"
-                    android:text="CANCELLATION RATE"
+                    android:text="CANCEL\nRATE"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     autofit:minTextSize="8sp" />
             </LinearLayout>
 
@@ -221,87 +220,87 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <View
-        android:id="@+id/mid_activity_separator"
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:background="#e2e2e3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sub_parent_one" />
+    <!--<View-->
+    <!--android:id="@+id/mid_activity_separator"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="15dp"-->
+    <!--android:background="#e2e2e3"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/sub_parent_one" />-->
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cl_rider_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mid_activity_separator">
+    <!--<android.support.constraint.ConstraintLayout-->
+    <!--android:id="@+id/cl_rider_profile"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:color/white"-->
+    <!--android:paddingBottom="16dp"-->
+    <!--android:paddingLeft="16dp"-->
+    <!--android:paddingRight="16dp"-->
+    <!--android:paddingTop="16dp"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/mid_activity_separator">-->
 
 
-        <ImageView
-            android:id="@+id/ic_favorite"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:src="@drawable/ic_favorite_black_48px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!--<ImageView-->
+    <!--android:id="@+id/ic_favorite"-->
+    <!--android:layout_width="42dp"-->
+    <!--android:layout_height="42dp"-->
+    <!--android:src="@drawable/ic_favorite_black_48px"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/rider_compliments_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:paddingLeft="24dp"
-            android:paddingStart="24dp"
-            android:text="Rider Compliments"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            app:layout_constraintLeft_toRightOf="@id/ic_favorite"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!--<me.grantland.widget.AutofitTextView-->
+    <!--android:id="@+id/rider_compliments_label"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:maxLines="1"-->
+    <!--android:paddingLeft="24dp"-->
+    <!--android:paddingStart="24dp"-->
+    <!--android:text="Rider Compliments"-->
+    <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:textSize="16sp"-->
+    <!--app:layout_constraintLeft_toRightOf="@id/ic_favorite"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/total_compliments_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:paddingLeft="24dp"
-            android:paddingStart="24dp"
-            android:paddingTop="4dp"
-            android:text="Total compliments"
-            app:layout_constraintLeft_toLeftOf="@id/rider_compliments_label"
-            app:layout_constraintTop_toBottomOf="@id/rider_compliments_label" />
+    <!--<me.grantland.widget.AutofitTextView-->
+    <!--android:id="@+id/total_compliments_label"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:maxLines="1"-->
+    <!--android:paddingLeft="24dp"-->
+    <!--android:paddingStart="24dp"-->
+    <!--android:paddingTop="4dp"-->
+    <!--android:text="Total compliments"-->
+    <!--app:layout_constraintLeft_toLeftOf="@id/rider_compliments_label"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/rider_compliments_label" />-->
 
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/tv_num_of_compliments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:paddingLeft="24dp"
-            android:paddingStart="24dp"
-            android:paddingTop="4dp"
-            android:text="2"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Header"
-            android:textColor="@android:color/black"
-            app:layout_constraintLeft_toLeftOf="@id/total_compliments_label"
-            app:layout_constraintTop_toBottomOf="@id/total_compliments_label" />
+    <!--<me.grantland.widget.AutofitTextView-->
+    <!--android:id="@+id/tv_num_of_compliments"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:maxLines="1"-->
+    <!--android:paddingLeft="24dp"-->
+    <!--android:paddingStart="24dp"-->
+    <!--android:paddingTop="4dp"-->
+    <!--android:text="2"-->
+    <!--android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Header"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--app:layout_constraintLeft_toLeftOf="@id/total_compliments_label"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/total_compliments_label" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=">"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text=">"-->
+    <!--android:textSize="20sp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintRight_toLeftOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+    <!--</android.support.constraint.ConstraintLayout>-->
 
 
 </android.support.constraint.ConstraintLayout>

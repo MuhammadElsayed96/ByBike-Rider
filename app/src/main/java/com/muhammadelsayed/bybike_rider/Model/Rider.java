@@ -2,7 +2,7 @@ package com.muhammadelsayed.bybike_rider.Model;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class Rider implements Serializable {
 
     private String id;
     private String uuid;
@@ -17,6 +17,35 @@ public class User implements Serializable {
     private String created_at;
     private String updated_at;
 
+
+
+    public Rider(String api_token) {
+        this.api_token = api_token;
+    }
+
+    public Rider() {
+    }
+
+    public Rider(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public Rider(String id, String uuid, String name, String email, String phone, String image, String api_token, String created_at, String updated_at) {
+        this.id = id;
+        this.uuid = uuid;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.image = image;
+        this.api_token = api_token;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
     public String getVehicle_ID() {
         return Vehicle_ID;
@@ -34,14 +63,6 @@ public class User implements Serializable {
         this.Vehicle_Data = vehicle_Data;
     }
 
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public User() {
-    }
 
     public String getId() {
         return id;
@@ -115,21 +136,9 @@ public class User implements Serializable {
         this.updated_at = updated_at;
     }
 
-    public User(String id, String uuid, String name, String email, String phone, String image, String api_token, String created_at, String updated_at) {
-        this.id = id;
-        this.uuid = uuid;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.image = image;
-        this.api_token = api_token;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
-
     @Override
     public String toString() {
-        return "User{" +
+        return "Rider{" +
                 "id='" + id + '\'' +
                 ", uuid='" + uuid + '\'' +
                 ", name='" + name + '\'' +

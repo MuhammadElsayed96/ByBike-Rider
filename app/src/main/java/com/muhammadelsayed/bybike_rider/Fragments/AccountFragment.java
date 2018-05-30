@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.muhammadelsayed.bybike_rider.AccountActivities.EditAccount;
 import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
-import com.muhammadelsayed.bybike_rider.Model.UserModel;
+import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.StartActivity;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
@@ -44,7 +44,7 @@ public class AccountFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getContext(), EditAccount.class);
-            UserModel currentUser = (UserModel) getActivity().getIntent().getSerializableExtra("current_user");
+            RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_user");
             intent.putExtra("current_user", currentUser);
             startActivity(intent);
         }
@@ -125,9 +125,9 @@ public class AccountFragment extends Fragment {
 
 
         // getting current user
-        UserModel currentUser = (UserModel) getActivity().getIntent().getSerializableExtra("current_user");
+        RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_user");
 
-        String[] names = Utils.splitName(currentUser.getUser().getName());
+        String[] names = Utils.splitName(currentUser.getRider().getName());
         String fName = names[FIRST_NAME_INDEX];
         mTvUserName.setText(fName);
 

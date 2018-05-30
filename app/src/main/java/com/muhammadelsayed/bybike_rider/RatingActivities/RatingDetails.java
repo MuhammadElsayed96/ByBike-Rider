@@ -1,18 +1,23 @@
 package com.muhammadelsayed.bybike_rider.RatingActivities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.muhammadelsayed.bybike_rider.R;
 
+import me.grantland.widget.AutofitTextView;
+
 public class RatingDetails extends AppCompatActivity {
+
+    private AutofitTextView mTvStarRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_details);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setupWidgets();
     }
 
     @Override
@@ -23,5 +28,16 @@ public class RatingDetails extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * sets up all activity widgets
+     */
+    private void setupWidgets() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mTvStarRating = findViewById(R.id.star_rate);
+
+        String starRating = getIntent().getStringExtra("Rider_Star_Rating");
+        mTvStarRating.setText(starRating + "%");
     }
 }

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.muhammadelsayed.bybike_rider.Model.UserModel;
+import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
@@ -20,7 +20,7 @@ public class EditAccount extends AppCompatActivity {
     private TextView mTvEmailInfo;
     private TextView mTvFname;
     private TextView mTvLname;
-    private UserModel currentUser;
+    private RiderModel currentUser;
 
     private static final int FIRST_NAME_INDEX = 0;
     private static final int LAST_NAME_INDEX = 1;
@@ -30,7 +30,7 @@ public class EditAccount extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), EditAccountPhone.class);
-            intent.putExtra("user_phone", currentUser.getUser().getPhone());
+            intent.putExtra("user_phone", currentUser.getRider().getPhone());
             startActivity(intent);
         }
     };
@@ -38,7 +38,7 @@ public class EditAccount extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), EditAccountEmail.class);
-            intent.putExtra("user_email", currentUser.getUser().getEmail());
+            intent.putExtra("user_email", currentUser.getRider().getEmail());
             startActivity(intent);
         }
     };
@@ -65,22 +65,22 @@ public class EditAccount extends AppCompatActivity {
         mLlEditPhone.setOnClickListener(mOnLlEditPhoneClickListener);
         mLlEditEmail.setOnClickListener(mOnLlEditEmailClickListener);
 
-        currentUser = (UserModel) getIntent().getSerializableExtra("current_user");
+        currentUser = (RiderModel) getIntent().getSerializableExtra("current_user");
 
         mTvPhoneInfo = findViewById(R.id.phone_info);
         mTvEmailInfo = findViewById(R.id.email_info);
         mTvFname = findViewById(R.id.first_name_info);
         mTvLname = findViewById(R.id.last_name_info);
 
-        String[] names = Utils.splitName(currentUser.getUser().getName());
+        String[] names = Utils.splitName(currentUser.getRider().getName());
         String fName = names[FIRST_NAME_INDEX];
         String lName = names[LAST_NAME_INDEX];
 
         mTvFname.setText(fName);
         mTvLname.setText(lName);
 
-        mTvPhoneInfo.setText(currentUser.getUser().getPhone());
-        mTvEmailInfo.setText(currentUser.getUser().getEmail());
+        mTvPhoneInfo.setText(currentUser.getRider().getPhone());
+        mTvEmailInfo.setText(currentUser.getRider().getEmail());
     }
 
     @Override
