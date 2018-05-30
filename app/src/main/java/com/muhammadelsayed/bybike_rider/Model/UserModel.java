@@ -1,6 +1,8 @@
 package com.muhammadelsayed.bybike_rider.Model;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
 
     private String token;
     private User user;
@@ -27,5 +29,13 @@ public class UserModel {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "token='" + token + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

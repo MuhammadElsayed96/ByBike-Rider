@@ -28,7 +28,7 @@
             android:textSize="14sp" />
 
         <EditText
-            android:id="@+id/et_edit_phone"
+            android:id="@+id/et_edit_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#49a3bb"

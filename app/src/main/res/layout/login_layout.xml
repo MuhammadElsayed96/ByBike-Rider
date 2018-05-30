@@ -32,7 +32,7 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="xmonahan@example.com"
+                android:text="gertrude.schuppe@example.net"
                 android:backgroundTint="@color/ET_Background_tint"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />

@@ -31,8 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#49a3bb"
-            android:maxLines="1"
-            android:text="1-541-754-3010" />
+            android:maxLines="1" />
     </LinearLayout>
 
     <Button

@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.muhammadelsayed.bybike_rider.AccountActivities.EditAccount;
 import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
+import com.muhammadelsayed.bybike_rider.Model.UserModel;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.StartActivity;
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,17 +29,24 @@ public class AccountFragment extends Fragment {
     private static final String TAG = "AccountFragment";
     // the fragment initialization parameters
     private static final String ARG_TITLE = "Account Fragment";
+    private static final int FIRST_NAME_INDEX = 0;
     private String mTitle;
     private TextView mTvAccountFragment;
+    private TextView mTvUserName;
     private ConstraintLayout mClRiderProfile;
     private ConstraintLayout mClEditRiderProfile;
     private ConstraintLayout mSignout;
     private CircularImageView mUserImage;
+    private View rootView;
+
 
     private ConstraintLayout.OnClickListener mOnClEditRiderProfile = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(getContext(), EditAccount.class));
+            Intent intent = new Intent(getContext(), EditAccount.class);
+            UserModel currentUser = (UserModel) getActivity().getIntent().getSerializableExtra("current_user");
+            intent.putExtra("current_user", currentUser);
+            startActivity(intent);
         }
     };
     private ConstraintLayout.OnClickListener mOnClRiderProfile = new View.OnClickListener() {
@@ -87,8 +96,23 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_account, container, false);
+        rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
+        setupWidgets();
+
+        return rootView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+
+    /**
+     * sets up all activity widgets
+     */
+    private void setupWidgets() {
         mClEditRiderProfile = rootView.findViewById(R.id.cl_edit_rider_profile);
         mClRiderProfile = rootView.findViewById(R.id.cl_rider_profile);
         mUserImage = rootView.findViewById(R.id.profile_image);
@@ -97,12 +121,15 @@ public class AccountFragment extends Fragment {
         mClEditRiderProfile.setOnClickListener(mOnClEditRiderProfile);
         mSignout = rootView.findViewById(R.id.cl_signout);
         mSignout.setOnClickListener(mOnClSignOut);
+        mTvUserName = rootView.findViewById(R.id.tv_user_name);
 
-        return rootView;
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        // getting current user
+        UserModel currentUser = (UserModel) getActivity().getIntent().getSerializableExtra("current_user");
+
+        String[] names = Utils.splitName(currentUser.getUser().getName());
+        String fName = names[FIRST_NAME_INDEX];
+        mTvUserName.setText(fName);
+
     }
 }

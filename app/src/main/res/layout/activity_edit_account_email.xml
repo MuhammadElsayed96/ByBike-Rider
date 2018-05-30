@@ -28,12 +28,11 @@
             android:textSize="14sp" />
 
         <EditText
-            android:id="@+id/et_edit_phone"
+            android:id="@+id/et_edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#49a3bb"
-            android:maxLines="1"
-            android:text="president_trump@yahoo.com" />
+            android:maxLines="1" />
     </LinearLayout>
 
     <Button

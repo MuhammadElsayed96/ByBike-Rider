@@ -10,4 +10,16 @@ public class Utils {
     public static final String SignUpFragment = "SingUpFragment";
     public static final String ForgotPasswordFragment = "ForgotPasswordFragment";
 
+
+    /**
+     * This method split any name to two names, first name, last name
+     *
+     * @param name is the name that will be split
+     * @return Strign array holding the first name, and the last name.
+     */
+    public static String[] splitName(String name) {
+        String[] names = name.split(" ", 2);
+        return names;
+    }
+
 }

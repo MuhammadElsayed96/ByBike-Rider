@@ -53,7 +53,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextView mForgotPassword, mSignUp;
     private Button mLoginButton;
     private LinearLayout mLoginLayout;
-
+    private UserModel currentUser;
 
     @Nullable
     @Override
@@ -119,12 +119,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     String email = mEmail.getText().toString();
                     String password = mPassword.getText().toString();
 
-                    final User currentUser = new User(email, password);
+                    currentUser = new UserModel();
+                    currentUser.setUser(new User(email, password));
 
                     UserClient service = RetrofitClientInstance.getRetrofitInstance()
                             .create(UserClient.class);
 
-                    Call<UserModel> call = service.loginRider(currentUser);
+                    Call<UserModel> call = service.loginRider(currentUser.getUser());
 
                     call.enqueue(new Callback<UserModel>() {
                         @Override
@@ -132,10 +133,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                             if (response.body() != null) {
 
-                                User currentUser = response.body().getUser();
-
+                                currentUser = response.body();
+                                Log.wtf(TAG, "onResponse: " + response.body());
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.putExtra("user", currentUser);
+                                intent.putExtra("current_user", currentUser);
                                 startActivity(intent);
 
                                 SharedPreferences.Editor prefEditor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
