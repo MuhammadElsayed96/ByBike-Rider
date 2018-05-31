@@ -38,6 +38,6 @@ public class RatingDetails extends AppCompatActivity {
         mTvStarRating = findViewById(R.id.star_rate);
 
         String starRating = getIntent().getStringExtra("Rider_Star_Rating");
-        mTvStarRating.setText(starRating + "%");
+        mTvStarRating.setText(starRating);
     }
 }

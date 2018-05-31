@@ -3,6 +3,8 @@ package com.muhammadelsayed.bybike_rider.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,14 +12,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.muhammadelsayed.bybike_rider.AccountActivities.EditAccount;
 import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
+import com.muhammadelsayed.bybike_rider.Model.Rider;
+import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
+import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
+import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.StartActivity;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +49,7 @@ public class AccountFragment extends Fragment {
     private ConstraintLayout mSignout;
     private CircularImageView mUserImage;
     private View rootView;
+    private RiderInfoModel riderInfoModel;
 
 
     private ConstraintLayout.OnClickListener mOnClEditRiderProfile = new View.OnClickListener() {
@@ -52,7 +64,9 @@ public class AccountFragment extends Fragment {
     private ConstraintLayout.OnClickListener mOnClRiderProfile = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(getContext(), RiderProfile.class));
+            Intent intent = new Intent(getContext(), RiderProfile.class);
+            intent.putExtra("rider_Info_Model", riderInfoModel);
+            startActivity(intent);
         }
     };
     private ConstraintLayout.OnClickListener mOnClSignOut = new View.OnClickListener() {
@@ -104,6 +118,13 @@ public class AccountFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated has been instantiated");
+        getRiderInfo();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
     }
@@ -131,5 +152,38 @@ public class AccountFragment extends Fragment {
         String fName = names[FIRST_NAME_INDEX];
         mTvUserName.setText(fName);
 
+    }
+
+
+    private void getRiderInfo() {
+        Log.d(TAG, "getRiderInfo() has been instantiated");
+
+        // getting current user
+        RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_user");
+        String riderToken = currentUser.getToken();
+
+        RiderClient service = RetrofitClientInstance.getRetrofitInstance()
+                .create(RiderClient.class);
+        RiderModel model = new RiderModel();
+        model.setRider(new Rider(riderToken));
+
+
+        Call<RiderInfoModel> call = service.getRiderInfo(model.getRider());
+        call.enqueue(new Callback<RiderInfoModel>() {
+            @Override
+            public void onResponse(Call<RiderInfoModel> call, Response<RiderInfoModel> response) {
+                if (response.body() != null) {
+                    Log.wtf(TAG, "onResponse: " + response.body());
+                    riderInfoModel = response.body();
+                } else {
+                    Toast.makeText(getActivity(), "I have no Idea what's happening\nbut, something is terribly wrong !!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RiderInfoModel> call, Throwable t) {
+                Toast.makeText(getActivity(), "network error !!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

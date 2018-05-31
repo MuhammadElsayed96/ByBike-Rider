@@ -1,6 +1,7 @@
 package com.muhammadelsayed.bybike_rider.Network;
 
 import com.muhammadelsayed.bybike_rider.Model.Rider;
+import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderRateModel;
 
@@ -15,4 +16,7 @@ public interface RiderClient {
 
     @POST("rider/rate")
     Call<RiderRateModel> getRiderRatings(@Body Rider riderToken);
+
+    @POST("rider/info")
+    Call<RiderInfoModel> getRiderInfo(@Body Rider riderToken);
 }
