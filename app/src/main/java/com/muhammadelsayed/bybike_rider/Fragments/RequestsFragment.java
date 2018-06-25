@@ -31,12 +31,8 @@ public class RequestsFragment extends Fragment {
     private String mTitle;
     private View rootView;
     private ListView requestListView;
-    private TextView requestId;
-    private ArrayAdapter<Orders> adapter;
     private List<Orders> orderList;
-
     private DatabaseReference mOrdersRef;
-
 
     @Nullable
     @Override
@@ -44,12 +40,10 @@ public class RequestsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.simple_requests_list_view, container, false);
 
         setupWidgets();
-
         getOrdersInfo();
 
         return rootView;
     }
-
 
     public static RequestsFragment requestsFragmentInstance(String title) {
         RequestsFragment fragment = new RequestsFragment();
@@ -70,7 +64,6 @@ public class RequestsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated has been instantiated");
-
     }
 
     private void setupWidgets() {
@@ -80,7 +73,6 @@ public class RequestsFragment extends Fragment {
 
         mOrdersRef = FirebaseDatabase.getInstance().getReference("orders");
     }
-
 
     private void getOrdersInfo() {
         Log.wtf(TAG, "getOrdersInfo has been instantiated");
@@ -92,11 +84,10 @@ public class RequestsFragment extends Fragment {
                 orderList.clear();
 
                 Iterable<DataSnapshot> childrens = dataSnapshot.getChildren();
-                for (DataSnapshot child: childrens) {
+                for (DataSnapshot child : childrens) {
                     Orders orders = child.getValue(Orders.class);
                     orderList.add(orders);
                 }
-                adapter = new ArrayAdapter<>(getContext(), R.layout.list_item_view, orderList);
                 requestListView.setAdapter(new OrdersAdapter(getActivity(), orderList));
             }
 
@@ -105,9 +96,5 @@ public class RequestsFragment extends Fragment {
 
             }
         });
-
-
     }
-
-
 }

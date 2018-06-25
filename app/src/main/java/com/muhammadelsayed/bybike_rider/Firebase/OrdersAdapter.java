@@ -7,27 +7,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.Utils.Maps;
 
+import java.io.IOException;
 import java.util.List;
 
-
-/*
-* STACKOVERFLOW
-* https://stackoverflow.com/questions/22512833/create-listview-in-fragment-android
-* */
-
+/**
+ * STACKOVERFLOW
+ * https://stackoverflow.com/questions/22512833/create-listview-in-fragment-android
+ * */
 public class OrdersAdapter extends BaseAdapter {
 
     private List<Orders> ordersList;
     private LayoutInflater inflater;
+    private Context context;
 
     public OrdersAdapter(@NonNull Context context, List<Orders> ordersList) {
-
         inflater = LayoutInflater.from(context);
         this.ordersList = ordersList;
+        this.context = context;
     }
 
     @Override
@@ -46,24 +50,56 @@ public class OrdersAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_item_view, null);
             holder = new ViewHolder();
-            holder.textid = convertView.findViewById(R.id.requestIdTv);
+            holder.senderLocationTv = convertView.findViewById(R.id.sender_location_tv);
+            holder.receiverLocationTv = convertView.findViewById(R.id.receiver_location_tv);
+            holder.acceptOrderBtn = convertView.findViewById(R.id.accept_order_button);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.textid.setText(String.valueOf(ordersList.get(position).getId()));
+
+        double senderLat = ordersList.get(position).getSender_Lat();
+        double senderLng = ordersList.get(position).getSender_Lng();
+        double receiverLat = ordersList.get(position).getReceiver_lat();
+        double receiverLng = ordersList.get(position).getReceiver_lng();
+        String senderAddress = "";
+        String receiverAddress = "";
+        try {
+            senderAddress = Maps.getAddressFromCoordinates(context, senderLat, senderLng);
+            receiverAddress = Maps.getAddressFromCoordinates(context, receiverLat, receiverLng);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        holder.senderLocationTv.setText(senderAddress);
+        holder.receiverLocationTv.setText(receiverAddress);
+
+        holder.acceptOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String childId = String.valueOf(ordersList.get(position).getId());
+                DatabaseReference mOrderRef = FirebaseDatabase.getInstance().getReference("orders").child(childId);
+
+                Orders order = ordersList.get(position);
+                order.setStatus(1);
+                mOrderRef.setValue(order);
+            }
+        });
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView textid;
+        TextView senderLocationTv;
+        TextView receiverLocationTv;
+        Button acceptOrderBtn;
     }
 }
