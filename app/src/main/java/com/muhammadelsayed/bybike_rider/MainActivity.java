@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -11,12 +12,19 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.muhammadelsayed.bybike_rider.Fragments.AccountFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.EarningsFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.HomeFragment;
@@ -26,6 +34,8 @@ import com.muhammadelsayed.bybike_rider.Fragments.RequestsFragment;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import q.rorbin.badgeview.QBadgeView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,9 +54,11 @@ public class MainActivity extends AppCompatActivity {
 
     private Switch mActionbarSwitch;
     private ActionBar mActionBar;
-    private BottomNavigationView mBottomNavigation;
+    public static BottomNavigationView mBottomNavigation;
     private Toast mStateToast;
     private TextView mTvState;
+    private DatabaseReference mOrdersRef;
+    private QBadgeView badgeView;
 
     private List<Fragment> mFragmentsList = new ArrayList<>(INT_FRAGMENTS_COUNT);
 
@@ -69,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_requests:
                     switchFragment(INT_FRAGMENT_REQUESTS_POS, TAG_FRAGMENT_REQUESTS);
+                    badgeView.hide(true);
                     return true;
             }
             return false;
@@ -117,6 +130,36 @@ public class MainActivity extends AppCompatActivity {
 
         mActionbarSwitch = findViewById(R.id.switch_actionbar);
         mActionbarSwitch.setOnCheckedChangeListener(mOnCheckedChangeListener);
+
+
+        mOrdersRef = FirebaseDatabase.getInstance().getReference("orders");
+        mOrdersRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                badgeView = new QBadgeView(getApplicationContext());
+                badgeView.bindTarget(MainActivity.mBottomNavigation).setBadgeGravity(Gravity.TOP | Gravity.END).setBadgeText("new");
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**

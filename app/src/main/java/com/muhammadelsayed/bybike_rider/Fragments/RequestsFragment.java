@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.muhammadelsayed.bybike_rider.Firebase.Orders;
 import com.muhammadelsayed.bybike_rider.Firebase.OrdersAdapter;
+import com.muhammadelsayed.bybike_rider.MainActivity;
 import com.muhammadelsayed.bybike_rider.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import q.rorbin.badgeview.QBadgeView;
 
 public class RequestsFragment extends Fragment {
 

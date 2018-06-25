@@ -13,7 +13,6 @@ public class Maps {
 
     public static String getAddressFromCoordinates(Context context, double lat, double lon) throws IOException {
 
-
         Geocoder geocoder;
         List<Address> addresses;
         geocoder = new Geocoder(context, Locale.getDefault());
@@ -26,7 +25,6 @@ public class Maps {
         String country = addresses.get(0).getCountryName();
         String postalCode = addresses.get(0).getPostalCode();
         String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
-
 
         return address;
     }
