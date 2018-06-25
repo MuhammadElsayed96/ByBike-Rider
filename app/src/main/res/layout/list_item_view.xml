@@ -1,45 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="0dp">
+    android:background="#fff"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/sender_location_tv"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="55"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingEnd="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="4dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        tools:ignore="RtlSymmetry">
 
-    <TextView
-        android:id="@+id/receiver_location_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="55"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sender_location_tv" />
+        <TextView
+            android:id="@+id/sender_location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            tools:ignore="RtlSymmetry"
+            tools:text="55" />
 
-    <Button
+        <TextView
+            android:id="@+id/receiver_location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            tools:ignore="RtlSymmetry"
+            tools:text="55" />
+
+    </LinearLayout>
+
+    <com.ebanx.swipebtn.SwipeButton
         android:id="@+id/accept_order_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="16dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:text="Accept order"
-        android:textColor="@android:color/holo_green_light"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/receiver_location_tv" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/accept"
+        android:textStyle="bold"
+        app:button_background="@drawable/shape_button"
+        app:button_bottom_padding="8dp"
+        app:button_image_disabled="@drawable/ic_car_open_black_24dp"
+        app:button_image_enabled="@drawable/ic_check_black_24dp"
+        app:button_image_height="60dp"
+        app:button_image_width="100dp"
+        app:button_left_padding="20dp"
+        app:button_right_padding="20dp"
+        app:button_top_padding="8dp"
+        app:has_activate_state="true"
+        app:initial_state="disabled"
+        app:inner_text="ACCEPT"
+        app:inner_text_background="@drawable/shape_rounded"
+        app:inner_text_bottom_padding="16dp"
+        app:inner_text_size="16sp"
+        app:inner_text_top_padding="16dp" />
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -41,5 +41,7 @@
     <string name="submit">Submit</string>
     <string name="email">Email</string>
     <string name="preference_file_key">preference File</string>
+    <string name="Space">\t\t\t\t\t\t\t</string>
+    <string name="accept">Accept</string>
 
 </resources>

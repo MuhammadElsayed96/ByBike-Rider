@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.muhammadelsayed.bybike_rider"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -39,6 +39,7 @@ dependencies {
     compile 'com.google.firebase:firebase-core:16.0.0'
     implementation 'com.google.firebase:firebase-database:16.0.1'
     compile 'q.rorbin:badgeview:1.1.3'
+    compile 'com.ebanx:swipe-button:0.8.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
