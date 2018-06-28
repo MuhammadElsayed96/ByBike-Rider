@@ -75,9 +75,9 @@ public class OrdersAdapter extends BaseAdapter {
         }
 
         QBadgeView badgeFrom = new QBadgeView(context);
-        badgeFrom.setBadgeText("From").setBadgeBackgroundColor(Color.RED).bindTarget(holder.senderLocationTv).setBadgeGravity(Gravity.TOP | Gravity.START);
+        badgeFrom.setBadgeText(" ").setBadgeBackgroundColor(Color.RED).bindTarget(holder.senderLocationTv).setBadgeGravity(Gravity.TOP | Gravity.START);
         QBadgeView badgeTo = new QBadgeView(context);
-        badgeTo.setBadgeText("To").setBadgeBackgroundColor(Color.GREEN).bindTarget(holder.receiverLocationTv).setBadgeGravity(Gravity.TOP | Gravity.START);
+        badgeTo.setBadgeText(" ").setBadgeBackgroundColor(Color.GREEN).bindTarget(holder.receiverLocationTv).setBadgeGravity(Gravity.TOP | Gravity.START);
 
         double senderLat = ordersList.get(position).getSender_Lat();
         double senderLng = ordersList.get(position).getSender_Lng();
