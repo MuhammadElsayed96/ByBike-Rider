@@ -4,18 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e2e2e3"
     tools:context="com.muhammadelsayed.bybike_rider.Fragments.RequestsFragment">
 
     <ListView
         android:id="@+id/simpleListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/colorAccent"
-        android:dividerHeight="1dp"
+        android:background="#fcfcfb"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

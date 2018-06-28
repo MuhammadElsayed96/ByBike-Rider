@@ -1,11 +1,14 @@
 package com.muhammadelsayed.bybike_rider;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -14,8 +17,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
-import android.widget.Switch;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.muhammadelsayed.bybike_rider.Fragments.AccountFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.EarningsFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.HomeFragment;
@@ -45,20 +47,25 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_FRAGMENT_RATING = "tag_frag_rating";
     private static final String TAG_FRAGMENT_ACCOUNT = "tag_frag_account";
     private static final String TAG_FRAGMENT_REQUESTS = "tag_frag_request";
+
     private static final int INT_FRAGMENTS_COUNT = 4;
+    private static final int TIME_OF_VIBRATION = 100;
     private static final int INT_FRAGMENT_HOME_POS = 0;
     private static final int INT_FRAGMENT_EARNINGS_POS = 1;
     private static final int INT_FRAGMENT_RATING_POS = 2;
     private static final int INT_FRAGMENT_ACCOUNT_POS = 3;
     private static final int INT_FRAGMENT_REQUESTS_POS = 4;
-
-    private Switch mActionbarSwitch;
+    private static final int BUTTON_STATUS_ONLINE = 1;
+    private static final int BUTTON_STATUS_OFFLINE = 0;
+    private static int buttonStatus = BUTTON_STATUS_OFFLINE;
+    private Button mActionbarButton;
     private ActionBar mActionBar;
     public static BottomNavigationView mBottomNavigation;
     private Toast mStateToast;
     private TextView mTvState;
     private DatabaseReference mOrdersRef;
     private QBadgeView badgeView;
+    private Vibrator vibe;
 
     private List<Fragment> mFragmentsList = new ArrayList<>(INT_FRAGMENTS_COUNT);
 
@@ -87,32 +94,37 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
-    private Switch.OnCheckedChangeListener mOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+    private Button.OnClickListener mOnCheckedChangeListener = new View.OnClickListener() {
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            if (isChecked) {
-                if (mStateToast != null)
-                    mStateToast.cancel();
-                mTvState.setText(getResources().getString(R.string.state_online));
+        public void onClick(View v) {
+            if (buttonStatus == BUTTON_STATUS_OFFLINE) {
+                buttonStatus = BUTTON_STATUS_ONLINE;
+                mActionbarButton.setText("GO OFFLINE");
+                vibe.vibrate(TIME_OF_VIBRATION);
+                //mActionbarButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.offline));
+                mActionbarButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.offline)));
                 mStateToast = Toast.makeText(getApplicationContext(), getString(R.string.state_online), Toast.LENGTH_SHORT);
                 mStateToast.show();
             } else {
-                if (mStateToast != null)
-                    mStateToast.cancel();
-                mTvState.setText(getResources().getString(R.string.state_offline));
+                buttonStatus = BUTTON_STATUS_OFFLINE;
+                mActionbarButton.setText("GO ONLINE");
+                vibe.vibrate(TIME_OF_VIBRATION);
                 mStateToast = Toast.makeText(getApplicationContext(), getString(R.string.state_offline), Toast.LENGTH_SHORT);
+                //mActionbarButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.colorAccent));
+                mActionbarButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
                 mStateToast.show();
             }
         }
     };
 
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         mBottomNavigation = findViewById(R.id.bottom_navigation_view);
         mBottomNavigation.getMenu().getItem(0).setChecked(true);
@@ -126,10 +138,9 @@ public class MainActivity extends AppCompatActivity {
         mActionBar.setCustomView(R.layout.switch_layout);
         mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        mTvState = findViewById(R.id.tv_state);
 
-        mActionbarSwitch = findViewById(R.id.switch_actionbar);
-        mActionbarSwitch.setOnCheckedChangeListener(mOnCheckedChangeListener);
+        mActionbarButton = findViewById(R.id.button_actionbar);
+        mActionbarButton.setOnClickListener(mOnCheckedChangeListener);
 
 
         mOrdersRef = FirebaseDatabase.getInstance().getReference("orders");

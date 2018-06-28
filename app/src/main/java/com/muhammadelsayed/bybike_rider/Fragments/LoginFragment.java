@@ -115,7 +115,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 if (checkValidation()) {
                     final ProgressDialog progressDialog = new ProgressDialog(getActivity(), R.style.ProgressDialogTheme);
                     progressDialog.setMessage("Authenticating...");
-                    progressDialog.setCancelable(true);
+                    progressDialog.setCancelable(false);
                     progressDialog.show();
 
 
