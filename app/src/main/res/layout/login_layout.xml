@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fcfcfb"
     tools:context="com.muhammadelsayed.bybike_rider.Fragments.LoginFragment">
 
     <LinearLayout
@@ -32,10 +31,10 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="rider@test.com"
                 android:backgroundTint="@color/ET_Background_tint"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:text="rider@test.com" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -50,10 +49,10 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="123456"
                 android:backgroundTint="#49a3bb"
                 android:hint="Password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:text="123456" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -106,6 +105,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/extra_layout" />
+
 
     <TextView
         android:id="@+id/createAccount"

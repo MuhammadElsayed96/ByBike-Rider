@@ -26,68 +26,61 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".RatingActivities.CancellationDetails"
             android:label="@string/cancellation_details_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".RatingActivities.AcceptanceDetails"
             android:label="@string/acceptance_details_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".RatingActivities.RatingDetails"
             android:label="@string/rating_details_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".RatingActivities.RiderCompliments"
             android:label="@string/rider_compliments_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".AccountActivities.EditAccount"
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".AccountActivities.RiderProfile"
             android:label="@string/rider_profile_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".AccountActivities.EditAccountPhone"
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".AccountActivities.EditAccountEmail"
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".AccountActivities.EditAccountAddress"
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".StartActivity">
+        <activity
+            android:name=".StartActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SplashActivity"></activity>
     </application>
 
 </manifest>
