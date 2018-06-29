@@ -1,7 +1,9 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,13 +52,13 @@ public class AccountFragment extends Fragment {
     private CircularImageView mUserImage;
     private View rootView;
     private RiderInfoModel riderInfoModel;
-
+    private RiderModel currentUser;
 
     private ConstraintLayout.OnClickListener mOnClEditRiderProfile = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getContext(), EditAccount.class);
-            RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_user");
+            RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_rider");
             intent.putExtra("current_user", currentUser);
             startActivity(intent);
         }
@@ -72,7 +74,11 @@ public class AccountFragment extends Fragment {
     private ConstraintLayout.OnClickListener mOnClSignOut = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.wtf(TAG, "Sign out Text Clicked");
+            Log.wtf(TAG, "Sign out Clicked");
+            SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            SharedPreferences.Editor prefEditor = sharedPref.edit();
+            prefEditor.clear();
+            prefEditor.apply();
             Intent startActivityIntent = new Intent(getContext(), StartActivity.class);
             startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startActivityIntent);
@@ -146,7 +152,7 @@ public class AccountFragment extends Fragment {
 
 
         // getting current user
-        RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_user");
+        currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_rider");
 
         String[] names = Utils.splitName(currentUser.getRider().getName());
         String fName = names[FIRST_NAME_INDEX];
@@ -157,9 +163,6 @@ public class AccountFragment extends Fragment {
 
     private void getRiderInfo() {
         Log.d(TAG, "getRiderInfo() has been instantiated");
-
-        // getting current user
-        RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_user");
         String riderToken = currentUser.getToken();
 
         RiderClient service = RetrofitClientInstance.getRetrofitInstance()

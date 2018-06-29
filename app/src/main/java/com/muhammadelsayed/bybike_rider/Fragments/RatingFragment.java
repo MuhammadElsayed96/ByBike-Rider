@@ -159,7 +159,7 @@ public class RatingFragment extends Fragment {
         Log.d(TAG, "getRiderRatings() has been instantiated");
 
         // getting current user
-        RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_user");
+        RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_rider");
         String riderToken = currentUser.getToken();
 
         RiderClient service = RetrofitClientInstance.getRetrofitInstance()

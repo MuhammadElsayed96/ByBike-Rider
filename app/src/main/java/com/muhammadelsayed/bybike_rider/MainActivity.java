@@ -15,6 +15,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.muhammadelsayed.bybike_rider.Fragments.EarningsFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.HomeFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.RatingFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.RequestsFragment;
+import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -41,13 +43,13 @@ import q.rorbin.badgeview.QBadgeView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     // Variables Declaration.
     private static final String TAG_FRAGMENT_HOME = "tag_frag_home";
     private static final String TAG_FRAGMENT_EARNINGS = "tag_frag_earnings";
     private static final String TAG_FRAGMENT_RATING = "tag_frag_rating";
     private static final String TAG_FRAGMENT_ACCOUNT = "tag_frag_account";
     private static final String TAG_FRAGMENT_REQUESTS = "tag_frag_request";
-
     private static final int INT_FRAGMENTS_COUNT = 4;
     private static final int TIME_OF_VIBRATION = 100;
     private static final int INT_FRAGMENT_HOME_POS = 0;
@@ -118,11 +120,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.wtf(TAG, "onCreate() has been instantiated");
+
+
+        RiderModel currentRider = (RiderModel) getIntent().getSerializableExtra("current_rider");
+
 
         vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -173,6 +179,42 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.wtf(TAG, "onStart() has been instantiated");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.wtf(TAG, "onResume() has been instantiated");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.wtf(TAG, "onPause() has been instantiated");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.wtf(TAG, "onStop() has been instantiated");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.wtf(TAG, "onRestart() has been instantiated");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.wtf(TAG, "onDestroy() has been instantiated");
+    }
+
     /**
      * Use this  method to create a new instance of
      * any of the fragments using the fragments' factory methods.
@@ -206,7 +248,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-
     /**
      * This method will force the BottomNavigationView to show both the icon and the label
      * of each element in the BottomNavigationView, not only the highlighted element
@@ -236,4 +277,5 @@ public class MainActivity extends AppCompatActivity {
             //Timber.e(e, "Unable to change value of shift mode");
         }
     }
+
 }

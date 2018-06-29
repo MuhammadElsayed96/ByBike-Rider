@@ -32,7 +32,9 @@ import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.Utils.CustomToast;
+import com.muhammadelsayed.bybike_rider.Utils.RiderSharedPreferences;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import java.util.regex.Matcher;
@@ -139,13 +141,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 currentUser = response.body();
                                 Log.wtf(TAG, "onResponse: " + response.body());
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.putExtra("current_user", currentUser);
+                                intent.putExtra("current_rider", currentUser);
+                                RiderSharedPreferences.SaveToPreferences(getActivity(), currentUser);
                                 startActivity(intent);
-                                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                                SharedPreferences.Editor prefEditor = sharedPref.edit();
-                                prefEditor.putString("USER_TOKEN", response.body().getToken());
-                                prefEditor.apply();
-
                                 getActivity().finish();
 
                             } else {
