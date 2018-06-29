@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="8dp"
+        android:paddingBottom="16dp"
         android:paddingEnd="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="4dp"
@@ -25,11 +25,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:ellipsize="end"
+            android:fontFamily="@font/open_sans_semibold_italic"
             android:maxLines="1"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             tools:ignore="RtlSymmetry"
-            tools:text="55" />
+            tools:text="Muhammad Elsayed Muhammad Elsayed Muhammad Elsayed" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/receiver_location_tv"
@@ -37,11 +47,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:ellipsize="end"
+            android:fontFamily="@font/open_sans_semibold_italic"
             android:maxLines="1"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             tools:ignore="RtlSymmetry"
-            tools:text="55" />
+            tools:text="Muhammad Elsayed Muhammad Elsayed Muhammad Elsayed" />
 
     </LinearLayout>
 
@@ -50,6 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:text="@string/accept"
@@ -58,8 +70,8 @@
         app:button_bottom_padding="8dp"
         app:button_image_disabled="@drawable/ic_car_open_white_24dp"
         app:button_image_enabled="@drawable/ic_check_white_24dp"
-        app:button_image_height="60dp"
-        app:button_image_width="100dp"
+        app:button_image_height="56dp"
+        app:button_image_width="96dp"
         app:button_left_padding="20dp"
         app:button_right_padding="20dp"
         app:button_top_padding="8dp"

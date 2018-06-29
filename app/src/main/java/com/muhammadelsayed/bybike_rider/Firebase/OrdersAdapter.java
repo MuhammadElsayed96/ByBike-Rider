@@ -56,10 +56,9 @@ public class OrdersAdapter extends BaseAdapter {
         return position;
     }
 
-    @SuppressLint("SetTextI18n")
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
 
         final ViewHolder holder;
         if (convertView == null) {
@@ -91,6 +90,8 @@ public class OrdersAdapter extends BaseAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
 
         holder.senderLocationTv.setText(context.getString(R.string.Space) + senderAddress);
         holder.receiverLocationTv.setText(context.getString(R.string.Space) + receiverAddress);
