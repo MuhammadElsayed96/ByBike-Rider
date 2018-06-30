@@ -117,7 +117,7 @@ public class RatingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getActivity();
-        AlertDialog waitingDialog = new SpotsDialog(context, R.style.Custom);
+        waitingDialog = new SpotsDialog(context, R.style.Custom);
         waitingDialog.setCancelable(false);
 
 
