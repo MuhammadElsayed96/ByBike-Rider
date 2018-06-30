@@ -78,10 +78,10 @@ public class OrdersAdapter extends BaseAdapter {
         QBadgeView badgeTo = new QBadgeView(context);
         badgeTo.setBadgeText(" ").setBadgeBackgroundColor(Color.GREEN).bindTarget(holder.receiverLocationTv).setBadgeGravity(Gravity.TOP | Gravity.START);
 
-        double senderLat = ordersList.get(position).getSender_Lat();
-        double senderLng = ordersList.get(position).getSender_Lng();
-        double receiverLat = ordersList.get(position).getReceiver_lat();
-        double receiverLng = ordersList.get(position).getReceiver_lng();
+        double senderLat = Double.valueOf(ordersList.get(position).getSender_Lat());
+        double senderLng = Double.valueOf(ordersList.get(position).getSender_Lng());
+        double receiverLat = Double.valueOf(ordersList.get(position).getReceiver_lat());
+        double receiverLng = Double.valueOf(ordersList.get(position).getReceiver_lng());
         String senderAddress = "";
         String receiverAddress = "";
         try {
@@ -90,7 +90,6 @@ public class OrdersAdapter extends BaseAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
         holder.senderLocationTv.setText(context.getString(R.string.Space) + senderAddress);

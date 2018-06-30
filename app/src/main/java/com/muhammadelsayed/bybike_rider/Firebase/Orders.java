@@ -1,10 +1,10 @@
 package com.muhammadelsayed.bybike_rider.Firebase;
 
 public class Orders {
-    private double Receiver_lat;
-    private double Receiver_lng;
-    private double Sender_Lat;
-    private double Sender_Lng;
+    private String Receiver_lat;
+    private String Receiver_lng;
+    private String Sender_Lat;
+    private String Sender_Lng;
     private String created_at;
     private long id;
     private long status;
@@ -15,7 +15,7 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(double Receiver_lat, double Receiver_lng, double Sender_Lat, double Sender_Lng, String created_at,
+    public Orders(String Receiver_lat, String Receiver_lng, String Sender_Lat, String Sender_Lng, String created_at,
                   long id, long status, String updated_at, String user, String uuid) {
         this.Receiver_lat = Receiver_lat;
         this.Receiver_lng = Receiver_lng;
@@ -29,19 +29,19 @@ public class Orders {
         this.uuid = uuid;
     }
 
-    public void setReceiver_lat(double receiver_lat) {
+    public void setReceiver_lat(String receiver_lat) {
         Receiver_lat = receiver_lat;
     }
 
-    public void setReceiver_lng(double receiver_lng) {
+    public void setReceiver_lng(String receiver_lng) {
         Receiver_lng = receiver_lng;
     }
 
-    public void setSender_Lat(double sender_Lat) {
+    public void setSender_Lat(String sender_Lat) {
         Sender_Lat = sender_Lat;
     }
 
-    public void setSender_Lng(double sender_Lng) {
+    public void setSender_Lng(String sender_Lng) {
         Sender_Lng = sender_Lng;
     }
 
@@ -73,19 +73,19 @@ public class Orders {
         return uuid;
     }
 
-    public double getReceiver_lat() {
+    public String getReceiver_lat() {
         return Receiver_lat;
     }
 
-    public double getReceiver_lng() {
+    public String getReceiver_lng() {
         return Receiver_lng;
     }
 
-    public double getSender_Lat() {
+    public String getSender_Lat() {
         return Sender_Lat;
     }
 
-    public double getSender_Lng() {
+    public String getSender_Lng() {
         return Sender_Lng;
     }
 
