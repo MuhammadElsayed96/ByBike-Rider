@@ -1,16 +1,14 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -33,7 +31,6 @@ import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
-import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.Utils.CustomToast;
 import com.muhammadelsayed.bybike_rider.Utils.RiderSharedPreferences;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
@@ -41,6 +38,7 @@ import com.muhammadelsayed.bybike_rider.Utils.Utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -116,10 +114,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_login:
                 Log.d(TAG, "onClick: validating input...");
                 if (checkValidation()) {
-                    final ProgressDialog progressDialog = new ProgressDialog(getActivity(), R.style.ProgressDialogTheme);
-                    progressDialog.setMessage("Authenticating...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
+                    Context context = getActivity();
+                    final AlertDialog waitingDialog = new SpotsDialog(context, R.style.Custom);
+                    waitingDialog.setCancelable(false);
+                    waitingDialog.show();
 
 
                     String email = mEmail.getText().toString();
@@ -151,13 +149,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 Toast.makeText(getActivity(), "I have no Idea what's happening\nbut, something is terribly wrong !!", Toast.LENGTH_SHORT).show();
                             }
 
-                            progressDialog.dismiss();
+                            waitingDialog.dismiss();
                         }
 
                         @Override
                         public void onFailure(Call<RiderModel> call, Throwable t) {
 
-                            progressDialog.dismiss();
+                            waitingDialog.dismiss();
                             Toast.makeText(getActivity(), "network error !!", Toast.LENGTH_SHORT).show();
                         }
                     });

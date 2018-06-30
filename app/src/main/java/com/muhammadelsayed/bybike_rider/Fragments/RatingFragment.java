@@ -1,7 +1,9 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +27,7 @@ import com.muhammadelsayed.bybike_rider.RatingActivities.AcceptanceDetails;
 import com.muhammadelsayed.bybike_rider.RatingActivities.CancellationDetails;
 import com.muhammadelsayed.bybike_rider.RatingActivities.RatingDetails;
 
+import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,11 +49,12 @@ public class RatingFragment extends Fragment {
     private LinearLayout mLlAcceptanceRate;
     private LinearLayout mLlCancellationRate;
     private View rootView;
-    private ProgressDialog progressDialog;
+    private AlertDialog waitingDialog;
     private RiderRateModel riderRateModel;
     private TextView mTvStarRating;
     private TextView mTvAcceptanceRate;
     private TextView mTvCancellationRate;
+    private Context context;
 
 
     private LinearLayout.OnClickListener mOnLlAcceptanceRateClickListener = new View.OnClickListener() {
@@ -81,6 +85,7 @@ public class RatingFragment extends Fragment {
 
     public RatingFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -111,7 +116,11 @@ public class RatingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        progressDialog = new ProgressDialog(getActivity(), R.style.ProgressDialogTheme);
+        context = getActivity();
+        AlertDialog waitingDialog = new SpotsDialog(context, R.style.Custom);
+        waitingDialog.setCancelable(false);
+
+
         showProgressDialog();
         rootView = inflater.inflate(R.layout.fragment_rating, container, false);
         initViews();
@@ -193,13 +202,11 @@ public class RatingFragment extends Fragment {
     }
 
     private void showProgressDialog() {
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        waitingDialog.show();
     }
 
     private void hideProgressDialog() {
-        progressDialog.hide();
+        waitingDialog.dismiss();
     }
 
     private String getCancellationRate(String acceptanceRate) {
