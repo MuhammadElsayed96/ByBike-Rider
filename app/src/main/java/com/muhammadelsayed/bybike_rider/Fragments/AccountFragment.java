@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class AccountFragment extends Fragment {
     private TextView mTvUserName;
     private ConstraintLayout mClRiderProfile;
     private ConstraintLayout mClEditRiderProfile;
-    private ConstraintLayout mSignout;
+    private CardView mSignout;
     private CircularImageView mUserImage;
     private View rootView;
     private RiderInfoModel riderInfoModel;
@@ -71,7 +72,7 @@ public class AccountFragment extends Fragment {
             startActivity(intent);
         }
     };
-    private ConstraintLayout.OnClickListener mOnClSignOut = new View.OnClickListener() {
+    private CardView.OnClickListener mOnClSignOut = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Log.wtf(TAG, "Sign out Clicked");

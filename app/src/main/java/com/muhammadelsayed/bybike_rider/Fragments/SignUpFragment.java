@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "SignUpFragment";
     private View view;
     private EditText mEmail, mFirstName, mLastName, mPhone, mPassword;
-    private Button mSignUpButton;
+    private CardView mSignUpButton;
     private TextView mLogIn;
     private FragmentManager mFragmentManager;
 

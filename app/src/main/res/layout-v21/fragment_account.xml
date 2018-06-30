@@ -92,13 +92,12 @@
             android:maxLines="1"
             android:paddingLeft="24dp"
             android:paddingStart="24dp"
-            android:text="@string/rider_profile"
+            android:text="Rider Profile"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/ic_account"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/rider_prof_info_label"
@@ -108,10 +107,9 @@
             android:paddingLeft="24dp"
             android:paddingStart="24dp"
             android:paddingTop="4dp"
-            android:text="@string/your_clients_will_see_this"
+            android:text="Your clients will see this"
             app:layout_constraintLeft_toLeftOf="@id/rider_profile_label"
-            app:layout_constraintTop_toBottomOf="@id/rider_profile_label"
-            tools:ignore="RtlSymmetry" />
+            app:layout_constraintTop_toBottomOf="@id/rider_profile_label" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -194,22 +192,21 @@
         app:cardCornerRadius="25dp"
         app:layout_constraintBottom_toTopOf="@id/end_activity_separator"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:targetApi="lollipop">
+        app:layout_constraintRight_toRightOf="parent">
 
         <RelativeLayout
-            android:background="@drawable/account_btn_signout_background"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/account_btn_signout_background">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_out"
+                android:layout_centerInParent="true"
+                android:text="SIGN OUT"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="normal"
-                android:layout_centerInParent="true"/>
+                android:textStyle="normal" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

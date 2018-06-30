@@ -44,4 +44,8 @@
     <string name="accept">Accept</string>
 
     <string name="preference_file_key">com.muhammadelsayed.bybike_rider.SHARED_PREFERENCE</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="rider_profile">Rider Profile</string>
+    <string name="your_clients_will_see_this">Your clients will see this</string>
+    <string name="login">LOGIN</string>
 </resources>

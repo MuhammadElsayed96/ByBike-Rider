@@ -111,20 +111,36 @@
     </LinearLayout>
 
 
-    <Button
+    <android.support.v7.widget.CardView
         android:id="@+id/signUpBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:background="#fcfcfb"
+        android:elevation="10dp"
         android:layout_margin="32dp"
-        android:background="@android:color/black"
-        android:text="@string/signUp"
-        android:textColor="@color/background_color"
-        android:textSize="17sp"
-        android:textStyle="bold"
-
+        app:cardBackgroundColor="#161725"
+        app:cardCornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="@id/alreadyUser"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent">
+
+        <RelativeLayout
+            android:background="@drawable/account_btn_signout_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SIGN UP"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
 
 
     <TextView
