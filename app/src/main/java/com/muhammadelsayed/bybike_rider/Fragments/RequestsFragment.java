@@ -90,6 +90,8 @@ public class RequestsFragment extends Fragment {
                 Iterable<DataSnapshot> childrens = dataSnapshot.getChildren();
                 for (DataSnapshot child : childrens) {
                     Orders orders = child.getValue(Orders.class);
+                    if (orders.getStatus() == 1)
+                        continue;
                     orderList.add(orders);
                 }
                 requestListView.setAdapter(new OrdersAdapter(getActivity(), orderList));

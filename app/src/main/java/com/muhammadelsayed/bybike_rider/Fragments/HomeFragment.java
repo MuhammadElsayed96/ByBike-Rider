@@ -26,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,6 +39,7 @@ import com.muhammadelsayed.bybike_rider.R;
  * Use the {@link HomeFragment#homeFragmentInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class HomeFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -201,10 +203,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
         // For dropping a marker at a point on the Map "Mansoura"
         LatLng mansoura = new LatLng(31.037933, 31.381523);
         mMap.addMarker(new MarkerOptions()
-                .title("Mansoura")
-                .snippet("The is where we start.")
+                .title("You")
+                .snippet("The is where you are.")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.bicycle))
                 .position(mansoura));
         mMap.setTrafficEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         // For zooming automatically to the location of the marker
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(mansoura).zoom(16).bearing(0).tilt(45).build();

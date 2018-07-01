@@ -4,25 +4,37 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.util.StateSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ebanx.swipebtn.OnActiveListener;
 import com.ebanx.swipebtn.OnStateChangeListener;
 import com.ebanx.swipebtn.SwipeButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
+import com.muhammadelsayed.bybike_rider.Model.TripModel;
+import com.muhammadelsayed.bybike_rider.Model.TripResponse;
+import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
+import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.Utils.Maps;
 
 import java.io.IOException;
 import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * STACKOVERFLOW
@@ -30,6 +42,7 @@ import q.rorbin.badgeview.QBadgeView;
  */
 public class OrdersAdapter extends BaseAdapter {
 
+    private static final String TAG = OrdersAdapter.class.getSimpleName();
     private List<Orders> ordersList;
     private LayoutInflater inflater;
     private Context context;
@@ -103,6 +116,32 @@ public class OrdersAdapter extends BaseAdapter {
                 Orders order = ordersList.get(position);
                 order.setStatus(1);
                 mOrderRef.setValue(order);
+
+                String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();
+
+                RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+                Call<TripResponse> call = service.takeOrder(new TripModel(riderToken, order.getUuid()));
+                call.enqueue(new Callback<TripResponse>() {
+                    @Override
+                    public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
+
+
+                        Log.d(TAG, response.body().getMessage());
+                        Toast.makeText(context, "Trip Accepted", Toast.LENGTH_LONG).show();
+
+                        //
+
+                        // Send notification to the user informing him that
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<TripResponse> call, Throwable t) {
+
+                    }
+                });
+
+
             }
         });
 
