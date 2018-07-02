@@ -2,7 +2,6 @@ package com.muhammadelsayed.bybike_rider.Fragments;
 
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +25,7 @@ import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RatingActivities.AcceptanceDetails;
 import com.muhammadelsayed.bybike_rider.RatingActivities.CancellationDetails;
 import com.muhammadelsayed.bybike_rider.RatingActivities.RatingDetails;
+import com.muhammadelsayed.bybike_rider.RiderApplication;
 
 import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
@@ -114,8 +114,7 @@ public class RatingFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getActivity();
         waitingDialog = new SpotsDialog(context, R.style.Custom);
         waitingDialog.setCancelable(false);
@@ -169,26 +168,26 @@ public class RatingFragment extends Fragment {
         Log.d(TAG, "getRiderRatings() has been instantiated");
 
         // getting current user
-        RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_rider");
+        RiderModel currentUser = ((RiderApplication) context.getApplicationContext()).getCurrentRider();
         String riderToken = currentUser.getToken();
 
-        RiderClient service = RetrofitClientInstance.getRetrofitInstance()
-                .create(RiderClient.class);
-        RiderModel model = new RiderModel();
-        model.setRider(new Rider(riderToken));
-        Call<RiderRateModel> call = service.getRiderRatings(model.getRider());
+        RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+
+        Rider rider = new Rider(riderToken);
+        Call<RiderRateModel> call = service.getRiderRatings(rider);
+
         call.enqueue(new Callback<RiderRateModel>() {
             @Override
             public void onResponse(Call<RiderRateModel> call, Response<RiderRateModel> response) {
                 if (response.body() != null) {
-                    Log.wtf(TAG, "onResponse: " + response.body());
+                    Log.e(TAG, "onResponse: " + response.body());
                     riderRateModel = response.body();
                     mTvFiveStareRatings.setText(riderRateModel.getFive_stars());
                     mTvStarRating.setText(riderRateModel.getRating());
-                    mTvAcceptanceRate.setText(riderRateModel.getAcceptance_rate() + "%");
-                    mTvCancellationRate.setText(getCancellationRate(riderRateModel.getAcceptance_rate()) + "%");
+                    mTvAcceptanceRate.setText(getAcceptanceRate(riderRateModel.getAcceptance_rate()) + "%");
+                    mTvCancellationRate.setText((getCancellationRate(riderRateModel.getAcceptance_rate())) + "%");
                 } else {
-                    Toast.makeText(getActivity(), "I have no Idea what's happening\nbut, something is terribly wrong !!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error!!", Toast.LENGTH_SHORT).show();
                 }
                 hideProgressDialog();
             }
@@ -196,10 +195,9 @@ public class RatingFragment extends Fragment {
             @Override
             public void onFailure(Call<RiderRateModel> call, Throwable t) {
                 hideProgressDialog();
-                Toast.makeText(getActivity(), "network error !!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Network error!", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void showProgressDialog() {
@@ -211,9 +209,14 @@ public class RatingFragment extends Fragment {
     }
 
     private String getCancellationRate(String acceptanceRate) {
-        int acceptanceRateValue = Integer.parseInt(acceptanceRate);
-        int CancellationRateValue = 100 - acceptanceRateValue;
+        int acceptanceRateValue = (int) (100.0 * Float.valueOf(acceptanceRate));
+        int CancellationRateValue = (100 - acceptanceRateValue);
         return String.valueOf(CancellationRateValue);
+    }
+
+    private String getAcceptanceRate(String acceptanceRate) {
+        int acceptanceRateValue = (int) (100.0 * Float.valueOf(acceptanceRate));
+        return String.valueOf(acceptanceRateValue);
     }
 
 }
