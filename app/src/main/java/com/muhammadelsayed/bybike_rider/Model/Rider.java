@@ -17,7 +17,20 @@ public class Rider implements Serializable {
     private String created_at;
     private String updated_at;
 
-
+    public Rider(String id, String uuid, String name, String email, String password, String phone, String image, String vehicle_ID, String vehicle_Data, String api_token, String created_at, String updated_at) {
+        this.id = id;
+        this.uuid = uuid;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.image = image;
+        Vehicle_ID = vehicle_ID;
+        Vehicle_Data = vehicle_Data;
+        this.api_token = api_token;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 
     public Rider(String api_token) {
         this.api_token = api_token;
@@ -62,7 +75,6 @@ public class Rider implements Serializable {
     public void setVehicle_Data(String vehicle_Data) {
         this.Vehicle_Data = vehicle_Data;
     }
-
 
     public String getId() {
         return id;

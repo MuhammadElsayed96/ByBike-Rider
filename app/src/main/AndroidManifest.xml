@@ -61,17 +61,26 @@
             android:name=".AccountActivities.EditAccountPhone"
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".AccountActivities.EditAccount">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AccountActivities.EditAccount" />
+
+        </activity>
         <activity
-            android:name=".AccountActivities.EditAccountEmail"
+            android:name=".AccountActivities.EditAccountPassword"
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AccountActivities.EditAccountAddress"
-            android:label="@string/edit_account_label"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".AccountActivities.EditAccount">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AccountActivities.EditAccount" />
+
+        </activity>
+
         <activity
             android:name=".StartActivity"
             android:theme="@style/SplashTheme">

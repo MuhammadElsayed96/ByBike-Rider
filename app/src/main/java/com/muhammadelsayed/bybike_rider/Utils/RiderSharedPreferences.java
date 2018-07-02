@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.RiderApplication;
 
 public class RiderSharedPreferences {
     public static void SaveToPreferences(Context context, RiderModel rider) {
@@ -29,6 +30,8 @@ public class RiderSharedPreferences {
         prefEditor.putString("RIDER_CREATED_AT", currentRider.getCreated_at());
         prefEditor.putString("RIDER_UPDATED_AT", currentRider.getUpdated_at());
         prefEditor.apply();
+
+        ((RiderApplication) context.getApplicationContext()).setCurrentRider(rider);
     }
 
     public static RiderModel ReadFromPreferences(Context context) {

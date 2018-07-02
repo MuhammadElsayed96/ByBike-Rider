@@ -119,6 +119,7 @@ public class RatingFragment extends Fragment {
         context = getActivity();
         waitingDialog = new SpotsDialog(context, R.style.Custom);
         waitingDialog.setCancelable(false);
+        waitingDialog.setTitle("Loading...");
 
 
         showProgressDialog();

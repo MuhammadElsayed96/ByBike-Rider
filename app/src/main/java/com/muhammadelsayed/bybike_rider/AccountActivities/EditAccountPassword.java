@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,23 +26,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditAccountPhone extends AppCompatActivity {
+public class EditAccountPassword extends AppCompatActivity {
 
-    private static final String TAG = EditAccountPhone.class.getSimpleName();
-    private EditText mEtPhone;
-    private String phone;
-    private CardView updatePhoneCv;
+    private static final String TAG = EditAccountPassword.class.getSimpleName();
+    private EditText mEtPassword;
+    private CardView updatePasswordCv;
+    private String password;
     private Rider rider;
     private RiderModel currentRider;
     private ProgressDialog dialog;
 
-    private CardView.OnClickListener mOnCvUpdatePhone = new View.OnClickListener() {
+    private CardView.OnClickListener mOnCvUpdatePassword = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.wtf(TAG, "Update Phone Clicked");
+            Log.wtf(TAG, "Update Password Clicked");
             if (checkValidation()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mEtPhone.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(mEtPassword.getWindowToken(), 0);
 
                 dialog.show();
                 RiderClient service = RetrofitClientInstance.getRetrofitInstance()
@@ -52,12 +51,10 @@ public class EditAccountPhone extends AppCompatActivity {
                 String token = ((RiderApplication) getApplication()).getCurrentRider().getToken();
                 rider = ((RiderApplication) getApplication()).getCurrentRider().getRider();
                 rider.setApi_token(token);
-                rider.setPhone(phone);
 
-                Call<RiderModel> call = service.updateRiderData(rider);
+                Call<RiderModel> call = service.updateRiderPassword(rider);
 
                 Log.d(TAG, "onClick: Token = " + rider.getApi_token());
-                Log.d(TAG, "onClick: Phone = " + rider.getPhone());
                 call.enqueue(new Callback<RiderModel>() {
                     @Override
                     public void onResponse(Call<RiderModel> call, Response<RiderModel> response) {
@@ -68,7 +65,7 @@ public class EditAccountPhone extends AppCompatActivity {
                             String riderToken = ((RiderApplication) getApplication()).getCurrentRider().getToken();
                             currentRider = new RiderModel(riderToken, rider);
                             RiderSharedPreferences.SaveToPreferences(getApplicationContext(), currentRider);
-                            Toast.makeText(getApplicationContext(), "Phone updated successfully", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Password updated successfully", Toast.LENGTH_LONG).show();
                             Intent returnIntent = new Intent();
                             setResult(Activity.RESULT_OK, returnIntent);
                             finish();
@@ -78,7 +75,7 @@ public class EditAccountPhone extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<RiderModel> call, Throwable t) {
                         dialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Failed to update phone!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
                         Log.e(TAG, "onFailure: Exception == " + t.getMessage() + "\nCause == " + t.getCause());
                         Intent returnIntent = new Intent();
                         setResult(Activity.RESULT_OK, returnIntent);
@@ -89,11 +86,13 @@ public class EditAccountPhone extends AppCompatActivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_account_phone);
+        setContentView(R.layout.activity_edit_account_password);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         setupWidgets();
     }
@@ -113,12 +112,11 @@ public class EditAccountPhone extends AppCompatActivity {
      */
     private void setupWidgets() {
 
-        mEtPhone = findViewById(R.id.et_edit_phone);
-        updatePhoneCv = findViewById(R.id.update_phone_cardview);
-        updatePhoneCv.setOnClickListener(mOnCvUpdatePhone);
+        mEtPassword = findViewById(R.id.et_edit_password);
+        updatePasswordCv = findViewById(R.id.update_password_cardview);
+        updatePasswordCv.setOnClickListener(mOnCvUpdatePassword);
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
-
     }
 
 
@@ -127,20 +125,26 @@ public class EditAccountPhone extends AppCompatActivity {
         boolean isValid = true;
 
         // Get all edittext texts
-        phone = mEtPhone.getText().toString();
+
+        password = mEtPassword.getText().toString();
+
 
         // Check if all strings are null or not
-        if (phone.length() == 0) {
+        if (password.length() == 0) {
+
             isValid = false;
-            new CustomToast().showToast(this, mEtPhone,
-                    "Phone is required.");
+            new CustomToast().showToast(this, mEtPassword,
+                    "Password is required.");
         }
-        if (phone.length() < 11) {
+
+        // Check if password id valid or not
+        else if (password.length() < 6) {
+
             isValid = false;
-            new CustomToast().showToast(this, mEtPhone,
-                    "Your phone number is Invalid..");
+            new CustomToast().showToast(this, mEtPassword,
+                    "Password is too small!.");
         }
+
         return isValid;
     }
-
 }

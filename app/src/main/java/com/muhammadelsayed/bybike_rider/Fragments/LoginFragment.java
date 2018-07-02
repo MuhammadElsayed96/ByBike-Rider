@@ -54,7 +54,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextView mForgotPassword, mSignUp;
     private Button mLoginButton;
     private LinearLayout mLoginLayout;
-    private RiderModel currentUser;
+    private RiderModel currentRider;
 
     @Nullable
     @Override
@@ -117,19 +117,20 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     Context context = getActivity();
                     final AlertDialog waitingDialog = new SpotsDialog(context, R.style.Custom);
                     waitingDialog.setCancelable(false);
+                    waitingDialog.setTitle("Loading...");
                     waitingDialog.show();
 
 
                     String email = mEmail.getText().toString();
                     String password = mPassword.getText().toString();
 
-                    currentUser = new RiderModel();
-                    currentUser.setRider(new Rider(email, password));
+                    currentRider = new RiderModel();
+                    currentRider.setRider(new Rider(email, password));
 
                     RiderClient service = RetrofitClientInstance.getRetrofitInstance()
                             .create(RiderClient.class);
 
-                    Call<RiderModel> call = service.loginRider(currentUser.getRider());
+                    Call<RiderModel> call = service.loginRider(currentRider.getRider());
 
                     call.enqueue(new Callback<RiderModel>() {
                         @Override
@@ -137,11 +138,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                             if (response.body() != null) {
 
-                                currentUser = response.body();
+                                currentRider = response.body();
                                 Log.wtf(TAG, "onResponse: " + response.body());
+                                currentRider.getRider().setApi_token(currentRider.getToken());
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.putExtra("current_rider", currentUser);
-                                RiderSharedPreferences.SaveToPreferences(getActivity(), currentUser);
+                                intent.putExtra("current_rider", currentRider);
+                                RiderSharedPreferences.SaveToPreferences(getActivity(), currentRider);
                                 startActivity(intent);
                                 getActivity().finish();
 
