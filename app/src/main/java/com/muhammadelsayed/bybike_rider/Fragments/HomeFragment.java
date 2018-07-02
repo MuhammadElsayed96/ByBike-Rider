@@ -1,12 +1,12 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -15,23 +15,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.muhammadelsayed.bybike_rider.R;
 
 /**
@@ -39,7 +44,6 @@ import com.muhammadelsayed.bybike_rider.R;
  * Use the {@link HomeFragment#homeFragmentInstance} factory method to
  * create an instance of this fragment.
  */
-
 public class HomeFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -65,6 +69,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     private static int DISPLACEMENT = 10;
     Marker currentLocation;
 
+    private DatabaseReference drivers;
+    private GeoFire geoFire;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -86,8 +93,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buildGoogleApiClient();
+        createLocationRequest();
 
-
+        drivers = FirebaseDatabase.getInstance().getReference("Drivers");
+        geoFire = new GeoFire(drivers);
     }
 
 
@@ -112,130 +122,28 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
         }
         mMapView.getMapAsync(this);
 
-        setUpLocation();
-
         return mRootView;
 
     }
 
-    private void setUpLocation() {
-        if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            // request runtime permission
-            requestPermissions(new String[]{
-                    COARSE_LOCATION,
-                    FINE_LOCATION
-            }, LOCATION_PERMISSION_REQUEST_CODE);
-
-        } else {
-            if (checkPlayServices()) {
-                buildGoogleApiClient();
-                createLocationRequest();
-                displayLocation();
-            }
-        }
-
-    }
-
-    private void displayLocation() {
-        if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            double lat = mLastLocation.getLatitude();
-            double lng = mLastLocation.getLongitude();
-
-            Log.d(TAG, String.format("Your location was changed: %f / %f", lat, lng));
-        } else {
-            Log.d(TAG, "cannot get your location");
-        }
-    }
-
-    private void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
-    }
-
-    private void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (checkPlayServices()) {
-                        buildGoogleApiClient();
-                        createLocationRequest();
-                        displayLocation();
-                    }
+                    displayLocation();
                 }
                 break;
         }
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-        initMap();
-
-    }
-
-
-    private void initMap() {
-
-        // For dropping a marker at a point on the Map "Mansoura"
-        LatLng mansoura = new LatLng(31.037933, 31.381523);
-        mMap.addMarker(new MarkerOptions()
-                .title("You")
-                .snippet("The is where you are.")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.bicycle))
-                .position(mansoura));
         mMap.setTrafficEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        // For zooming automatically to the location of the marker
-        CameraPosition cameraPosition = CameraPosition.builder()
-                .target(mansoura).zoom(16).bearing(0).tilt(45).build();
-
-        LatLng serviceArea = new LatLng(31.040696, 31.378507);
-        mMap.addCircle(new CircleOptions()
-                .center(serviceArea)
-                .radius(2950)
-                .strokeColor(0x22ff5252)
-                .strokeWidth(25.0f));
-
-
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        if (mMap != null) {
-            mMap.setOnMyLocationClickListener(new GoogleMap.OnMyLocationClickListener() {
-                @Override
-                public void onMyLocationClick(@NonNull Location location) {
-                    CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-                    CameraUpdate zoom = CameraUpdateFactory.zoomTo(12);
-
-                    mMap.moveCamera(center);
-                    mMap.animateCamera(zoom);
-                }
-            });
-        }
-
     }
 
     @Override
@@ -247,6 +155,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onPause() {
         super.onPause();
+        if (mGoogleApiClient.isConnected())
+            mGoogleApiClient.disconnect();
         mMapView.onPause();
     }
 
@@ -259,22 +169,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onResume() {
         super.onResume();
+        mGoogleApiClient.connect();
         mMapView.onResume();
-    }
-
-
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(), GOOGLE_PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Toast.makeText(getActivity(), "Your device is not supported", Toast.LENGTH_LONG).show();
-                getActivity().finish();
-            }
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -285,16 +181,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        displayLocation();
-        startLocationUpdates();
-    }
-
-    private void startLocationUpdates() {
-        if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        displayLocation();      // puts tracked marker on the map.
+        startLocationUpdates(); // Tracks lastLocation
     }
 
     @Override
@@ -304,6 +192,85 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.wtf(TAG, "connection Faild, maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan");
+    }
 
+    private void handleNewLocation(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        if (currentLocation != null)
+            currentLocation.remove();
+
+
+        MarkerOptions options = new MarkerOptions()
+                .position(latLng)
+                .title("You")
+                .snippet("The is where you are.")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.bicycle));
+        Log.d(TAG, String.format("Your location was changed: %f / %f", location.getLatitude(), location.getLongitude()));
+        currentLocation = mMap.addMarker(options);
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15.0f));
+    }
+
+    private void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
+    }
+
+    private void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    private void startLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                try {
+                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                } catch (SecurityException e) {
+                    Log.e(TAG, "onResult: SecurityException == " + e.getMessage());
+                }
+            }
+        });
+
+
+    }
+
+    private void displayLocation() {
+
+        if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if (mLastLocation != null) {
+            double lat = mLastLocation.getLatitude();
+            double lng = mLastLocation.getLongitude();
+
+            geoFire.setLocation("You", new GeoLocation(lat, lng), new GeoFire.CompletionListener() {
+                @Override
+                public void onComplete(String key, DatabaseError error) {
+                    handleNewLocation(mLastLocation);
+                }
+            });
+
+            Log.d(TAG, String.format("Your location was changed: %f / %f", lat, lng));
+        } else {
+            Log.d(TAG, "cannot get your location");
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.muhammadelsayed.bybike_rider.Firebase;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -19,6 +21,9 @@ import com.ebanx.swipebtn.OnStateChangeListener;
 import com.ebanx.swipebtn.SwipeButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.muhammadelsayed.bybike_rider.DriverTracking;
+import com.muhammadelsayed.bybike_rider.MainActivity;
+import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
 import com.muhammadelsayed.bybike_rider.Model.TripModel;
 import com.muhammadelsayed.bybike_rider.Model.TripResponse;
@@ -26,6 +31,7 @@ import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
+import com.muhammadelsayed.bybike_rider.StartActivity;
 import com.muhammadelsayed.bybike_rider.Utils.Maps;
 
 import java.io.IOException;
@@ -113,11 +119,11 @@ public class OrdersAdapter extends BaseAdapter {
                 String childId = String.valueOf(ordersList.get(position).getId());
                 DatabaseReference mOrderRef = FirebaseDatabase.getInstance().getReference("orders").child(childId);
 
-                Orders order = ordersList.get(position);
+                final Orders order = ordersList.get(position);
                 order.setStatus(1);
                 mOrderRef.setValue(order);
 
-                String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();
+                final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();
 
                 RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
                 Call<TripResponse> call = service.takeOrder(new TripModel(riderToken, order.getUuid()));
@@ -129,9 +135,29 @@ public class OrdersAdapter extends BaseAdapter {
                         Log.d(TAG, response.body().getMessage());
                         Toast.makeText(context, "Trip Accepted", Toast.LENGTH_LONG).show();
 
-                        //
+                        // perform order info call to the server.
 
-                        // Send notification to the user informing him that
+                        RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+                        Call<OrderInfoModel> orderInfoCall = service.getOrderInfo(new TripModel(riderToken, order.getUuid()));
+                        orderInfoCall.enqueue(new Callback<OrderInfoModel>() {
+                            @Override
+                            public void onResponse(Call<OrderInfoModel> call, Response<OrderInfoModel> response) {
+                                Log.d(TAG, response.body().toString());
+
+                                OrderInfoModel orderInfo = response.body();
+                                Intent intent = new Intent(context, DriverTracking.class);
+                                intent.putExtra("order_info_model", orderInfo);
+                                context.startActivity(intent);
+                                ((Activity) context).finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<OrderInfoModel> call, Throwable t) {
+
+                            }
+                        });
+
+                        // Send notification to the user informing him that rider accepted his location
 
                     }
 

@@ -48,4 +48,6 @@
     <string name="rider_profile">Rider Profile</string>
     <string name="your_clients_will_see_this">Your clients will see this</string>
     <string name="login">LOGIN</string>
+    <string name="title_activity_driver_tracking">Map</string>
+    <string name="call">CALL</string>
 </resources>

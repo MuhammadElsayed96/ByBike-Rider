@@ -33,10 +33,8 @@ import com.muhammadelsayed.bybike_rider.Fragments.EarningsFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.HomeFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.RatingFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.RequestsFragment;
-import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Utils.RiderSharedPreferences;
-import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -60,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int INT_FRAGMENT_RATING_POS = 2;
     private static final int INT_FRAGMENT_ACCOUNT_POS = 3;
     private static final int INT_FRAGMENT_REQUESTS_POS = 4;
-    private static final int BUTTON_STATUS_ONLINE = 1;
-    private static final int BUTTON_STATUS_OFFLINE = 0;
-    private static int buttonStatus = BUTTON_STATUS_OFFLINE;
-    private Button mActionbarButton;
+    public static final int BUTTON_STATUS_ONLINE = 1;
+    public static final int BUTTON_STATUS_OFFLINE = 0;
+    public static int buttonStatus = BUTTON_STATUS_OFFLINE;
+    private static Button mActionbarButton;
     private ActionBar mActionBar;
     public static BottomNavigationView mBottomNavigation;
     private Toast mStateToast;
@@ -186,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     private void fillRiderApplication() {
 
         RiderModel riderModel = RiderSharedPreferences.ReadFromPreferences(this);
-        ((RiderApplication)this.getApplication()).setCurrentRider(riderModel);
+        ((RiderApplication) this.getApplication()).setCurrentRider(riderModel);
     }
 
     @Override
