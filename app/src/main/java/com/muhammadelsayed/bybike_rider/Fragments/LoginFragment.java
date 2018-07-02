@@ -140,10 +140,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                                 currentRider = response.body();
                                 Log.wtf(TAG, "onResponse: " + response.body());
-                                currentRider.getRider().setApi_token(currentRider.getToken());
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
                                 intent.putExtra("current_rider", currentRider);
                                 RiderSharedPreferences.SaveToPreferences(getActivity(), currentRider);
+                                currentRider.getRider().setApi_token(currentRider.getToken());
                                 startActivity(intent);
                                 getActivity().finish();
 

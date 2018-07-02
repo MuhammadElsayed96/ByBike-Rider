@@ -7,7 +7,6 @@ import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderRateModel;
 import com.muhammadelsayed.bybike_rider.Model.TripModel;
 import com.muhammadelsayed.bybike_rider.Model.TripResponse;
-import com.muhammadelsayed.bybike_rider.test;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -39,7 +38,7 @@ public interface RiderClient {
     @POST("api/rider/update")
     Call<RiderModel> updateRiderData(@Body Rider rider);
 
-    @POST("rider/update/password")
+    @POST("api/rider/update/password")
     Call<RiderModel> updateRiderPassword(@Body Rider rider);
 
 }

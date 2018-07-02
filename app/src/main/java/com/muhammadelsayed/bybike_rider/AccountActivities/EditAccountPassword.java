@@ -51,6 +51,7 @@ public class EditAccountPassword extends AppCompatActivity {
                 String token = ((RiderApplication) getApplication()).getCurrentRider().getToken();
                 rider = ((RiderApplication) getApplication()).getCurrentRider().getRider();
                 rider.setApi_token(token);
+                rider.setPassword(password);
 
                 Call<RiderModel> call = service.updateRiderPassword(rider);
 
