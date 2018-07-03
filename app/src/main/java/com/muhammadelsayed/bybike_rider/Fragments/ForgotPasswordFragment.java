@@ -60,7 +60,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
                 mFragmentManager.popBackStack();
                 mFragmentManager
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                        //.setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                         .replace(R.id.frameContainer,
                                 new LoginFragment(),
                                 Utils.LOGIN_FRAGMENT).commit();
@@ -115,7 +115,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
                     mFragmentManager.popBackStack();
                     mFragmentManager
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.left_out, R.anim.right_enter)
+                            //.setCustomAnimations(R.anim.left_out, R.anim.right_enter)
                             .replace(R.id.frameContainer, new LoginFragment(), Utils.LOGIN_FRAGMENT)
                             .commit();
                     return true;

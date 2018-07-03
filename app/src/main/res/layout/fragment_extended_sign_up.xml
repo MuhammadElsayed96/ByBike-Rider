@@ -20,11 +20,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <org.angmarch.views.NiceSpinner
+
+        <Spinner
             android:id="@+id/vehicle_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"/>
+            android:layout_margin="16dp" />
 
         <!-- Vehicle description Label -->
         <android.support.design.widget.TextInputLayout
@@ -41,6 +42,7 @@
                 android:backgroundTint="#49a3bb"
                 android:hint="@string/vehicle_description"
                 android:inputType="text"
+                android:text="Green Bike"
                 android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 

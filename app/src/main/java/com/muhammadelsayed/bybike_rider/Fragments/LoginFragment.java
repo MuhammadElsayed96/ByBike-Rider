@@ -167,7 +167,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             case R.id.createAccount:
                 mFragmentManager.beginTransaction()
                         .addToBackStack(TAG)
-                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        //.setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                         .replace(R.id.frameContainer, new SignUpFragment(), Utils.SING_UP_FRAGMENT)
                         .commit();
                 break;
@@ -177,7 +177,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 mFragmentManager
                         .beginTransaction()
                         .addToBackStack(TAG)
-                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        //.setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                         .replace(R.id.frameContainer, new ForgotPasswordFragment(), Utils.FORGOT_PASSWORD_FRAGMENT)
                         .commit();
 
@@ -236,7 +236,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     // handle back button's click listener
 
                     getActivity().onBackPressed();
-                    Toast.makeText(getActivity(), "Back press", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;

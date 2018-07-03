@@ -50,7 +50,10 @@ public interface RiderClient {
     @POST("api/rider/update")
     Call<RiderModel> updateRiderProfileImage(@Part("api_token") RequestBody api_token, @Part MultipartBody.Part image);
 
-    @POST("api/user")
-    Call<SignUpResponse> signUpRider(@Body Rider user);
+    @POST("api/rider")
+    Call<SignUpResponse> signUpRider(@Body Rider rider);
+
+    @POST("api/vehicle")
+    Call<SignUpResponse> getVehicle();
 
 }

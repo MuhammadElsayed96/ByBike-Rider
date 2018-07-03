@@ -163,7 +163,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 mFragmentManager
                         .beginTransaction()
                         .addToBackStack(TAG)
-                        .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                        //.setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                         .replace(R.id.frameContainer, new LoginFragment(), Utils.LOGIN_FRAGMENT)
                         .commit();
                 break;
@@ -177,7 +177,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     mFragmentManager
                             .beginTransaction()
                             .addToBackStack(TAG)
-                            .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                            //.setCustomAnimations(R.anim.right_out, R.anim.left_enter)
                             .replace(R.id.frameContainer, new ExtendedSignUpFragment(), Utils.EXTENDED_SIGN_UP)
                             .commit();
                 }
@@ -198,7 +198,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     mFragmentManager.popBackStack();
                     mFragmentManager
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.left_out, R.anim.right_enter)
+                            //.setCustomAnimations(R.anim.left_out, R.anim.right_enter)
                             .replace(R.id.frameContainer, new LoginFragment(), Utils.LOGIN_FRAGMENT)
                             .commit();
                     return true;
