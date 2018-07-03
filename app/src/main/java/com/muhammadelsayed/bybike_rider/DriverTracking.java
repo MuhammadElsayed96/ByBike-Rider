@@ -32,6 +32,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
 
+import java.util.concurrent.LinkedTransferQueue;
+
 public class DriverTracking extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -86,6 +88,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
+        displayOriginDestination();
     }
 
     @Override
@@ -108,6 +111,35 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         displayLocation();
+    }
+
+    private void displayOriginDestination() {
+        double originLat = Double.parseDouble(orderInfo.getOrder().getSender_Lat());
+        double originLng = Double.parseDouble(orderInfo.getOrder().getSender_Lng());
+        double destinationLat = Double.parseDouble(orderInfo.getOrder().getReceiver_lat());
+        double destinationLng = Double.parseDouble(orderInfo.getOrder().getReceiver_lng());
+
+
+        LatLng origin = new LatLng(originLat, originLng);
+
+        MarkerOptions optionsOrg = new MarkerOptions()
+                .position(origin)
+                .title("Start")
+                .snippet("")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_origin));
+
+        mMap.addMarker(optionsOrg);
+
+        LatLng destination = new LatLng(destinationLat, destinationLng);
+
+        MarkerOptions optionsDes = new MarkerOptions()
+                .position(destination)
+                .title("End")
+                .snippet("")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_destination));
+
+        mMap.addMarker(optionsDes);
+
     }
 
     private void displayLocation() {
