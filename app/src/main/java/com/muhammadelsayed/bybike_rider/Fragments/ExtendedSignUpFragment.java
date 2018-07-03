@@ -82,10 +82,9 @@ public class ExtendedSignUpFragment extends Fragment implements View.OnClickList
                     mFragmentManager.popBackStack();
                     mFragmentManager
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                            .setCustomAnimations(R.anim.left_out, R.anim.right_enter)
                             .replace(R.id.frameContainer, fragment, Utils.SING_UP_FRAGMENT)
                             .commit();
-                    Toast.makeText(getActivity(), "Back press", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;

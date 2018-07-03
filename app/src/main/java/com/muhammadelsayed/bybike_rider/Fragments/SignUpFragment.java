@@ -58,12 +58,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            fName = getArguments().getString(ARG_FNAME);
-            lName = getArguments().getString(ARG_LNAME);
-            email = getArguments().getString(ARG_EMAIL);
-            phone = getArguments().getString(ARG_PHONE);
-        }
     }
 
     @Nullable
@@ -73,6 +67,18 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         Log.d(TAG, "onCreateView: started !!");
         initViews();
         setListeners();
+
+        if (getArguments() != null) {
+            fName = getArguments().getString(ARG_FNAME);
+            lName = getArguments().getString(ARG_LNAME);
+            email = getArguments().getString(ARG_EMAIL);
+            phone = getArguments().getString(ARG_PHONE);
+            mFirstName.setText(fName);
+            mLastName.setText(lName);
+            mEmail.setText(email);
+            mPhone.setText(phone);
+        }
+
         return view;
     }
 
@@ -88,7 +94,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         mPassword = view.findViewById(R.id.input_password);
         mLogIn = view.findViewById(R.id.alreadyUser);
     }
-
 
     private void setListeners() {
         mLogIn.setOnClickListener(this);
@@ -193,10 +198,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     mFragmentManager.popBackStack();
                     mFragmentManager
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                            .setCustomAnimations(R.anim.left_out, R.anim.right_enter)
                             .replace(R.id.frameContainer, new LoginFragment(), Utils.LOGIN_FRAGMENT)
                             .commit();
-                    Toast.makeText(getActivity(), "Back press", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
