@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_FRAGMENT_RATING = "tag_frag_rating";
     private static final String TAG_FRAGMENT_ACCOUNT = "tag_frag_account";
     private static final String TAG_FRAGMENT_REQUESTS = "tag_frag_request";
-    private static final int INT_FRAGMENTS_COUNT = 4;
+    private static final int INT_FRAGMENTS_COUNT = 5;
     private static final int TIME_OF_VIBRATION = 100;
     private static final int INT_FRAGMENT_HOME_POS = 0;
     private static final int INT_FRAGMENT_EARNINGS_POS = 1;
