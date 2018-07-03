@@ -173,7 +173,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.forgot_password:
                 Log.d(TAG, "onClick: navigating to FORGOT_PASSWORD_FRAGMENT...");
-
                 mFragmentManager
                         .beginTransaction()
                         .addToBackStack(TAG)

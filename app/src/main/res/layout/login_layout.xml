@@ -34,7 +34,7 @@
                 android:backgroundTint="@color/ET_Background_tint"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:text="rider@test.com" />
+                android:text="elsheikh@yahoo.com" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->

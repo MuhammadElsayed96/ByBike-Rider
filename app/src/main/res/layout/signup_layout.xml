@@ -120,8 +120,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/continue_signUpBtn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="32dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/btn_background_effects"

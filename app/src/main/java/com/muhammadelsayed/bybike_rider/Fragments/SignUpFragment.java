@@ -173,10 +173,10 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
                     Rider rider = new Rider(fName, lName, email, phone, password);
                     ((RiderApplication) getActivity().getApplicationContext()).setCurrentRider(new RiderModel("", rider));
-                    mFragmentManager.popBackStack();
+//                    mFragmentManager.popBackStack();
                     mFragmentManager
                             .beginTransaction()
-                            .addToBackStack(TAG)
+                            ///.addToBackStack(TAG)
                             //.setCustomAnimations(R.anim.right_out, R.anim.left_enter)
                             .replace(R.id.frameContainer, new ExtendedSignUpFragment(), Utils.EXTENDED_SIGN_UP)
                             .commit();
