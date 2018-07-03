@@ -9,10 +9,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
+import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
+import com.squareup.picasso.Picasso;
 
 public class EditAccount extends AppCompatActivity {
 
@@ -20,12 +23,10 @@ public class EditAccount extends AppCompatActivity {
     private LinearLayout mLlEditPassword;
     private TextView mTvPhoneInfo;
     private TextView mTvEmailInfo;
-    private TextView mTvFname;
-    private TextView mTvLname;
+    private TextView mTvName;
+    private CircularImageView mRiderImage;
     private RiderModel currentRider;
 
-    private static final int FIRST_NAME_INDEX = 0;
-    private static final int LAST_NAME_INDEX = 1;
     private static final int EDIT_PHONE_ACTIVITY_REQUEST_CODE = 2;
     private static final int EDIT_PASSWORD_ACTIVITY_REQUEST_CODE = 3;
 
@@ -65,23 +66,30 @@ public class EditAccount extends AppCompatActivity {
         mLlEditPassword = findViewById(R.id.password_layout);
         mLlEditPhone.setOnClickListener(mOnLlEditPhoneClickListener);
         mLlEditPassword.setOnClickListener(mOnLlEditPasswordClickListener);
+        mRiderImage = findViewById(R.id.profile_image);
 
         currentRider = ((RiderApplication) getApplication()).getCurrentRider();
 
         mTvPhoneInfo = findViewById(R.id.phone_info);
         mTvEmailInfo = findViewById(R.id.email_info);
-        mTvFname = findViewById(R.id.first_name_info);
-        mTvLname = findViewById(R.id.last_name_info);
+        mTvName = findViewById(R.id.name_info);
 
-        String[] names = Utils.splitName(currentRider.getRider().getName());
-        String fName = names[FIRST_NAME_INDEX];
-        String lName = names[LAST_NAME_INDEX];
 
-        mTvFname.setText(fName);
-        mTvLname.setText(lName);
+        String name = currentRider.getRider().getName();
+        mTvName.setText(name);
 
         mTvPhoneInfo.setText(currentRider.getRider().getPhone());
         mTvEmailInfo.setText(currentRider.getRider().getEmail());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Picasso.get()
+                .load(RetrofitClientInstance.BASE_URL + currentRider.getRider().getImage())
+                .placeholder(R.drawable.trump)
+                .error(R.drawable.trump)
+                .into(mRiderImage);
     }
 
     @Override

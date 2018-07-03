@@ -8,9 +8,13 @@ import com.muhammadelsayed.bybike_rider.Model.RiderRateModel;
 import com.muhammadelsayed.bybike_rider.Model.TripModel;
 import com.muhammadelsayed.bybike_rider.Model.TripResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface RiderClient {
 
@@ -40,5 +44,9 @@ public interface RiderClient {
 
     @POST("api/rider/update/password")
     Call<RiderModel> updateRiderPassword(@Body Rider rider);
+
+    @Multipart
+    @POST("api/rider/update")
+    Call<RiderModel> updateRiderProfileImage(@Part("api_token") RequestBody api_token, @Part MultipartBody.Part image);
 
 }
