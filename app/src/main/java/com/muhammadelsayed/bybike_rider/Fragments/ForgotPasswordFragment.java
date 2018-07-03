@@ -3,6 +3,7 @@ package com.muhammadelsayed.bybike_rider.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class ForgotPasswordFragment extends Fragment implements View.OnClickListener {
 
-    public static final String TAG = "ForgotPasswordFragment";
+    public static final String TAG = "FORGOT_PASSWORD_FRAGMENT";
     private View mView;
     private EditText mEmail;
     private TextView mSubmit, mBack;
@@ -56,12 +57,13 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
             case R.id.backToLoginBtn:
 
                 // Replace Login Fragment on Back Presses
+                mFragmentManager.popBackStack();
                 mFragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                         .replace(R.id.frameContainer,
                                 new LoginFragment(),
-                                Utils.LoginFragment).commit();
+                                Utils.LOGIN_FRAGMENT).commit();
                 break;
 
             case R.id.forgot_button:
@@ -97,5 +99,30 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
         else
             Toast.makeText(getActivity(), "Get Forgot Password.",
                     Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    // handle back button's click listener
+                    mFragmentManager.popBackStack();
+                    mFragmentManager
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                            .replace(R.id.frameContainer, new LoginFragment(), Utils.LOGIN_FRAGMENT)
+                            .commit();
+                    Toast.makeText(getActivity(), "Back press", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

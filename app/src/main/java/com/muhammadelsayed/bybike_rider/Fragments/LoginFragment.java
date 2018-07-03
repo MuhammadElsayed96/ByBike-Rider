@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ import retrofit2.Response;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "LoginFragment";
+    private static final String TAG = "LOGIN_FRAGMENT";
     private View view;
     private FragmentManager mFragmentManager;
     private Animation mShakeAnimation;
@@ -165,17 +166,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.createAccount:
                 mFragmentManager.beginTransaction()
+                        .addToBackStack(TAG)
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-                        .replace(R.id.frameContainer, new SignUpFragment(), Utils.SignUpFragment)
+                        .replace(R.id.frameContainer, new SignUpFragment(), Utils.SING_UP_FRAGMENT)
                         .commit();
                 break;
             case R.id.forgot_password:
-                Log.d(TAG, "onClick: navigating to ForgotPasswordFragment...");
+                Log.d(TAG, "onClick: navigating to FORGOT_PASSWORD_FRAGMENT...");
 
                 mFragmentManager
                         .beginTransaction()
+                        .addToBackStack(TAG)
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-                        .replace(R.id.frameContainer, new ForgotPasswordFragment(), Utils.ForgotPasswordFragment)
+                        .replace(R.id.frameContainer, new ForgotPasswordFragment(), Utils.FORGOT_PASSWORD_FRAGMENT)
                         .commit();
 
                 break;
@@ -218,5 +221,26 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }
 
         return isValid;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    // handle back button's click listener
+
+                    getActivity().onBackPressed();
+                    Toast.makeText(getActivity(), "Back press", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

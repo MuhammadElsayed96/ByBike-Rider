@@ -2,11 +2,9 @@ package com.muhammadelsayed.bybike_rider;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.muhammadelsayed.bybike_rider.Fragments.LoginFragment;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
@@ -17,7 +15,7 @@ public class StartActivity extends AppCompatActivity {
 
     private static FragmentManager fragmentManager;
     private Context mContext = StartActivity.this;
-
+    private static final String TAG = StartActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +37,20 @@ public class StartActivity extends AppCompatActivity {
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.frameContainer, new LoginFragment(),
-                            Utils.LoginFragment).commit();
+                            Utils.LOGIN_FRAGMENT).commit();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        int count = fragmentManager.getBackStackEntryCount();
+
+        if (count == 0 ){
+            super.onBackPressed();
+        }else {
+
+            fragmentManager.popBackStackImmediate();
         }
     }
 }

@@ -20,6 +20,7 @@ public class RiderApplication extends Application {
 
     private RiderModel currentRider;
 
+
     public RiderApplication() {
     }
 

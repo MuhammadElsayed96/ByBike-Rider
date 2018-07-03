@@ -5,6 +5,7 @@ import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderRateModel;
+import com.muhammadelsayed.bybike_rider.Model.SignUpResponse;
 import com.muhammadelsayed.bybike_rider.Model.TripModel;
 import com.muhammadelsayed.bybike_rider.Model.TripResponse;
 
@@ -48,5 +49,8 @@ public interface RiderClient {
     @Multipart
     @POST("api/rider/update")
     Call<RiderModel> updateRiderProfileImage(@Part("api_token") RequestBody api_token, @Part MultipartBody.Part image);
+
+    @POST("api/user")
+    Call<SignUpResponse> signUpRider(@Body Rider user);
 
 }

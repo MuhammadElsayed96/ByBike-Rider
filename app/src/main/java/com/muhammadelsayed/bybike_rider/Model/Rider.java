@@ -1,5 +1,7 @@
 package com.muhammadelsayed.bybike_rider.Model;
 
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
+
 import java.io.Serializable;
 
 public class Rider implements Serializable {
@@ -46,6 +48,13 @@ public class Rider implements Serializable {
     public Rider(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public Rider(String fName, String lName, String email, String phone, String password) {
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.name = fName + " " + lName;
     }
 
     public Rider(String id, String uuid, String name, String email, String phone, String image, String api_token, String created_at, String updated_at) {
@@ -165,5 +174,19 @@ public class Rider implements Serializable {
                 ", created_at='" + created_at + '\'' +
                 ", updated_at='" + updated_at + '\'' +
                 '}';
+    }
+
+    public String getFirstName() {
+        String firstName = "";
+        if (name != null)
+            firstName = Utils.splitName(name)[0];
+        return firstName;
+    }
+
+    public String getLastName() {
+        String lastName = "";
+        if (name != null && name.contains(" "))
+            lastName = Utils.splitName(name)[1];
+        return lastName;
     }
 }
