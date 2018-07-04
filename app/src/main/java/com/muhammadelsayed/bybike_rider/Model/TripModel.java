@@ -3,10 +3,17 @@ package com.muhammadelsayed.bybike_rider.Model;
 public class TripModel {
     private String api_token;
     private String order;
+    private String details;
 
     public TripModel(String api_token, String order) {
         this.api_token = api_token;
         this.order = order;
+    }
+
+    public TripModel(String api_token, String order, String details) {
+        this.api_token = api_token;
+        this.order = order;
+        this.details = details;
     }
 
     public TripModel() {
@@ -26,6 +33,14 @@ public class TripModel {
 
     public void setOrder(String order) {
         this.order = order;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     @Override

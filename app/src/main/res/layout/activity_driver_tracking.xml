@@ -16,14 +16,32 @@
         map:layout_constraintTop_toTopOf="parent"
         tools:context=".DriverTracking" />
 
-
-    <Button
-        android:id="@+id/rider_current_status_btn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="16dp"
-        android:text="Start Trip"/>
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/cancel_trip_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight=".5"
+            android:background="@drawable/transparent_button_red"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/trip_status_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/transparent_button"
+            tools:text="Start Trip"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 
     <android.support.constraint.ConstraintLayout
@@ -47,6 +65,7 @@
             android:id="@+id/user_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/black"
             map:layout_constraintBottom_toTopOf="@id/call_user_button"
@@ -61,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:background="@drawable/transparent_button_black"
             android:text="@string/call"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintHorizontal_weight="1"

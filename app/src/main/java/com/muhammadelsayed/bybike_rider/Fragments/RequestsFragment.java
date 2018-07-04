@@ -97,7 +97,7 @@ public class RequestsFragment extends Fragment {
                 Iterable<DataSnapshot> childrens = dataSnapshot.getChildren();
                 for (DataSnapshot child : childrens) {
                     Orders orders = child.getValue(Orders.class);
-                    if (orders.getStatus() == 1)
+                    if (orders.getStatus() != 0)
                         continue;
                     orderList.add(orders);
                 }

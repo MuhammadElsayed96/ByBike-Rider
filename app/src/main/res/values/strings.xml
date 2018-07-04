@@ -52,4 +52,5 @@
     <string name="call">CALL</string>
     <string name="update_email">UPDATE EMAIL</string>
     <string name="vehicle_description">Vehicle Description</string>
+    <string name="cancel">Cancel</string>
 </resources>

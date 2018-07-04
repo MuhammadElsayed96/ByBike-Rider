@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -43,16 +46,26 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
+import com.muhammadelsayed.bybike_rider.Model.Order;
 import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
+import com.muhammadelsayed.bybike_rider.Model.Rider;
+import com.muhammadelsayed.bybike_rider.Model.TripModel;
+import com.muhammadelsayed.bybike_rider.Model.TripResponse;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
+import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.LinkedTransferQueue;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DriverTracking extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -61,36 +74,183 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         RoutingListener {
 
     private static final String TAG = DriverTracking.class.getSimpleName();
-    private GoogleMap mMap;
-    private OrderInfoModel orderInfo;
-    public static final int GOOGLE_PLAY_SERVICES_RESOLUTION_REQUEST = 101;
+    private static final int GOOGLE_PLAY_SERVICES_RESOLUTION_REQUEST = 101;
+    private static final int RIDER_ON_THE_WAY = 1;
+    private static final int PACKAGE_RECEIVED = 2;
+    private static final int ORDER_DELIVERED = 3;
+    private static final String RIDER_RECEIVED_PACKAGE = "I have the package";
+    private static final String RIDER_DELIVERED_PACKAGE = "I delivered the package";
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int[] COLORS = new int[]{R.color.colorPrimary, R.color.error};
+    private static int tripStatus = RIDER_ON_THE_WAY;
+    private static int UPDATE_INTERVAL = 5000;
+    private static int FASTEST_INTERVAL = 3000;
+    private static int DISPLACEMENT = 10;
+    private static LatLng origin, destination;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
     private View rootView;
-
-    // for getting the route
-    private List<Polyline> polylines;
-    private static final int[] COLORS = new int[]{R.color.colorPrimary, R.color.error};
-
-
-    private static int UPDATE_INTERVAL = 5000;
-    private static int FASTEST_INTERVAL = 3000;
-    private static int DISPLACEMENT = 10;
-    Marker mRiderMarker;
-
-    private static LatLng origin, destination;
-
-    DatabaseReference ref;
-    GeoFire geoFire;
-
-
+    private GoogleMap mMap;
+    private OrderInfoModel orderInfo;
+    private List<Polyline> polylines; // for getting the route
+    private Marker mRiderMarker;
+    private DatabaseReference ref;
+    private GeoFire geoFire;
     // widgets
-    private Button btnCallClient, btnStartTrip;
+    private Button btnCallClient, btnTripStatus, btnCancelTrip;
     private TextView txtClientName;
     private ImageView clientProfilePhoto;
+    // Listeners
+    private Button.OnClickListener btnCancelTripListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.e(TAG, "Cancel trip btn has been clicked");
+            Snackbar.make(btnCancelTrip, "Trip canceled successfully", Snackbar.LENGTH_LONG).show();
+
+            String riderToken = orderInfo.getTransporter().getApi_token();
+            final String orderId = String.valueOf(orderInfo.getOrder().getId());
+            String cancel = "Rider canceled order";
+            TripModel tripModel = new TripModel(riderToken, orderId, cancel);
+
+            // Updating Firebase db.
+            Order order = orderInfo.getOrder();
+            order.setStatus(4);
+            DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId);
+            orderRef.setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.e(TAG, "Trip canceled successfully, Order status: 4");
+                }
+            });
+
+            RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+            Call<TripResponse> call = service.cancelOrder(tripModel);
+            call.enqueue(new Callback<TripResponse>() {
+                @Override
+                public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
+                    if (response.body() != null) {
+                        Log.e(TAG, response.body().toString());
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TripResponse> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
+                }
+            });
+
+
+        }
+    };
+
+    private Button.OnClickListener btnCallClientListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.e(TAG, "Call client btn has been clicked");
+
+            try {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + orderInfo.getOrder().getUser().getPhone()));
+                if (ActivityCompat.checkSelfPermission(DriverTracking.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // requesting permission
+                    ActivityCompat.requestPermissions(DriverTracking.this,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            10);
+                    return;
+                }
+                startActivity(callIntent);
+            } catch (ActivityNotFoundException activityException) {
+                Log.e("Calling a Phone Number", "Call failed", activityException);
+            }
+        }
+    };
+
+    private Button.OnClickListener btnTripStatusListener = new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onClick(View v) {
+            Log.wtf(TAG, "Trip btn has been clicked");
+            Log.wtf(TAG, "Trip status:" + String.valueOf(RIDER_ON_THE_WAY));
+            tripStatus++;
+            if (tripStatus == PACKAGE_RECEIVED) {
+                Log.wtf(TAG, "Trip status:" + String.valueOf(PACKAGE_RECEIVED));
+                btnTripStatus.setBackground(getDrawable(R.drawable.transparent_button_red));
+                btnCancelTrip.setVisibility(View.GONE);
+                btnTripStatus.setText(RIDER_DELIVERED_PACKAGE);
+
+                String riderToken = orderInfo.getTransporter().getApi_token();
+                final String orderId = String.valueOf(orderInfo.getOrder().getId());
+                TripModel tripModel = new TripModel(riderToken, orderId);
+
+                RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+                Call<TripResponse> call = service.approveOrder(tripModel);
+                call.enqueue(new Callback<TripResponse>() {
+                    @Override
+                    public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
+                        if (response.body() != null) {
+                            Log.wtf(TAG, response.body().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TripResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                // Updating Firebase db.
+                Order order = orderInfo.getOrder();
+                order.setStatus(PACKAGE_RECEIVED);
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId);
+                orderRef.setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.wtf(TAG, "Rider received the package, Order status: 2");
+                    }
+                });
+
+
+            } else if (tripStatus == ORDER_DELIVERED) {
+                Log.wtf(TAG, "Trip status:" + String.valueOf(ORDER_DELIVERED));
+
+                String riderToken = orderInfo.getTransporter().getApi_token();
+                final String orderId = String.valueOf(orderInfo.getOrder().getId());
+                TripModel tripModel = new TripModel(riderToken, orderId);
+
+                RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+                Call<TripResponse> call = service.receiveOrder(tripModel);
+                call.enqueue(new Callback<TripResponse>() {
+                    @Override
+                    public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
+                        if (response.body() != null) {
+                            Log.wtf(TAG, response.body().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TripResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                // Updating Firebase db.
+                Order order = orderInfo.getOrder();
+                order.setStatus(ORDER_DELIVERED);
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId);
+                orderRef.setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.wtf(TAG, "Rider delivered the package, Order status: 3");
+                        tripStatus = RIDER_ON_THE_WAY;
+                    }
+                });
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,15 +269,11 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
         setupWidgets();
 
-
         createLocationRequest();
         buildGoogleApiClient();
 
-
         ref = FirebaseDatabase.getInstance().getReference("Drivers");
         geoFire = new GeoFire(ref);
-
-
     }
 
     private void setupWidgets() {
@@ -135,29 +291,14 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 .into(clientProfilePhoto);
 
         btnCallClient = findViewById(R.id.call_user_button);
-        btnCallClient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + orderInfo.getOrder().getUser().getPhone()));
-                    if (ActivityCompat.checkSelfPermission(DriverTracking.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        btnCallClient.setOnClickListener(btnCallClientListener);
 
-                        // requesting permission
-                        ActivityCompat.requestPermissions(DriverTracking.this,
-                                new String[]{Manifest.permission.CALL_PHONE},
-                                10);
+        btnTripStatus = findViewById(R.id.trip_status_btn);
+        btnTripStatus.setOnClickListener(btnTripStatusListener);
+        btnTripStatus.setText(RIDER_RECEIVED_PACKAGE);
 
-                        return;
-                    }
-                    startActivity(callIntent);
-                } catch (ActivityNotFoundException activityException) {
-                    Log.e("Calling a Phone Number", "Call failed", activityException);
-                }
-            }
-        });
-
-        btnStartTrip = findViewById(R.id.rider_current_status_btn);
+        btnCancelTrip = findViewById(R.id.cancel_trip_btn);
+        btnCancelTrip.setOnClickListener(btnCancelTripListener);
     }
 
     @Override
@@ -333,7 +474,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
      * draws shortest route between two points,
      * showing all the alternative routes,
      * but I disabled that here
-     *
+     * <p>
      * library : https://github.com/jd-alexander/Google-Directions-Android
      *
      * @param riderLatLng the location of the rider (device)

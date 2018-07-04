@@ -56,4 +56,8 @@ public interface RiderClient {
     @POST("api/vehicle")
     Call<SignUpResponse> getVehicle();
 
+    @POST("api/rider/order/cancel")
+    Call<TripResponse> cancelOrder(TripModel tripModel);
+
+
 }
