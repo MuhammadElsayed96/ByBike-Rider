@@ -212,7 +212,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             }
         });
 
-        
+
         Log.d(TAG, "startLocationUpdates: TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST");
         LatLng riderLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
         moveCamToProperZoom(riderLatLng, origin, destination);
