@@ -72,6 +72,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     private static int DISPLACEMENT = 10;
     Marker mRiderMarker;
 
+    private static LatLng origin, destination;
+
     DatabaseReference ref;
     GeoFire geoFire;
 
@@ -105,12 +107,17 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
+
+        displayOriginDestination();
+
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+
         displayLocation();
         startLocationUpdates();
+
     }
 
     @Override
@@ -127,7 +134,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         displayLocation();
-        displayOriginDestination();
+
     }
 
     private void displayOriginDestination() {
@@ -137,7 +144,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         double destinationLng = Double.parseDouble(orderInfo.getOrder().getReceiver_lng());
 
 
-        LatLng origin = new LatLng(originLat, originLng);
+        origin = new LatLng(originLat, originLng);
 
         MarkerOptions optionsOrg = new MarkerOptions()
                 .position(origin)
@@ -147,7 +154,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
         mMap.addMarker(optionsOrg);
 
-        LatLng destination = new LatLng(destinationLat, destinationLng);
+        destination = new LatLng(destinationLat, destinationLng);
 
         MarkerOptions optionsDes = new MarkerOptions()
                 .position(destination)
@@ -156,10 +163,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_destination));
 
         mMap.addMarker(optionsDes);
-
-        LatLng riderLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-
-        drawRoute(riderLatLng, origin, destination);
 
     }
 
@@ -171,6 +174,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
+
         if (mLastLocation != null) {
             double lat = mLastLocation.getLatitude();
             double lng = mLastLocation.getLongitude();
@@ -179,6 +183,10 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 @Override
                 public void onComplete(String key, DatabaseError error) {
                     handleNewLocation(mLastLocation);
+
+                    LatLng riderLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
+                    drawRoute(riderLatLng, origin, destination);
                 }
             });
 
@@ -203,6 +211,11 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 }
             }
         });
+
+
+        Log.d(TAG, "startLocationUpdates: TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST");
+        LatLng riderLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        moveCamToProperZoom(riderLatLng, origin, destination);
     }
 
     private void handleNewLocation(Location location) {
@@ -220,7 +233,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         Log.d(TAG, String.format("Your location was changed: %f / %f", location.getLatitude(), location.getLongitude()));
         mRiderMarker = mMap.addMarker(options);
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15.0f));
     }
 
     private void createLocationRequest() {
@@ -240,35 +252,19 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         mGoogleApiClient.connect();
     }
 
-
-    /******************** Routing ********************/
-
-
     /******************** Routing ********************/
     /**
      * draws shortest route between two points,
-     * showing all the alternative routes
-     * using this library : https://github.com/jd-alexander/Google-Directions-Android
+     * showing all the alternative routes,
+     * but I disabled that here
      *
+     * library : https://github.com/jd-alexander/Google-Directions-Android
+     *
+     * @param riderLatLng the location of the rider (device)
      * @param origin      the location from which the trip will start
      * @param destination the location where the trip ends
      */
     private void drawRoute(LatLng riderLatLng, LatLng origin, LatLng destination) {
-
-        ereasePolylines();
-
-        // controlling the camera position in a way that show both markers
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-        builder.include(riderLatLng);
-        builder.include(origin);
-        builder.include(destination);
-        LatLngBounds bounds = builder.build();
-
-        int width = getResources().getDisplayMetrics().widthPixels;
-        int height = getResources().getDisplayMetrics().heightPixels;
-        int padding = (int) (width * 0.12);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding));
 
         // getting the route
         Routing routing = new Routing.Builder()
@@ -283,16 +279,38 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     }
 
     /**
-     * removes all routes from map
+     * Moves the camera and changes its zoom in a way
+     * that show all the three Markers.
+     *
+     * @param riderLatLng the location of the rider (device)
+     * @param origin      the location from which the trip will start
+     * @param destination the location where the trip ends
      */
-    private void ereasePolylines() {
-        polylines = new ArrayList<>();
+    private void moveCamToProperZoom(LatLng riderLatLng, LatLng origin, LatLng destination) {
 
-        for (Polyline line : polylines)
-            line.remove();
-        polylines.clear();
+        // controlling the camera position in a way that show both markers
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        builder.include(riderLatLng);
+        builder.include(origin);
+        builder.include(destination);
+        LatLngBounds bounds = builder.build();
+
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.12);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding));
     }
 
+    /**
+     * Removes all the Polyline (routes) from the map.
+     */
+    private void erasePolylines() {
+        if (polylines != null)
+            if (polylines.size() > 0)
+                for (Polyline poly : polylines)
+                    poly.remove();
+    }
 
     @Override
     public void onRoutingFailure(RouteException e) {
@@ -311,9 +329,10 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
-        if (polylines.size() > 0)
-            for (Polyline poly : polylines)
-                poly.remove();
+
+        // removing old polylines
+        erasePolylines();
+
 
         polylines = new ArrayList<>();
         //add route(s) to the map.

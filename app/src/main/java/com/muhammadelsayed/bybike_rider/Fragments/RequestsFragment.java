@@ -81,6 +81,7 @@ public class RequestsFragment extends Fragment {
     private void getOrdersInfo() {
         Log.wtf(TAG, "getOrdersInfo has been instantiated");
 
+
         mOrdersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -94,7 +95,10 @@ public class RequestsFragment extends Fragment {
                         continue;
                     orderList.add(orders);
                 }
-                requestListView.setAdapter(new OrdersAdapter(getActivity(), orderList));
+
+                if (getActivity() != null) {
+                    requestListView.setAdapter(new OrdersAdapter(getActivity(), orderList));
+                }
             }
 
             @Override

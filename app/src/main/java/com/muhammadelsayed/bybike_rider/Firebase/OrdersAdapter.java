@@ -148,7 +148,7 @@ public class OrdersAdapter extends BaseAdapter {
                                 Intent intent = new Intent(context, DriverTracking.class);
                                 intent.putExtra("order_info_model", orderInfo);
                                 context.startActivity(intent);
-                                ((Activity) context).finish();
+//                                ((Activity) context).finish();
                             }
 
                             @Override
