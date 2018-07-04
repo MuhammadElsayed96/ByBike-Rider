@@ -115,7 +115,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                Log.wtf(TAG, "login button onClick: validating input...");
+                Log.wtf(TAG, "login button has been clicked");
                 if (checkValidation()) {
                     Context context = getActivity();
                     final AlertDialog waitingDialog = new SpotsDialog(context, R.style.Custom);

@@ -286,16 +286,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
             double lat = mLastLocation.getLatitude();
             double lng = mLastLocation.getLongitude();
 
-            geoFire.setLocation("You", new GeoLocation(lat, lng), new GeoFire.CompletionListener() {
-                @Override
-                public void onComplete(String key, DatabaseError error) {
-                    handleNewLocation(mLastLocation);
-                }
-            });
+//            geoFire.setLocation("You", new GeoLocation(lat, lng), new GeoFire.CompletionListener() {
+//                @Override
+//                public void onComplete(String key, DatabaseError error) {
+            handleNewLocation(mLastLocation);
+//                }
+//            });
 
-            Log.d(TAG, String.format("Your location was changed: %f / %f", lat, lng));
+            Log.wtf(TAG, String.format("Your location was changed: %f / %f", lat, lng));
         } else {
-            Log.d(TAG, "cannot get your location");
+            Log.wtf(TAG, "cannot get your location");
         }
     }
 }
