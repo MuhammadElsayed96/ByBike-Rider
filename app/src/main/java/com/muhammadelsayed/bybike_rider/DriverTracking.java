@@ -1,15 +1,22 @@
 package com.muhammadelsayed.bybike_rider;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.directions.route.AbstractRouting;
@@ -40,6 +47,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
+import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +87,11 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     GeoFire geoFire;
 
 
+    // widgets
+    private Button btnCallClient, btnStartTrip;
+    private TextView txtClientName;
+    private ImageView clientProfilePhoto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +105,9 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             orderInfo = (OrderInfoModel) getIntent().getExtras().getSerializable("order_info_model");
         }
 
+        setupWidgets();
+
+
         createLocationRequest();
         buildGoogleApiClient();
 
@@ -101,6 +118,43 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
     }
 
+    private void setupWidgets() {
+        // setting up widgets
+        txtClientName = findViewById(R.id.user_name_textview);
+        txtClientName.setText(orderInfo.getOrder().getUser().getName());
+
+        clientProfilePhoto = findViewById(R.id.user_profile_image);
+        Picasso.get()
+                .load(RetrofitClientInstance.BASE_URL + orderInfo.getOrder().getUser().getImage())
+                .placeholder(R.drawable.trump)
+                .error(R.drawable.trump)
+                .into(clientProfilePhoto);
+
+        btnCallClient = findViewById(R.id.call_user_button);
+        btnCallClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + orderInfo.getOrder().getUser().getPhone()));
+                    if (ActivityCompat.checkSelfPermission(DriverTracking.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                        // requesting permission
+                        ActivityCompat.requestPermissions(DriverTracking.this,
+                                new String[]{Manifest.permission.CALL_PHONE},
+                                10);
+
+                        return;
+                    }
+                    startActivity(callIntent);
+                } catch (ActivityNotFoundException activityException) {
+                    Log.e("Calling a Phone Number", "Call failed", activityException);
+                }
+            }
+        });
+
+        btnStartTrip = findViewById(R.id.rider_current_status_btn);
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -357,4 +411,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     public void onRoutingCancelled() {
 
     }
+
+
 }
