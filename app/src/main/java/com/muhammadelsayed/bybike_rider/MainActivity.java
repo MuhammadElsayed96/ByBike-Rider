@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillRiderApplication() {
-
+        Log.wtf(TAG, "fillRiderApplication() has been instantiated");
         RiderModel riderModel = RiderSharedPreferences.ReadFromPreferences(this);
         ((RiderApplication) this.getApplication()).setCurrentRider(riderModel);
     }
@@ -230,6 +230,8 @@ public class MainActivity extends AppCompatActivity {
      * Then, the method puts the created fragments in the "mFragmentsList"
      */
     private void buildFragmentsList() {
+        Log.wtf(TAG, "buildFragmentsList() has been instantiated");
+
         HomeFragment homeFragment = HomeFragment.homeFragmentInstance();
         EarningsFragment earningsFragment = EarningsFragment.earningsFragmentInstance("Earnings Fragment");
         RatingFragment ratingFragment = RatingFragment.ratingFragmentInstance("Rating Fragment");
@@ -250,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
      * @param tag The tag name for the fragment.
      */
     private void switchFragment(int pos, String tag) {
+        Log.wtf(TAG, "switchFragment() has been instantiated");
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_fragment_holder, mFragmentsList.get(pos), tag)
@@ -267,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressLint("RestrictedApi")
     public static void disableShiftMode(BottomNavigationView view) {
+        Log.wtf(TAG, "disableShiftMode() has been instantiated");
+
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {
             Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");

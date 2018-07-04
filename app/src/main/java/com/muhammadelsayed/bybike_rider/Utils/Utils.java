@@ -1,6 +1,10 @@
 package com.muhammadelsayed.bybike_rider.Utils;
 
+import android.util.Log;
+
 public class Utils {
+
+    private static final String TAG = Utils.class.getSimpleName();
 
     // Email Validation pattern
     public static final String regEx = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b";
@@ -19,6 +23,8 @@ public class Utils {
      * @return Strign array holding the first name, and the last name.
      */
     public static String[] splitName(String name) {
+        Log.wtf(TAG, "splitName() has been instantiated");
+
         String[] names = name.split(" ", 2);
         return names;
     }

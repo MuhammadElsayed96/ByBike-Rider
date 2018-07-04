@@ -1,6 +1,7 @@
 package com.muhammadelsayed.bybike_rider.Utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.Toast;
 import com.muhammadelsayed.bybike_rider.R;
 
 public class CustomToast {
+    private static final String TAG = CustomToast.class.getSimpleName();
 
     public void showToast(Context context, View view, String error) {
+        Log.wtf(TAG, "showToast() has been instantiated");
 
         // Layout Inflater for inflating custom view
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

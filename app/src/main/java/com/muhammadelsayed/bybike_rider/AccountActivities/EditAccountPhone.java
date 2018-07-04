@@ -94,12 +94,15 @@ public class EditAccountPhone extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account_phone);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Log.wtf(TAG, "onCreate() has been instantiated");
 
         setupWidgets();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.wtf(TAG, "onOptionsItemSelected() has been instantiated");
+
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
@@ -112,6 +115,7 @@ public class EditAccountPhone extends AppCompatActivity {
      * sets up all activity widgets
      */
     private void setupWidgets() {
+        Log.wtf(TAG, "setupWidgets() has been instantiated");
 
         mEtPhone = findViewById(R.id.et_edit_phone);
         updatePhoneCv = findViewById(R.id.update_phone_cardview);
@@ -123,6 +127,7 @@ public class EditAccountPhone extends AppCompatActivity {
 
 
     private boolean checkValidation() {
+        Log.wtf(TAG, "checkValidation() has been instantiated");
 
         boolean isValid = true;
 

@@ -107,7 +107,7 @@ public class RatingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate has been instantiated");
+        Log.wtf(TAG, "onCreate() has been instantiated");
         if (getArguments() != null) {
             mTitle = getArguments().getString(ARG_TITLE);
         }
@@ -115,6 +115,8 @@ public class RatingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView() has been instantiated");
+
         context = getActivity();
         waitingDialog = new SpotsDialog(context, R.style.Custom);
         waitingDialog.setCancelable(false);
@@ -131,14 +133,14 @@ public class RatingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "onViewCreated() ");
-        Log.d(TAG, "getRiderRatings() has been instantiated");
+        Log.wtf(TAG, "onViewCreated() has been instantiated");
         getRiderRatings();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.wtf(TAG, "onDetach() has been instantiated");
     }
 
 
@@ -146,7 +148,7 @@ public class RatingFragment extends Fragment {
      * sets up all Fragment Views
      */
     private void initViews() {
-        Log.d(TAG, "initViews: initiate the view for the RatingFragment ");
+        Log.wtf(TAG, "initViews() has been instantiated");
         // Inflate the layout for this fragment
         mTvFiveStareRatings = rootView.findViewById(R.id.tv_five_star_ratings);
         mLlStarRating = rootView.findViewById(R.id.ll_star_rating);
@@ -158,14 +160,14 @@ public class RatingFragment extends Fragment {
     }
 
     private void setListeners() {
-        Log.d(TAG, "setListeners: setting listeners for the RatingFragment");
+        Log.wtf(TAG, "setListeners() has been instantiated");
         mLlAcceptanceRate.setOnClickListener(mOnLlAcceptanceRateClickListener);
         mLlCancellationRate.setOnClickListener(mOnLlCancellationRateClickListener);
         mLlStarRating.setOnClickListener(mOnLlStarRatingClickListener);
     }
 
     private void getRiderRatings() {
-        Log.d(TAG, "getRiderRatings() has been instantiated");
+        Log.wtf(TAG, "getRiderRatings() has been instantiated");
 
         // getting current user
         RiderModel currentUser = ((RiderApplication) context.getApplicationContext()).getCurrentRider();
@@ -201,10 +203,12 @@ public class RatingFragment extends Fragment {
     }
 
     private void showProgressDialog() {
+        Log.wtf(TAG, "showProgressDialog() has been instantiated");
         waitingDialog.show();
     }
 
     private void hideProgressDialog() {
+        Log.wtf(TAG, "hideProgressDialog() has been instantiated");
         waitingDialog.dismiss();
     }
 

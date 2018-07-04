@@ -3,6 +3,7 @@ package com.muhammadelsayed.bybike_rider.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.muhammadelsayed.bybike_rider.R;
 public class EarningsFragment extends Fragment {
 
     // the fragment initialization parameters
+    private static final String TAG = EarningsFragment.class.getSimpleName();
     private static final String ARG_TITLE = "Earning Fragment";
     private String mTitle;
     private TextView mTvEarningsFragment;
@@ -45,6 +47,7 @@ public class EarningsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.wtf(TAG, "onCreate() has been instantiated");
         if (getArguments() != null) {
             mTitle = getArguments().getString(ARG_TITLE);
         }
@@ -53,6 +56,8 @@ public class EarningsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView() has been instantiated");
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_earnings, container, false);
 
@@ -66,5 +71,7 @@ public class EarningsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.wtf(TAG, "onDetach() has been instantiated");
+
     }
 }

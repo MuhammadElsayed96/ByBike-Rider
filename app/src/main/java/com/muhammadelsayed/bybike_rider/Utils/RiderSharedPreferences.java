@@ -2,6 +2,7 @@ package com.muhammadelsayed.bybike_rider.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
@@ -9,7 +10,10 @@ import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
 
 public class RiderSharedPreferences {
+    private static final String TAG = RiderSharedPreferences.class.getSimpleName();
+
     public static void SaveToPreferences(Context context, RiderModel rider) {
+        Log.wtf(TAG, "SaveToPreferences() has been instantiated");
 
         String currentRiderToken = rider.getToken();
         Rider currentRider = rider.getRider();
@@ -35,6 +39,8 @@ public class RiderSharedPreferences {
     }
 
     public static RiderModel ReadFromPreferences(Context context) {
+        Log.wtf(TAG, "ReadFromPreferences() has been instantiated");
+
         RiderModel riderModel;
         String riderToken;
         String id;

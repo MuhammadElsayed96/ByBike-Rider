@@ -3,6 +3,7 @@ package com.muhammadelsayed.bybike_rider.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
 
 public class ForgotPasswordFragment extends Fragment implements View.OnClickListener {
 
-    public static final String TAG = "FORGOT_PASSWORD_FRAGMENT";
+    public static final String TAG = ForgotPasswordFragment.class.getSimpleName();
     private View mView;
     private EditText mEmail;
     private TextView mSubmit, mBack;
@@ -29,6 +30,8 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView() has been instantiated");
+
         mView = inflater.inflate(R.layout.forgot_password_layout, container, false);
         initViews();
         setListeners();
@@ -37,6 +40,8 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
     // Initialize the views
     private void initViews() {
+        Log.wtf(TAG, "initViews() has been instantiated");
+
         mEmail = mView.findViewById(R.id.registered_emailid);
         mSubmit = mView.findViewById(R.id.forgot_button);
         mBack = mView.findViewById(R.id.backToLoginBtn);
@@ -46,6 +51,8 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
     // Set Listeners over buttons
     private void setListeners() {
+        Log.wtf(TAG, "setListeners() has been instantiated");
+
         mSubmit.setOnClickListener(this);
         mBack.setOnClickListener(this);
     }
@@ -55,6 +62,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.backToLoginBtn:
+                Log.wtf(TAG, "Back to login");
 
                 // Replace Login Fragment on Back Presses
                 mFragmentManager.popBackStack();
@@ -67,6 +75,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
                 break;
 
             case R.id.forgot_button:
+                Log.wtf(TAG, "forget password button clicked");
 
                 // Call Submit button task
                 submitButtonTask();
@@ -76,6 +85,8 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     }
 
     private void submitButtonTask() {
+        Log.wtf(TAG, "submitButtonTask() has been instantiated");
+
         String email = mEmail.getText().toString();
 
         // Pattern for email id validation
@@ -104,6 +115,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        Log.wtf(TAG, "onResume() has been instantiated");
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();

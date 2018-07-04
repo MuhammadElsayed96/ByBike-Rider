@@ -78,6 +78,7 @@ public class OrdersAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        Log.wtf(TAG, "getView() has been instantiated");
 
         final ViewHolder holder;
         if (convertView == null) {
@@ -130,7 +131,6 @@ public class OrdersAdapter extends BaseAdapter {
                 call.enqueue(new Callback<TripResponse>() {
                     @Override
                     public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
-
 
                         Log.d(TAG, response.body().getMessage());
                         Toast.makeText(context, "Trip Accepted", Toast.LENGTH_LONG).show();

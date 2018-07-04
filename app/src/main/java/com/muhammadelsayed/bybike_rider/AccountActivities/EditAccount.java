@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 public class EditAccount extends AppCompatActivity {
 
+    private static final String TAG = EditAccount.class.getSimpleName();
     private LinearLayout mLlEditPhone;
     private LinearLayout mLlEditPassword;
     private TextView mTvPhoneInfo;
@@ -51,15 +53,17 @@ public class EditAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
+        Log.wtf(TAG, "onCreate() has been instantiated");
 
         setupWidgets();
-
     }
 
     /**
      * sets up all activity widgets
      */
     private void setupWidgets() {
+        Log.wtf(TAG, "setupWidgets() has been instantiated");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mLlEditPhone = findViewById(R.id.phone_layout);
@@ -85,6 +89,8 @@ public class EditAccount extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.wtf(TAG, "onStart() has been instantiated");
+
         Picasso.get()
                 .load(RetrofitClientInstance.BASE_URL + currentRider.getRider().getImage())
                 .placeholder(R.drawable.trump)
@@ -94,6 +100,8 @@ public class EditAccount extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.wtf(TAG, "onOptionsItemSelected() has been instantiated");
+
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
@@ -104,6 +112,8 @@ public class EditAccount extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.wtf(TAG, "onActivityResult() has been instantiated");
+
         if (requestCode == EDIT_PHONE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 currentRider = ((RiderApplication) getApplication()).getCurrentRider();

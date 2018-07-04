@@ -137,6 +137,8 @@ public class AccountFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreate() has been instantiated");
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mTitle = getArguments().getString(ARG_TITLE);
@@ -146,6 +148,8 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView() has been instantiated");
+
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
@@ -157,13 +161,15 @@ public class AccountFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "onViewCreated has been instantiated");
+        Log.wtf(TAG, "onViewCreated() has been instantiated");
         getRiderInfo();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.wtf(TAG, "onDetach() has been instantiated");
+
     }
 
 
@@ -171,6 +177,8 @@ public class AccountFragment extends Fragment {
      * sets up all activity widgets
      */
     private void setupWidgets() {
+        Log.wtf(TAG, "setupWidgets() has been instantiated");
+
         mClEditRiderProfile = rootView.findViewById(R.id.cl_edit_rider_profile);
         mClRiderProfile = rootView.findViewById(R.id.cl_rider_profile);
         mRiderImage = rootView.findViewById(R.id.profile_image);
@@ -200,7 +208,7 @@ public class AccountFragment extends Fragment {
 
 
     private void getRiderInfo() {
-        Log.d(TAG, "getRiderInfo() has been instantiated");
+        Log.wtf(TAG, "getRiderInfo() has been instantiated");
         String riderToken = currentUser.getToken();
 
         RiderClient service = RetrofitClientInstance.getRetrofitInstance()
@@ -235,6 +243,8 @@ public class AccountFragment extends Fragment {
      * @return the real path of that uri
      */
     private String getRealPathFromURI(Uri uri) {
+        Log.wtf(TAG, "getRealPathFromURI() has been instantiated");
+
         String filePath = "";
         if (uri.getHost().contains("com.android.providers.media")) {
             // Image pick from recent
@@ -269,6 +279,7 @@ public class AccountFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.wtf(TAG, "onActivityResult() has been instantiated");
 
         if (requestCode == GALLERY_INTENT_REQUEST_CODE) {
 

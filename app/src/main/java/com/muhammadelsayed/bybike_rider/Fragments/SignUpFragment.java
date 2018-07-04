@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class SignUpFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "SING_UP_FRAGMENT";
+    private static final String TAG = SignUpFragment.class.getSimpleName();
     private View view;
     private EditText mEmail, mFirstName, mLastName, mPhone, mPassword;
     private FloatingActionButton fab;
@@ -45,6 +45,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private String password;
 
     public static SignUpFragment newSignUpFragmentInstance(String fName, String lName, String email, String phone) {
+        Log.wtf(TAG, "newSignUpFragmentInstance() has been instantiated");
+
         SignUpFragment fragment = new SignUpFragment();
         Bundle args = new Bundle();
         args.putString(ARG_FNAME, fName);
@@ -58,13 +60,15 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.wtf(TAG, "onCreate() has been instantiated");
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.signup_layout, container, false);
-        Log.d(TAG, "onCreateView: started !!");
+        Log.wtf(TAG, "onCreateView() has been instantiated");
         initViews();
         setListeners();
 
@@ -84,7 +88,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
 
     private void initViews() {
-        Log.d(TAG, "initViews: initializing the view...");
+        Log.wtf(TAG, "initViews() has been instantiated");
         mFragmentManager = getActivity().getSupportFragmentManager();
         fab = view.findViewById(R.id.continue_signUpBtn);
         mFirstName = view.findViewById(R.id.input_fname);
@@ -96,6 +100,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setListeners() {
+        Log.wtf(TAG, "setListeners() has been instantiated");
+
         mLogIn.setOnClickListener(this);
         fab.setOnClickListener(this);
     }
@@ -107,6 +113,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
      */
 
     private boolean checkValidation() {
+        Log.wtf(TAG, "checkValidation() has been instantiated");
 
         boolean isValid = true;
 
@@ -159,6 +166,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.alreadyUser:
+                Log.wtf(TAG, "already user view has been clicked");
+
                 mFragmentManager.popBackStack();
                 mFragmentManager
                         .beginTransaction()
@@ -168,6 +177,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                         .commit();
                 break;
             case R.id.continue_signUpBtn:
+                Log.wtf(TAG, "continue sign up button has been clicked");
 
                 if (checkValidation()) {
 
@@ -187,6 +197,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        Log.wtf(TAG, "onResume() has been instantiated");
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();

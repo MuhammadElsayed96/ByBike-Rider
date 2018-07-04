@@ -51,6 +51,7 @@ public class ExtendedSignUpFragment extends Fragment {
     private CardView.OnClickListener onCvSignUpListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.wtf(TAG, "SignUp clicked");
 
             if (checkValidation()) {
 
@@ -122,6 +123,8 @@ public class ExtendedSignUpFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView() has been instantiated");
+
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_extended_sign_up, container, false);
         initViews();
@@ -131,7 +134,7 @@ public class ExtendedSignUpFragment extends Fragment {
 
 
     private void initViews() {
-        Log.d(TAG, "initViews: initializing the view...");
+        Log.wtf(TAG, "initViews() has been instantiated");
         mFragmentManager = getActivity().getSupportFragmentManager();
         mSignUpButton = view.findViewById(R.id.signUpBtn);
         transportationSpinner = view.findViewById(R.id.vehicle_spinner);
@@ -147,6 +150,7 @@ public class ExtendedSignUpFragment extends Fragment {
     }
 
     private void setListeners() {
+        Log.wtf(TAG, "setListeners() has been instantiated");
         mSignUpButton.setOnClickListener(onCvSignUpListener);
         transportationSpinner.setOnItemSelectedListener(onSpinnerListener);
     }
@@ -154,6 +158,7 @@ public class ExtendedSignUpFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.wtf(TAG, "onResume() has been instantiated");
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -184,7 +189,7 @@ public class ExtendedSignUpFragment extends Fragment {
      */
     private boolean checkValidation() {
         boolean isValid = true;
-        Log.d(TAG, "checkValidation: validating user input...");
+        Log.wtf(TAG, "checkValidation() has been instantiated");
 
         vehicleData = mVehicleData.getText().toString();
 

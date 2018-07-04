@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     private View mRootView;
 
     private Boolean mLocationPermissionGranted = false;
-    public static String TAG = "HomeFragment";
+    public static final String TAG = HomeFragment.class.getSimpleName();
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 99;
     public static final int GOOGLE_PLAY_SERVICES_RESOLUTION_REQUEST = 101;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -93,6 +93,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.wtf(TAG, "onCreate() has been instantiated");
+
         buildGoogleApiClient();
         createLocationRequest();
 
@@ -107,8 +109,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Log.wtf(TAG, "onCreateView() has been instantiated");
+
+        mRootView = inflater.inflate(R.layout.fragment_home, container, false);
         mMapView = mRootView.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
 
@@ -128,6 +132,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.wtf(TAG, "onRequestPermissionsResult() has been instantiated");
+
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -139,6 +145,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.wtf(TAG, "onMapReady() has been instantiated");
+
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setTrafficEnabled(true);
@@ -147,6 +155,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onLowMemory() {
+        Log.wtf(TAG, "onLowMemory() has been instantiated");
         super.onLowMemory();
         mMapView.onLowMemory();
     }
@@ -154,6 +163,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onPause() {
         super.onPause();
+        Log.wtf(TAG, "onPause() has been instantiated");
+
         if (mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
         mMapView.onPause();
@@ -162,39 +173,49 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.wtf(TAG, "onDestroy() has been instantiated");
+
         mMapView.onDestroy();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.wtf(TAG, "onResume() has been instantiated");
+
         mGoogleApiClient.connect();
         mMapView.onResume();
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.wtf(TAG, "onLocationChanged() has been instantiated");
+
         mLastLocation = location;
         displayLocation();
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.wtf(TAG, "onConnected() has been instantiated");
+
         displayLocation();      // puts tracked marker on the map.
         startLocationUpdates(); // Tracks lastLocation
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        Log.wtf(TAG, "onConnectionSuspended() has been instantiated");
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.wtf(TAG, "connection Faild, maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan");
+        Log.wtf(TAG, "onConnectionFailed() has been instantiated; connection Faild, maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan");
     }
 
     private void handleNewLocation(Location location) {
+        Log.wtf(TAG, "handleNewLocation() has been instantiated");
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         if (currentLocation != null)
@@ -221,6 +242,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void buildGoogleApiClient() {
+        Log.wtf(TAG, "buildGoogleApiClient() has been instantiated");
+
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -230,6 +253,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void startLocationUpdates() {
+        Log.wtf(TAG, "startLocationUpdates() has been instantiated");
+
         if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -249,6 +274,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void displayLocation() {
+        Log.wtf(TAG, "displayLocation() has been instantiated");
 
         if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

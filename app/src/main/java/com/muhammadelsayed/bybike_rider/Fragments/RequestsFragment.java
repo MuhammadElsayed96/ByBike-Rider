@@ -41,6 +41,8 @@ public class RequestsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView() has been instantiated");
+
         rootView = inflater.inflate(R.layout.simple_requests_list_view, container, false);
 
         setupWidgets();
@@ -50,6 +52,8 @@ public class RequestsFragment extends Fragment {
     }
 
     public static RequestsFragment requestsFragmentInstance(String title) {
+        Log.wtf(TAG, "requestsFragmentInstance() has been instantiated");
+
         RequestsFragment fragment = new RequestsFragment();
         Bundle args = new Bundle();
         args.putString(TAG, title);
@@ -60,6 +64,8 @@ public class RequestsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.wtf(TAG, "onCreate() has been instantiated");
+
         if (getArguments() != null) {
             mTitle = getArguments().getString(TAG);
         }
@@ -67,10 +73,11 @@ public class RequestsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated has been instantiated");
+        Log.wtf(TAG, "onViewCreated() has been instantiated");
     }
 
     private void setupWidgets() {
+        Log.wtf(TAG, "setupWidgets() has been instantiated");
 
         requestListView = rootView.findViewById(R.id.simpleListView);
         orderList = new ArrayList<>();
@@ -79,8 +86,7 @@ public class RequestsFragment extends Fragment {
     }
 
     private void getOrdersInfo() {
-        Log.wtf(TAG, "getOrdersInfo has been instantiated");
-
+        Log.wtf(TAG, "getOrdersInfo() has been instantiated");
 
         mOrdersRef.addValueEventListener(new ValueEventListener() {
             @Override

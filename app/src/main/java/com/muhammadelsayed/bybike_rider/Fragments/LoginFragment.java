@@ -60,6 +60,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView() has been instantiated");
+
         view = inflater.inflate(R.layout.login_layout, container, false);
         initViews();
         setListeners();
@@ -70,7 +72,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
      * sets up all Fragment Views
      */
     private void initViews() {
-        Log.d(TAG, "initViews: initializing the view...");
+        Log.wtf(TAG, "initViews() has been instantiated");
         mFragmentManager = getActivity().getSupportFragmentManager();
 
         mEmail = view.findViewById(R.id.input_email);
@@ -85,7 +87,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setListeners() {
-        Log.d(TAG, "setListeners: setting listeners for corresponding widgets");
+        Log.wtf(TAG, "setListeners() has been instantiated");
         mLoginButton.setOnClickListener(this);
         mSignUp.setOnClickListener(this);
         mForgotPassword.setOnClickListener(this);
@@ -113,7 +115,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                Log.d(TAG, "onClick: validating input...");
+                Log.wtf(TAG, "login button onClick: validating input...");
                 if (checkValidation()) {
                     Context context = getActivity();
                     final AlertDialog waitingDialog = new SpotsDialog(context, R.style.Custom);
@@ -136,9 +138,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     call.enqueue(new Callback<RiderModel>() {
                         @Override
                         public void onResponse(@NonNull Call<RiderModel> call, Response<RiderModel> response) {
-
                             if (response.body() != null) {
-
                                 currentRider = response.body();
                                 Log.wtf(TAG, "onResponse: " + response.body());
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -165,6 +165,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.createAccount:
+                Log.wtf(TAG, "Create account clicked");
+
                 mFragmentManager.beginTransaction()
                         .addToBackStack(TAG)
                         //.setCustomAnimations(R.anim.right_enter, R.anim.left_out)
@@ -191,7 +193,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
      */
     private boolean checkValidation() {
         boolean isValid = true;
-        Log.d(TAG, "checkValidation: validating user input...");
+        Log.wtf(TAG, "checkValidation() has been instantiated");
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
@@ -225,6 +227,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        Log.wtf(TAG, "onResume() has been instantiated");
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();

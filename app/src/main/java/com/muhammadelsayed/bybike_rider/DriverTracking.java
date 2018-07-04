@@ -96,6 +96,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_tracking);
+
+        Log.wtf(TAG, "onCreate() has been instantiated");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -119,6 +121,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     }
 
     private void setupWidgets() {
+        Log.wtf(TAG, "setupWidgets() has been instantiated");
+
         // setting up widgets
         txtClientName = findViewById(R.id.user_name_textview);
         txtClientName.setText(orderInfo.getOrder().getUser().getName());
@@ -158,6 +162,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.wtf(TAG, "onMapReady() has been instantiated");
+
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
@@ -168,6 +174,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.wtf(TAG, "onConnected() has been instantiated");
 
         displayLocation();
         startLocationUpdates();
@@ -176,22 +183,28 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onConnectionSuspended(int i) {
+        Log.wtf(TAG, "onConnectionSuspended() has been instantiated");
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.wtf(TAG, "onConnectionFailed() has been instantiated");
 
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.wtf(TAG, "onLocationChanged() has been instantiated");
+
         mLastLocation = location;
         displayLocation();
 
     }
 
     private void displayOriginDestination() {
+        Log.wtf(TAG, "displayOriginDestination() has been instantiated");
+
         double originLat = Double.parseDouble(orderInfo.getOrder().getSender_Lat());
         double originLng = Double.parseDouble(orderInfo.getOrder().getSender_Lng());
         double destinationLat = Double.parseDouble(orderInfo.getOrder().getReceiver_lat());
@@ -221,6 +234,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     }
 
     private void displayLocation() {
+        Log.wtf(TAG, "displayLocation() has been instantiated");
 
         if (ContextCompat.checkSelfPermission(this, COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -251,6 +265,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     }
 
     private void startLocationUpdates() {
+        Log.wtf(TAG, "startLocationUpdates() has been instantiated");
+
         if (ContextCompat.checkSelfPermission(this, COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -273,6 +289,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     }
 
     private void handleNewLocation(Location location) {
+        Log.wtf(TAG, "handleNewLocation() has been instantiated");
+
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         if (mRiderMarker != null)
@@ -290,6 +308,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     }
 
     private void createLocationRequest() {
+        Log.wtf(TAG, "createLocationRequest() has been instantiated");
+
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
@@ -298,6 +318,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     }
 
     private void buildGoogleApiClient() {
+        Log.wtf(TAG, "buildGoogleApiClient() has been instantiated");
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -319,6 +341,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
      * @param destination the location where the trip ends
      */
     private void drawRoute(LatLng riderLatLng, LatLng origin, LatLng destination) {
+        Log.wtf(TAG, "drawRoute() has been instantiated");
 
         // getting the route
         Routing routing = new Routing.Builder()
@@ -341,6 +364,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
      * @param destination the location where the trip ends
      */
     private void moveCamToProperZoom(LatLng riderLatLng, LatLng origin, LatLng destination) {
+        Log.wtf(TAG, "moveCamToProperZoom() has been instantiated");
 
         // controlling the camera position in a way that show both markers
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -360,6 +384,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
      * Removes all the Polyline (routes) from the map.
      */
     private void erasePolylines() {
+        Log.wtf(TAG, "erasePolylines() has been instantiated");
+
         if (polylines != null)
             if (polylines.size() > 0)
                 for (Polyline poly : polylines)
@@ -368,6 +394,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onRoutingFailure(RouteException e) {
+        Log.wtf(TAG, "onRoutingFailure() has been instantiated");
+
         if (e != null) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.d(TAG, "onRoutingFailure: Error: " + e.getMessage());
@@ -378,20 +406,19 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onRoutingStart() {
-
+        Log.wtf(TAG, "onRoutingStart() has been instantiated");
     }
 
     @Override
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
+        Log.wtf(TAG, "onRoutingSuccess() has been instantiated");
 
         // removing old polylines
         erasePolylines();
 
-
         polylines = new ArrayList<>();
         //add route(s) to the map.
         for (int i = 0; i < route.size(); i++) {
-
             //In case of more than 5 alternative routes
             int colorIndex = i % COLORS.length;
 
@@ -403,14 +430,12 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             polylines.add(polyline);
 
         }
-
-
     }
 
     @Override
     public void onRoutingCancelled() {
+        Log.wtf(TAG, "onRoutingCancelled() has been instantiated");
 
     }
-
 
 }

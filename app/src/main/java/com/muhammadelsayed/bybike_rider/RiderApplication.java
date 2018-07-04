@@ -1,6 +1,7 @@
 package com.muhammadelsayed.bybike_rider;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 
@@ -17,7 +18,7 @@ import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 
 public class RiderApplication extends Application {
 
-
+    private static final String TAG = RiderApplication.class.getSimpleName();
     private RiderModel currentRider;
 
 
@@ -25,14 +26,18 @@ public class RiderApplication extends Application {
     }
 
     public RiderApplication(RiderModel currentRider) {
+
         this.currentRider = currentRider;
     }
 
     public RiderModel getCurrentRider() {
+        Log.wtf(TAG, "getCurrentRider() has been instantiated");
+
         return currentRider;
     }
 
     public void setCurrentRider(RiderModel currentRider) {
+        Log.wtf(TAG, "setCurrentRider() has been instantiated");
         this.currentRider = currentRider;
     }
 }

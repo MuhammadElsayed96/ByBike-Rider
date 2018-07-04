@@ -10,6 +10,7 @@ import me.grantland.widget.AutofitTextView;
 
 public class CancellationDetails extends AppCompatActivity {
 
+
     private AutofitTextView mTvCancellationRate;
 
     @Override

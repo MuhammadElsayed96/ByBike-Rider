@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.muhammadelsayed.bybike_rider.Fragments.LoginFragment;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
@@ -20,6 +21,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        Log.wtf(TAG, "onCreate() has been instantiated");
 
         fragmentManager = getSupportFragmentManager();
 
@@ -43,6 +45,7 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.wtf(TAG, "onBackPressed() has been instantiated");
 
         int count = fragmentManager.getBackStackEntryCount();
 
