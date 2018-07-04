@@ -126,7 +126,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
 
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {

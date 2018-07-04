@@ -10,7 +10,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.ConnectionResult;
@@ -25,19 +31,25 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.LinkedTransferQueue;
 
 public class DriverTracking extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener {
+        com.google.android.gms.location.LocationListener,
+        RoutingListener {
 
     private static final String TAG = DriverTracking.class.getSimpleName();
     private GoogleMap mMap;
@@ -49,6 +61,11 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
     private View rootView;
+
+    // for getting the route
+    private List<Polyline> polylines;
+    private static final int[] COLORS = new int[]{R.color.colorPrimary, R.color.error};
+
 
     private static int UPDATE_INTERVAL = 5000;
     private static int FASTEST_INTERVAL = 3000;
@@ -88,7 +105,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
-        displayOriginDestination();
     }
 
     @Override
@@ -111,6 +127,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         displayLocation();
+        displayOriginDestination();
     }
 
     private void displayOriginDestination() {
@@ -139,6 +156,10 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_destination));
 
         mMap.addMarker(optionsDes);
+
+        LatLng riderLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
+        drawRoute(riderLatLng, origin, destination);
 
     }
 
@@ -217,5 +238,104 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
+    }
+
+
+    /******************** Routing ********************/
+
+
+    /******************** Routing ********************/
+    /**
+     * draws shortest route between two points,
+     * showing all the alternative routes
+     * using this library : https://github.com/jd-alexander/Google-Directions-Android
+     *
+     * @param origin      the location from which the trip will start
+     * @param destination the location where the trip ends
+     */
+    private void drawRoute(LatLng riderLatLng, LatLng origin, LatLng destination) {
+
+        ereasePolylines();
+
+        // controlling the camera position in a way that show both markers
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        builder.include(riderLatLng);
+        builder.include(origin);
+        builder.include(destination);
+        LatLngBounds bounds = builder.build();
+
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.12);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding));
+
+        // getting the route
+        Routing routing = new Routing.Builder()
+                .travelMode(AbstractRouting.TravelMode.DRIVING)
+                .withListener(this)
+                .alternativeRoutes(false)
+                .waypoints(riderLatLng, origin, destination)
+                .build();
+
+        routing.execute();
+
+    }
+
+    /**
+     * removes all routes from map
+     */
+    private void ereasePolylines() {
+        polylines = new ArrayList<>();
+
+        for (Polyline line : polylines)
+            line.remove();
+        polylines.clear();
+    }
+
+
+    @Override
+    public void onRoutingFailure(RouteException e) {
+        if (e != null) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d(TAG, "onRoutingFailure: Error: " + e.getMessage());
+        } else {
+            Toast.makeText(this, "Something went wrong, Try again", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
+        if (polylines.size() > 0)
+            for (Polyline poly : polylines)
+                poly.remove();
+
+        polylines = new ArrayList<>();
+        //add route(s) to the map.
+        for (int i = 0; i < route.size(); i++) {
+
+            //In case of more than 5 alternative routes
+            int colorIndex = i % COLORS.length;
+
+            PolylineOptions polyOptions = new PolylineOptions();
+            polyOptions.color(getResources().getColor(COLORS[colorIndex]));
+            polyOptions.width(10 + i * 3);
+            polyOptions.addAll(route.get(i).getPoints());
+            Polyline polyline = mMap.addPolyline(polyOptions);
+            polylines.add(polyline);
+
+        }
+
+
+    }
+
+    @Override
+    public void onRoutingCancelled() {
+
     }
 }
