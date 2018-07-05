@@ -111,8 +111,9 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             Toast.makeText(getApplicationContext(), "Trip canceled successfully", Toast.LENGTH_LONG).show();
 
 
-            final String orderId = String.valueOf(orderInfo.getOrder().getId());
-            DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId).child("status");
+            final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
+            final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+            DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderIdFirebase).child("status");
             orderRef.setValue(ORDER_CANCELED).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -187,7 +188,9 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 btnTripStatus.setText(RIDER_DELIVERED_PACKAGE);
 
                 String riderToken = orderInfo.getTransporter().getApi_token();
-                final String orderId = String.valueOf(orderInfo.getOrder().getId());
+                final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
+                final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+
                 TripModel tripModel = new TripModel(riderToken, orderId);
 
                 RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
@@ -210,7 +213,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 Order order = orderInfo.getOrder();
                 order.setStatus(PACKAGE_RECEIVED);
 
-                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId).child("status");
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderIdFirebase).child("status");
                 orderRef.setValue(PACKAGE_RECEIVED).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -223,7 +226,9 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 Log.wtf(TAG, "Trip status:" + String.valueOf(ORDER_DELIVERED));
 
                 String riderToken = orderInfo.getTransporter().getApi_token();
-                final String orderId = String.valueOf(orderInfo.getOrder().getId());
+                final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
+                final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+
                 TripModel tripModel = new TripModel(riderToken, orderId);
 
                 RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
@@ -246,7 +251,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 Order order = orderInfo.getOrder();
                 order.setStatus(ORDER_DELIVERED);
 
-                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId).child("status");
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderIdFirebase).child("status");
                 orderRef.setValue(ORDER_DELIVERED).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
