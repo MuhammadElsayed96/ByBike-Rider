@@ -31,23 +31,8 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RatingActivities.CancellationDetails"
-            android:label="@string/cancellation_details_label"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".RatingActivities.AcceptanceDetails"
-            android:label="@string/acceptance_details_label"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".RatingActivities.RatingDetails"
             android:label="@string/rating_details_label"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".RatingActivities.RiderCompliments"
-            android:label="@string/rider_compliments_label"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity

@@ -1,5 +1,6 @@
 package com.muhammadelsayed.bybike_rider.RatingActivities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +14,7 @@ public class RatingDetails extends AppCompatActivity {
 
     private static final String TAG = RatingDetails.class.getSimpleName();
     private AutofitTextView mTvStarRating;
+    private String starRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,11 @@ public class RatingDetails extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mTvStarRating = findViewById(R.id.star_rate);
-
-        String starRating = getIntent().getStringExtra("Rider_Star_Rating");
-        mTvStarRating.setText(starRating);
+        try {
+            starRating = getIntent().getStringExtra("Rider_Star_Rating");
+            mTvStarRating.setText(starRating);
+        } catch (NullPointerException e) {
+            mTvStarRating.setText("0");
+        }
     }
 }

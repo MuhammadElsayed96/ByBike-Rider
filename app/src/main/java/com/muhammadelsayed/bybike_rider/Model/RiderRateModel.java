@@ -5,15 +5,13 @@ import java.io.Serializable;
 public class RiderRateModel implements Serializable {
 
     private String five_stars;
-    private String acceptance_rate;
     private String rating;
 
     public RiderRateModel() {
     }
 
-    public RiderRateModel(String five_stars, String acceptance_rate, String rating) {
+    public RiderRateModel(String five_stars, String rating) {
         this.five_stars = five_stars;
-        this.acceptance_rate = acceptance_rate;
         this.rating = rating;
     }
 
@@ -25,13 +23,6 @@ public class RiderRateModel implements Serializable {
         this.five_stars = five_stars;
     }
 
-    public String getAcceptance_rate() {
-        return acceptance_rate;
-    }
-
-    public void setAcceptance_rate(String acceptance_rate) {
-        this.acceptance_rate = acceptance_rate;
-    }
 
     public String getRating() {
         return rating;
@@ -45,7 +36,6 @@ public class RiderRateModel implements Serializable {
     public String toString() {
         return "RiderRateModel{" +
                 "five_stars='" + five_stars + '\'' +
-                ", acceptance_rate=" + acceptance_rate + '\'' +
                 ", rating=" + rating + '\'' +
                 '}';
     }
