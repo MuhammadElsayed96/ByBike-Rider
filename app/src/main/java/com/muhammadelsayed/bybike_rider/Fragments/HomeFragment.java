@@ -29,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -38,6 +39,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.muhammadelsayed.bybike_rider.R;
+
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -119,15 +122,53 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
         // needed to get the map to display immediately
         mMapView.onResume();
 
+        getLocationPermission();
+
+        return mRootView;
+
+    }
+
+    /**
+     * initializes the map fragment
+     */
+    private void initMap() {
+        Log.wtf(TAG, "initMap() has been instantiated");
+
+        Log.d(TAG, "initMap: initializing the map...");
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
         mMapView.getMapAsync(this);
+    }
 
-        return mRootView;
+    /**
+     * gets the required permissions from the user to access his location
+     */
+    private void getLocationPermission() {
+        Log.wtf(TAG, "getLocationPermission() has been instantiated");
 
+        Log.d(TAG, "getLocationPermission: getting location permissions");
+        String[] permissions = {
+                FINE_LOCATION,
+                COARSE_LOCATION
+        };
+
+        if (ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionGranted = true;
+                Log.d(TAG, "getLocationPermission: Permission granted");
+                initMap();
+
+            } else {
+                Log.d(TAG, "getLocationPermission: requesting permission");
+                requestPermissions(permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        } else {
+            Log.d(TAG, "getLocationPermission: requesting permission");
+            requestPermissions(permissions, LOCATION_PERMISSION_REQUEST_CODE);
+        }
     }
 
     @Override
@@ -136,8 +177,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
 
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    displayLocation();
+                if (grantResults.length > 0) { // some permission was granted
+
+                    for (int grantResult : grantResults) {
+                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                            Log.d(TAG, "onRequestPermissionsResult: permission failed");
+                            mLocationPermissionGranted = false;
+                            return;
+                        }
+                    }
+                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
+                    mLocationPermissionGranted = true;
+                    // initialize our map
+                    initMap();
+
                 }
                 break;
         }
@@ -151,6 +204,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setTrafficEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        if (mLocationPermissionGranted)
+            displayLocation();
     }
 
     @Override
@@ -191,16 +247,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     public void onLocationChanged(Location location) {
         Log.wtf(TAG, "onLocationChanged() has been instantiated");
 
-        mLastLocation = location;
-        displayLocation();
+        if (mLocationPermissionGranted) {
+            mLastLocation = location;
+            displayLocation();
+        }
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.wtf(TAG, "onConnected() has been instantiated");
 
-        displayLocation();      // puts tracked marker on the map.
-        startLocationUpdates(); // Tracks lastLocation
+        if (mLocationPermissionGranted) {
+            displayLocation();      // puts tracked marker on the map.
+            startLocationUpdates(); // Tracks lastLocation
+        }
     }
 
     @Override
@@ -276,8 +336,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     private void displayLocation() {
         Log.wtf(TAG, "displayLocation() has been instantiated");
 
-        if (ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(getActivity(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(getActivity(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
