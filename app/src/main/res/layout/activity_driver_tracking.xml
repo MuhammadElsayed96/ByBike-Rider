@@ -29,7 +29,7 @@
             android:layout_weight=".5"
             android:background="@drawable/transparent_button_red"
             android:text="@string/cancel"
-            android:textColor="@color/white"
+            android:textColor="@android:color/holo_red_dark"
             android:visibility="visible" />
 
         <Button
@@ -39,8 +39,8 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@drawable/transparent_button"
-            tools:text="Start Trip"
-            android:textColor="@color/white" />
+            android:textColor="@android:color/black"
+            tools:text="Start Trip" />
     </LinearLayout>
 
 

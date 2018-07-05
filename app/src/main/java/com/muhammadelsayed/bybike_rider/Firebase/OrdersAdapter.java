@@ -124,6 +124,7 @@ public class OrdersAdapter extends BaseAdapter {
                 order.setStatus(1);
                 mOrderRef.setValue(order);
 
+
                 final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();
 
                 RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);

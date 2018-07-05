@@ -277,7 +277,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     }
 
     private void setupWidgets() {
-        Log.wtf(TAG, "setupWidgets() has been instantiated");
+        Log.e(TAG, "setupWidgets() has been instantiated");
 
         // setting up widgets
         txtClientName = findViewById(R.id.user_name_textview);

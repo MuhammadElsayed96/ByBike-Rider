@@ -1,6 +1,10 @@
 package com.muhammadelsayed.bybike_rider.Firebase;
 
-public class Orders {
+import com.muhammadelsayed.bybike_rider.Model.Client;
+
+import java.io.Serializable;
+
+public class Orders implements Serializable {
     private String Receiver_lat;
     private String Receiver_lng;
     private String Sender_Lat;
@@ -12,7 +16,7 @@ public class Orders {
     private String user;
     private String uuid;
 
-    public Orders() {
+    public Orders( Client user1) {
     }
 
     public Orders(String Receiver_lat, String Receiver_lng, String Sender_Lat, String Sender_Lng, String created_at,

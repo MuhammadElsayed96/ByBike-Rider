@@ -77,7 +77,7 @@ public class RequestsFragment extends Fragment {
     }
 
     private void setupWidgets() {
-        Log.wtf(TAG, "setupWidgets() has been instantiated");
+        Log.d(TAG, "setupWidgets() has been instantiated");
 
         requestListView = rootView.findViewById(R.id.simpleListView);
         orderList = new ArrayList<>();
@@ -86,16 +86,15 @@ public class RequestsFragment extends Fragment {
     }
 
     private void getOrdersInfo() {
-        Log.wtf(TAG, "getOrdersInfo() has been instantiated");
+        Log.d(TAG, "getOrdersInfo() has been instantiated");
 
         mOrdersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 orderList.clear();
-
-                Iterable<DataSnapshot> childrens = dataSnapshot.getChildren();
-                for (DataSnapshot child : childrens) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child : children) {
                     Orders orders = child.getValue(Orders.class);
                     if (orders.getStatus() != 0)
                         continue;
