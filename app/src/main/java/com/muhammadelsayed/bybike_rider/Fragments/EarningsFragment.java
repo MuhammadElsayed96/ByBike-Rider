@@ -61,7 +61,7 @@ public class EarningsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_earnings, container, false);
 
-        mTvEarningsFragment = rootView.findViewById(R.id.tv_earnings_fragment);
+        //mTvEarningsFragment = rootView.findViewById(R.id.tv_earnings_fragment);
         String title = getArguments().getString(ARG_TITLE, "");
         mTvEarningsFragment.setText(title);
 

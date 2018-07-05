@@ -1,13 +1,10 @@
-package com.muhammadelsayed.bybike_rider.Firebase;
+package com.muhammadelsayed.bybike_rider.Adapters;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.StateSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +19,14 @@ import com.ebanx.swipebtn.SwipeButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.muhammadelsayed.bybike_rider.DriverTracking;
-import com.muhammadelsayed.bybike_rider.MainActivity;
 import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
-import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
+import com.muhammadelsayed.bybike_rider.Model.Orders;
 import com.muhammadelsayed.bybike_rider.Model.TripModel;
 import com.muhammadelsayed.bybike_rider.Model.TripResponse;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
-import com.muhammadelsayed.bybike_rider.StartActivity;
 import com.muhammadelsayed.bybike_rider.Utils.Maps;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.muhammadelsayed.bybike_rider.Firebase;
+package com.muhammadelsayed.bybike_rider.Model;
 
 import com.muhammadelsayed.bybike_rider.Model.Client;
 

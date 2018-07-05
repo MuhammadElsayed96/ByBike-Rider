@@ -47,9 +47,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
 import com.muhammadelsayed.bybike_rider.Model.Order;
 import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
@@ -99,6 +101,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     private Marker mRiderMarker;
     private DatabaseReference ref;
     private GeoFire geoFire;
+    private ValueEventListener statusEvenListener;
     // widgets
     private Button btnCallClient, btnTripStatus, btnCancelTrip;
     private TextView txtClientName;
@@ -113,14 +116,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
             final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
             final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
-            DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderIdFirebase).child("status");
-            orderRef.setValue(ORDER_CANCELED).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.e(TAG, "Trip canceled successfully, Order status: 4");
-                }
-            });
-
 
             String riderToken = orderInfo.getTransporter().getApi_token();
             String cancel = "Rider canceled order";
@@ -213,14 +208,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 Order order = orderInfo.getOrder();
                 order.setStatus(PACKAGE_RECEIVED);
 
-                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderIdFirebase).child("status");
-                orderRef.setValue(PACKAGE_RECEIVED).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.wtf(TAG, "Rider received the package, Order status: 2");
-                    }
-                });
-
 
             } else if (tripStatus == ORDER_DELIVERED) {
                 Log.wtf(TAG, "Trip status:" + String.valueOf(ORDER_DELIVERED));
@@ -251,16 +238,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 Order order = orderInfo.getOrder();
                 order.setStatus(ORDER_DELIVERED);
 
-                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderIdFirebase).child("status");
-                orderRef.setValue(ORDER_DELIVERED).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.wtf(TAG, "Rider delivered the package, Order status: 3");
-                        tripStatus = RIDER_ON_THE_WAY;
-                        // Done
-                        finish();
-                    }
-                });
             }
         }
     };
@@ -271,15 +248,36 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_tracking);
 
+
         Log.wtf(TAG, "onCreate() has been instantiated");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
         if (getIntent() != null) {
             orderInfo = (OrderInfoModel) getIntent().getExtras().getSerializable("order_info_model");
         }
+
+        final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+        final DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderIdFirebase).child("status");
+        orderRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Toast.makeText(getApplicationContext(), dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
+                if (dataSnapshot.getValue() == Long.valueOf(5)) {
+                    finish();
+                    orderRef.removeEventListener(this);
+                    // Client canceled the order.
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         setupWidgets();
 
@@ -288,6 +286,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
         ref = FirebaseDatabase.getInstance().getReference("Drivers");
         geoFire = new GeoFire(ref);
+
+
     }
 
     private void setupWidgets() {

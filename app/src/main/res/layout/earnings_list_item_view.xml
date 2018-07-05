@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="#fff">
+
+
+    <TextView
+        android:id="@+id/trip_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#101010"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="6/14/18 at 6:53 PM" />
+
+    <TextView
+        android:id="@+id/trip_cost_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#101010"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/trip_date_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="L.E 15.00" />
+
+    <TextView
+        android:id="@+id/trip_client_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#585858"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/trip_date_tv"
+        tools:text="Muhammad Deifallah" />
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/trip_rating_bar"
+        android:layout_width="110dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:progressBackgroundTint="#585858"
+        app:layout_constraintBottom_toBottomOf="@id/trip_client_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/trip_cost_tv"
+        app:mrb_fillBackgroundStars="true" />
+
+
+</android.support.constraint.ConstraintLayout>
