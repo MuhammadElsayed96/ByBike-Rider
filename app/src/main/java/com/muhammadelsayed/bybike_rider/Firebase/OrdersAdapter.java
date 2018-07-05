@@ -125,8 +125,8 @@ public class OrdersAdapter extends BaseAdapter {
                 mOrderRef.setValue(1);
 
 
-                final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getRider().getApi_token();
-
+                final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();
+                Toast.makeText(context.getApplicationContext(), riderToken, Toast.LENGTH_SHORT).show();
                 RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
                 Call<TripResponse> call = service.takeOrder(new TripModel(riderToken, order.getUuid()));
                 call.enqueue(new Callback<TripResponse>() {
@@ -146,6 +146,7 @@ public class OrdersAdapter extends BaseAdapter {
                                 Log.d(TAG, response.body().toString());
                                 Toast.makeText(context.getApplicationContext(), "get order info Success", Toast.LENGTH_LONG).show();
                                 OrderInfoModel orderInfo = response.body();
+                                orderInfo.getTransporter().setApi_token(riderToken);
                                 Intent intent = new Intent(context, DriverTracking.class);
                                 intent.putExtra("order_info_model", orderInfo);
                                 context.startActivity(intent);

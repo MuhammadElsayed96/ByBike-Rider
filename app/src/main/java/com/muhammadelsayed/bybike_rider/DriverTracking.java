@@ -252,6 +252,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                     public void onSuccess(Void aVoid) {
                         Log.wtf(TAG, "Rider delivered the package, Order status: 3");
                         tripStatus = RIDER_ON_THE_WAY;
+                        // Done
+                        finish();
                     }
                 });
             }
