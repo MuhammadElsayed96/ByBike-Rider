@@ -118,14 +118,14 @@ public class OrdersAdapter extends BaseAdapter {
             @Override
             public void onStateChange(boolean active) {
                 String childId = String.valueOf(ordersList.get(position).getId());
-                DatabaseReference mOrderRef = FirebaseDatabase.getInstance().getReference("orders").child(childId);
+                DatabaseReference mOrderRef = FirebaseDatabase.getInstance().getReference("orders").child(childId).child("status");
 
                 final Orders order = ordersList.get(position);
                 order.setStatus(1);
-                mOrderRef.setValue(order);
+                mOrderRef.setValue(1);
 
 
-                final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();
+                final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getRider().getApi_token();
 
                 RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
                 Call<TripResponse> call = service.takeOrder(new TripModel(riderToken, order.getUuid()));
@@ -144,7 +144,7 @@ public class OrdersAdapter extends BaseAdapter {
                             @Override
                             public void onResponse(Call<OrderInfoModel> call, Response<OrderInfoModel> response) {
                                 Log.d(TAG, response.body().toString());
-
+                                Toast.makeText(context.getApplicationContext(), "get order info Success", Toast.LENGTH_LONG).show();
                                 OrderInfoModel orderInfo = response.body();
                                 Intent intent = new Intent(context, DriverTracking.class);
                                 intent.putExtra("order_info_model", orderInfo);

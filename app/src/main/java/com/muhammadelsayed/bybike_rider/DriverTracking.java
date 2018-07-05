@@ -78,6 +78,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     private static final int RIDER_ON_THE_WAY = 1;
     private static final int PACKAGE_RECEIVED = 2;
     private static final int ORDER_DELIVERED = 3;
+    private static final int ORDER_CANCELED = 4;
     private static final String RIDER_RECEIVED_PACKAGE = "I have the package";
     private static final String RIDER_DELIVERED_PACKAGE = "I delivered the package";
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -107,23 +108,27 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         @Override
         public void onClick(View v) {
             Log.e(TAG, "Cancel trip btn has been clicked");
-            Snackbar.make(btnCancelTrip, "Trip canceled successfully", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Trip canceled successfully", Toast.LENGTH_LONG).show();
 
-            String riderToken = orderInfo.getTransporter().getApi_token();
+
             final String orderId = String.valueOf(orderInfo.getOrder().getId());
-            String cancel = "Rider canceled order";
-            TripModel tripModel = new TripModel(riderToken, orderId, cancel);
-
-            // Updating Firebase db.
-            Order order = orderInfo.getOrder();
-            order.setStatus(4);
-            DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId);
-            orderRef.setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+            DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId).child("status");
+            orderRef.setValue(ORDER_CANCELED).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.e(TAG, "Trip canceled successfully, Order status: 4");
                 }
             });
+
+
+            String riderToken = orderInfo.getTransporter().getApi_token();
+            String cancel = "Rider canceled order";
+            TripModel tripModel = new TripModel(riderToken, orderId, cancel);
+
+            // Updating Firebase db.
+            Order order = orderInfo.getOrder();
+            order.setStatus(ORDER_CANCELED);
+
 
             RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
             Call<TripResponse> call = service.cancelOrder(tripModel);
@@ -204,8 +209,9 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 // Updating Firebase db.
                 Order order = orderInfo.getOrder();
                 order.setStatus(PACKAGE_RECEIVED);
-                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId);
-                orderRef.setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId).child("status");
+                orderRef.setValue(PACKAGE_RECEIVED).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.wtf(TAG, "Rider received the package, Order status: 2");
@@ -239,8 +245,9 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 // Updating Firebase db.
                 Order order = orderInfo.getOrder();
                 order.setStatus(ORDER_DELIVERED);
-                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId);
-                orderRef.setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId).child("status");
+                orderRef.setValue(ORDER_DELIVERED).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.wtf(TAG, "Rider delivered the package, Order status: 3");

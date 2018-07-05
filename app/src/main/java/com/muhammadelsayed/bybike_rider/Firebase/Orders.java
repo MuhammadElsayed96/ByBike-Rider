@@ -16,7 +16,7 @@ public class Orders implements Serializable {
     private String user;
     private String uuid;
 
-    public Orders( Client user1) {
+    public Orders() {
     }
 
     public Orders(String Receiver_lat, String Receiver_lng, String Sender_Lat, String Sender_Lng, String created_at,

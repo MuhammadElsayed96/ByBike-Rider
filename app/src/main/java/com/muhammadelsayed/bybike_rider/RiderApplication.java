@@ -3,6 +3,7 @@ package com.muhammadelsayed.bybike_rider;
 import android.app.Application;
 import android.util.Log;
 
+import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 
 /**
@@ -21,8 +22,22 @@ public class RiderApplication extends Application {
     private static final String TAG = RiderApplication.class.getSimpleName();
     private RiderModel currentRider;
 
+    public OrderInfoModel getInfoModel() {
+        return infoModel;
+    }
+
+    public void setInfoModel(OrderInfoModel infoModel) {
+        this.infoModel = infoModel;
+    }
+
+    private OrderInfoModel infoModel;
 
     public RiderApplication() {
+    }
+
+    public RiderApplication(OrderInfoModel infoModel) {
+
+        this.infoModel = infoModel;
     }
 
     public RiderApplication(RiderModel currentRider) {
