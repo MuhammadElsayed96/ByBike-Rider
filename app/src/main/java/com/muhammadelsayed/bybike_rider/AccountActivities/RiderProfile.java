@@ -1,18 +1,32 @@
 package com.muhammadelsayed.bybike_rider.AccountActivities;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 import com.squareup.picasso.Picasso;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import me.grantland.widget.AutofitTextView;
 
@@ -71,7 +85,21 @@ public class RiderProfile extends AppCompatActivity {
         String fRiderName = Utils.splitName(riderInfoModel.getRider().getName())[0];
         riderName.setText(fRiderName);
         riderTotalOrders.setText(riderInfoModel.getTotal_trips());
-        riderRating.setText(riderInfoModel.getRating() + "%");
-        totalEmployingPeriod.setText("4");
+        riderRating.setText(riderInfoModel.getRating());
+
+        totalEmployingPeriod.setText("1");
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String getEmployingPeriod(String creationTime) throws ParseException {
+        DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        Date creationDate = originalFormat.parse(creationTime);
+
+        LocalDate now = LocalDate.now();
+        LocalDate date = creationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Period period = Period.between(date, now);
+
+        return String.valueOf(period.getMonths());
     }
 }
