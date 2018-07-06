@@ -29,12 +29,14 @@ public class Maps {
             i++;
         }
 
+
+
         String city = addresses.get(0).getLocality();
         String state = addresses.get(0).getAdminArea();
         String country = addresses.get(0).getCountryName();
         String postalCode = addresses.get(0).getPostalCode();
         String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
 
-        return address;
+        return Utils.splitAddress(address);
     }
 }

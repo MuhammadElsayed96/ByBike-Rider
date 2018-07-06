@@ -122,23 +122,42 @@
         android:id="@+id/continue_signUpBtn"
         android:layout_width="54dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="48dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/btn_background_effects"
         android:src="@drawable/ic_arrow_forward_24dp"
-        app:layout_constraintBottom_toBottomOf="@id/alreadyUser"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <TextView
+
+    <LinearLayout
         android:id="@+id/alreadyUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/already_user"
-        android:textColor="@drawable/text_selector"
-        android:textSize="14sp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/continue_signUpBtn" />
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Have an account? "
+            android:textColor="#000"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/already_user"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+
 
 </android.support.constraint.ConstraintLayout>

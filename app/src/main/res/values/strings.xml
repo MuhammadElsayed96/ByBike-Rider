@@ -31,8 +31,8 @@
     <string name="rider_profile_label">Rider Profile</string>
     <string name="sign_in_label">SIGN IN</string>
     <string name="signUp">Sign Up</string>
-    <string name="already_user">Have an account? Log In</string>
-    <string name="newUser">Ride with ByBike? Sign Up</string>
+    <string name="already_user">Log In</string>
+    <string name="newUser">Sign Up</string>
     <string name="show_pwd">Show Password</string>
     <string name="hide_pwd">Hide Password</string>
     <string name="forgot">Forgot Password?</string>

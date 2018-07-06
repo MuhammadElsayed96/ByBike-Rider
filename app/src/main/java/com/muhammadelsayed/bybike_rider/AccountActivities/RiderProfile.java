@@ -10,6 +10,7 @@ import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -61,7 +62,7 @@ public class RiderProfile extends AppCompatActivity {
         riderImageView = findViewById(R.id.profile_image);
         riderInfoModel = (RiderInfoModel) getIntent().getSerializableExtra("rider_Info_Model");
         Picasso.get()
-                .load(RetrofitClientInstance.BASE_URL + riderInfoModel.getRider().getImage())
+                .load(RetrofitClientInstance.BASE_URL + ((RiderApplication) getApplicationContext()).getCurrentRider().getRider().getImage())
                 .placeholder(R.drawable.trump)
                 .error(R.drawable.trump)
                 .into(riderImageView);

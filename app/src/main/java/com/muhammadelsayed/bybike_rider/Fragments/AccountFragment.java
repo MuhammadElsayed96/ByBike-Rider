@@ -78,8 +78,7 @@ public class AccountFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getContext(), EditAccount.class);
-            RiderModel currentUser = ((RiderApplication) getContext().getApplicationContext()).getCurrentRider();
-            intent.putExtra("current_user", currentUser);
+            intent.putExtra("current_user", riderInfoModel);
             startActivity(intent);
         }
     };
@@ -282,6 +281,7 @@ public class AccountFragment extends Fragment {
                             if (response.isSuccessful()) {
                                 if (response.body() != null) {
                                     currentUser.setRider(response.body().getRider());
+                                    ((RiderApplication) getActivity().getApplicationContext()).setCurrentRider(currentUser);
                                     Log.d(TAG, "onResponse: " + response.body());
                                     Picasso.get()
                                             .load(RetrofitClientInstance.BASE_URL + response.body().getRider().getImage())

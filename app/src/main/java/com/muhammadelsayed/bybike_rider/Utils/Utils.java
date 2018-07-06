@@ -27,6 +27,15 @@ public class Utils {
 
         String[] names = name.split(" ", 2);
         return names;
+
+    }
+
+    public static String splitAddress(String location) {
+        Log.wtf(TAG, "splitName() has been instantiated");
+
+
+        String[] address = location.split(", Mansoura", 2);
+        return address[0];
     }
 
 }

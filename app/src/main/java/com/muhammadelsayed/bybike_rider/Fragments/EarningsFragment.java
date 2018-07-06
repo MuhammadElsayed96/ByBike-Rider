@@ -24,7 +24,6 @@ public class EarningsFragment extends Fragment {
     private String mTitle;
     private TextView mTvEarningsFragment;
 
-
     public EarningsFragment() {
         // Required empty public constructor
     }

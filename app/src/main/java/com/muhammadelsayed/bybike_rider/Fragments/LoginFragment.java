@@ -52,7 +52,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private Animation mShakeAnimation;
     private EditText mEmail, mPassword;
     private CheckBox mShowHidePassword;
-    private TextView mForgotPassword, mSignUp;
+    private TextView mForgotPassword;
+    private LinearLayout mSignUp;
     private Button mLoginButton;
     private LinearLayout mLoginLayout;
     private RiderModel currentRider;

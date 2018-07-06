@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private View view;
     private EditText mEmail, mFirstName, mLastName, mPhone, mPassword;
     private FloatingActionButton fab;
-    private TextView mLogIn;
+    private LinearLayout mLogIn;
     private FragmentManager mFragmentManager;
     private static final String ARG_FNAME = "fName";
     private static final String ARG_LNAME = "lName";
