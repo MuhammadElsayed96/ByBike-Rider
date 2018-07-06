@@ -49,8 +49,8 @@
             android:name=".AccountActivities.EditAccountPhone"
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".AccountActivities.EditAccount">
+            android:parentActivityName=".AccountActivities.EditAccount"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".AccountActivities.EditAccount" />
@@ -60,8 +60,8 @@
             android:name=".AccountActivities.EditAccountPassword"
             android:label="@string/edit_account_label"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".AccountActivities.EditAccount">
+            android:parentActivityName=".AccountActivities.EditAccount"
+            android:screenOrientation="portrait">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -69,16 +69,18 @@
 
         </activity>
 
+        <activity android:name=".StartActivity" />
+
         <activity
-            android:name=".StartActivity"
+            android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".SplashActivity" />
         <activity
             android:name=".DriverTracking"
             android:label="@string/title_activity_driver_tracking"

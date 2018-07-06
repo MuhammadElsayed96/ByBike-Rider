@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.muhammadelsayed.bybike_rider.Model.Orders;
 import com.muhammadelsayed.bybike_rider.Adapters.OrdersAdapter;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class RequestsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.wtf(TAG, "onCreate() has been instantiated");
-
+        Utils.checkUserSession(getActivity());
         if (getArguments() != null) {
             mTitle = getArguments().getString(TAG);
         }

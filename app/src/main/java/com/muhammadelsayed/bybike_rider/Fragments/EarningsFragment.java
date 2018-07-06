@@ -22,6 +22,7 @@ import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,8 @@ public class EarningsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.wtf(TAG, "onCreate() has been instantiated");
+        Utils.checkUserSession(getActivity());
+
         if (getArguments() != null) {
         }
     }

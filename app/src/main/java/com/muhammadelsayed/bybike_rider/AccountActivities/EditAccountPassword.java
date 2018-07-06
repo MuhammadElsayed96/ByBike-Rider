@@ -21,6 +21,7 @@ import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.Utils.CustomToast;
 import com.muhammadelsayed.bybike_rider.Utils.RiderSharedPreferences;
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -94,6 +95,7 @@ public class EditAccountPassword extends AppCompatActivity {
         setContentView(R.layout.activity_edit_account_password);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Log.wtf(TAG, "onCreate() has been instantiated");
+        Utils.checkUserSession(EditAccountPassword.this);
 
 
         setupWidgets();

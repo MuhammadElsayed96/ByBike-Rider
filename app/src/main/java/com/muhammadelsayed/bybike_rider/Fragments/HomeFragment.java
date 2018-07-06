@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
@@ -89,7 +90,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.wtf(TAG, "onCreate() has been instantiated");
-
+        Utils.checkUserSession(getActivity());
         buildGoogleApiClient();
         createLocationRequest();
 

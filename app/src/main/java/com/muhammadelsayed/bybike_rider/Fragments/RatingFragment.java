@@ -24,6 +24,7 @@ import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RatingActivities.RatingDetails;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
@@ -71,6 +72,7 @@ public class RatingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.wtf(TAG, "onCreate() has been instantiated");
+        Utils.checkUserSession(getActivity());
     }
 
     @Override

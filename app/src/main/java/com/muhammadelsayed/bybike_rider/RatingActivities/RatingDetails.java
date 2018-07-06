@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import me.grantland.widget.AutofitTextView;
 
@@ -21,6 +23,7 @@ public class RatingDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_details);
         Log.wtf(TAG, "onCreate() has been instantiated");
+        Utils.checkUserSession(RatingDetails.this);
 
         setupWidgets();
     }

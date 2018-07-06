@@ -1,5 +1,7 @@
 package com.muhammadelsayed.bybike_rider.Model;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 public class RiderModel implements Serializable {
@@ -16,7 +18,9 @@ public class RiderModel implements Serializable {
     }
 
     public String getToken() {
+
         return token;
+
     }
 
     public void setToken(String token) {

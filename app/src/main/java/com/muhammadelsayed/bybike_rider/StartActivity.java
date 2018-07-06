@@ -17,6 +17,7 @@ public class StartActivity extends AppCompatActivity {
     private static FragmentManager fragmentManager;
     private Context mContext = StartActivity.this;
     private static final String TAG = StartActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,15 +26,7 @@ public class StartActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
 
-        RiderModel riderModel = RiderSharedPreferences.ReadFromPreferences(this);
 
-        if (riderModel != null) {
-
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("current_rider", riderModel);
-            startActivity(intent);
-            this.finish();
-        }
 
         if (savedInstanceState == null) {
             fragmentManager
@@ -49,9 +42,9 @@ public class StartActivity extends AppCompatActivity {
 
         int count = fragmentManager.getBackStackEntryCount();
 
-        if (count == 0 ){
+        if (count == 0) {
             super.onBackPressed();
-        }else {
+        } else {
 
             fragmentManager.popBackStackImmediate();
         }

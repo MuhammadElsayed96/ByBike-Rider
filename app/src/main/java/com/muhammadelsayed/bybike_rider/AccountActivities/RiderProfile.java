@@ -46,7 +46,7 @@ public class RiderProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_profile);
         Log.wtf(TAG, "onCreate() has been instantiated");
-
+        Utils.checkUserSession(RiderProfile.this);
         setupWidgets();
     }
 

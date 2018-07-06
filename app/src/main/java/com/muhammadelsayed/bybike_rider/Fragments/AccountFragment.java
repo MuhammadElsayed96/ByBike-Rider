@@ -149,6 +149,7 @@ public class AccountFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.wtf(TAG, "onCreate() has been instantiated");
+        Utils.checkUserSession(getActivity());
 
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {

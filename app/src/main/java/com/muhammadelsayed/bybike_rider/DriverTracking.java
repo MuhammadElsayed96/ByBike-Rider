@@ -60,6 +60,8 @@ import com.muhammadelsayed.bybike_rider.Model.TripModel;
 import com.muhammadelsayed.bybike_rider.Model.TripResponse;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.Network.RiderClient;
+import com.muhammadelsayed.bybike_rider.RatingActivities.RatingDetails;
+import com.muhammadelsayed.bybike_rider.Utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -250,6 +252,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_tracking);
+        Utils.checkUserSession(DriverTracking.this);
 
 
         Log.wtf(TAG, "onCreate() has been instantiated");

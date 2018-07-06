@@ -54,6 +54,7 @@ public class EditAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
         Log.wtf(TAG, "onCreate() has been instantiated");
+        Utils.checkUserSession(EditAccount.this);
 
         setupWidgets();
     }
