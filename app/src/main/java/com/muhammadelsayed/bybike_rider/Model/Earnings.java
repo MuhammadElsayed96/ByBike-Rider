@@ -6,29 +6,19 @@ public class Earnings implements Serializable {
 
     private Order order;
     private String id;
-    private String Total_KM;
     private String Total_cost;
     private String Order_ID;
     private String Transporter_ID;
     private String created_at;
     private String updated_at;
-    private String transporterRate;
 
-    public String getTransporterRate() {
-        return transporterRate;
-    }
-
-    public void setTransporterRate(String transporterRate) {
-        this.transporterRate = transporterRate;
-    }
 
     public Earnings() {
     }
 
-    public Earnings(Order order, String id, String total_KM, String total_cost, String order_ID, String transporter_ID, String created_at, String updated_at) {
+    public Earnings(String id, String total_cost, String order_ID, String transporter_ID, String created_at, String updated_at, Order order) {
         this.order = order;
         this.id = id;
-        Total_KM = total_KM;
         Total_cost = total_cost;
         Order_ID = order_ID;
         Transporter_ID = transporter_ID;
@@ -50,14 +40,6 @@ public class Earnings implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTotal_KM() {
-        return Total_KM;
-    }
-
-    public void setTotal_KM(String total_KM) {
-        Total_KM = total_KM;
     }
 
     public String getTotal_cost() {
@@ -105,7 +87,6 @@ public class Earnings implements Serializable {
         return "Earnings{" +
                 "order=" + order +
                 ", id='" + id + '\'' +
-                ", Total_KM='" + Total_KM + '\'' +
                 ", Total_cost='" + Total_cost + '\'' +
                 ", Order_ID='" + Order_ID + '\'' +
                 ", Transporter_ID='" + Transporter_ID + '\'' +

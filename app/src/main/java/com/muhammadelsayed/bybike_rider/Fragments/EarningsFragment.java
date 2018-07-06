@@ -1,15 +1,35 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.muhammadelsayed.bybike_rider.Adapters.EarningsAdapter;
+import com.muhammadelsayed.bybike_rider.Model.Earnings;
+import com.muhammadelsayed.bybike_rider.Model.EarningsModel;
+import com.muhammadelsayed.bybike_rider.Model.Rider;
+import com.muhammadelsayed.bybike_rider.Model.TripModel;
+import com.muhammadelsayed.bybike_rider.Model.TripResponse;
+import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
+import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
+import com.muhammadelsayed.bybike_rider.RiderApplication;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import dmax.dialog.SpotsDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,9 +40,11 @@ public class EarningsFragment extends Fragment {
 
     // the fragment initialization parameters
     private static final String TAG = EarningsFragment.class.getSimpleName();
-    private static final String ARG_TITLE = "Earning Fragment";
-    private String mTitle;
-    private TextView mTvEarningsFragment;
+
+    private View rootView;
+    private ListView earningsListView;
+    private List<Earnings> earningsList;
+
 
     public EarningsFragment() {
         // Required empty public constructor
@@ -38,7 +60,6 @@ public class EarningsFragment extends Fragment {
     public static EarningsFragment earningsFragmentInstance(String title) {
         EarningsFragment fragment = new EarningsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TITLE, title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,7 +69,6 @@ public class EarningsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.wtf(TAG, "onCreate() has been instantiated");
         if (getArguments() != null) {
-            mTitle = getArguments().getString(ARG_TITLE);
         }
     }
 
@@ -58,11 +78,9 @@ public class EarningsFragment extends Fragment {
         Log.wtf(TAG, "onCreateView() has been instantiated");
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_earnings, container, false);
-
-        //mTvEarningsFragment = rootView.findViewById(R.id.tv_earnings_fragment);
-        String title = getArguments().getString(ARG_TITLE, "");
-        mTvEarningsFragment.setText(title);
+        rootView = inflater.inflate(R.layout.fragment_earnings, container, false);
+        setupWidgets();
+        getRiderEarnings();
 
         return rootView;
     }
@@ -74,8 +92,55 @@ public class EarningsFragment extends Fragment {
 
     }
 
+    private void setupWidgets() {
+        earningsListView = rootView.findViewById(R.id.earningsListView);
+        earningsList = new ArrayList<>();
+    }
 
-    private void getRiderRatings() {
-        Log.wtf(TAG, "getRiderRatings() has been instantiated");
+
+    private void getRiderEarnings() {
+        Log.wtf(TAG, "getRiderEarnings() has been instantiated");
+
+        final AlertDialog waitingDialog = new SpotsDialog(getActivity(), R.style.Custom);
+        waitingDialog.setCancelable(false);
+        waitingDialog.setTitle("Loading...");
+        waitingDialog.show();
+
+        RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+        Rider rider = ((RiderApplication) getActivity().getApplicationContext()).getCurrentRider().getRider();
+        rider.setApi_token(((RiderApplication) getActivity().getApplicationContext()).getCurrentRider().getToken());
+        Call<EarningsModel> call = service.getRiderEarnings(rider);
+        call.enqueue(new Callback<EarningsModel>() {
+            @Override
+            public void onResponse(Call<EarningsModel> call, Response<EarningsModel> response) {
+                Log.wtf(TAG, "getRiderEarnings() onResponse");
+                if (response.body() != null) {
+                    Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+                    if (earningsList != null)
+                        earningsList.clear();
+                    earningsList = extractEarningsData(response.body());
+                    earningsListView.setAdapter(new EarningsAdapter(getActivity().getApplicationContext(), earningsList));
+                    waitingDialog.dismiss();
+                } else {
+                    Log.wtf(TAG, "getRiderEarnings() onResponse failure!");
+                    Toast.makeText(getActivity(), "Something wrong!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EarningsModel> call, Throwable t) {
+                waitingDialog.dismiss();
+                Log.wtf(TAG, "getRiderEarnings() onFailure");
+                Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private List<Earnings> extractEarningsData(EarningsModel model) {
+        List<Earnings> earningsList = new ArrayList<>();
+        for (Earnings trip : model.getEarnings()) {
+            earningsList.add(trip);
+        }
+        return earningsList;
     }
 }

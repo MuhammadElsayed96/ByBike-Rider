@@ -1,7 +1,7 @@
 package com.muhammadelsayed.bybike_rider.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,25 +21,26 @@ import java.util.Locale;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-class EarningsAdapter extends BaseAdapter {
+public class EarningsAdapter extends BaseAdapter {
     private static final String TAG = EarningsAdapter.class.getSimpleName();
-    private List<Earnings> tripList;
+    private List<Earnings> earningsList;
     private LayoutInflater inflater;
     private Context context;
 
-    public EarningsAdapter(Context context, List<Earnings> tripList) {
-        this.tripList = tripList;
+    public EarningsAdapter(Context context, List<Earnings> earningsList) {
+        inflater = LayoutInflater.from(context);
+        this.earningsList = earningsList;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return tripList.size();
+        return earningsList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return tripList.get(position);
+        return earningsList.get(position);
     }
 
     @Override
@@ -48,7 +49,7 @@ class EarningsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         Log.wtf(TAG, "getView() has been instantiated");
         final ViewHolder holder;
         if (convertView == null) {
@@ -65,20 +66,23 @@ class EarningsAdapter extends BaseAdapter {
         }
 
 
-        String clientName = tripList.get(position).getOrder().getUser().getName();
-        String tripCost = tripList.get(position).getTotal_cost();
-        String tripTime = tripList.get(position).getCreated_at();
-        String riderRate = tripList.get(position).getTransporterRate();
+        String clientName = earningsList.get(position).getOrder().getUser().getName();
+        String tripCost = earningsList.get(position).getTotal_cost();
+        String tripTime = earningsList.get(position).getCreated_at();
+        String riderRate = earningsList.get(position).getOrder().getRate();
 
 
         holder.tripClientTv.setText(clientName);
-        holder.tripCostTv.setText(tripCost);
+        holder.tripCostTv.setText("L.E. " + tripCost);
         try {
             holder.tripDateTv.setText(formatTime(tripTime));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.tripStarRatingBar.setNumStars(Integer.valueOf(riderRate));
+        if (TextUtils.isEmpty(riderRate))
+            holder.tripStarRatingBar.setRating(0);
+        else
+            holder.tripStarRatingBar.setRating(Float.valueOf(riderRate));
         return convertView;
     }
 
@@ -92,7 +96,7 @@ class EarningsAdapter extends BaseAdapter {
 
     private static String formatTime(String tripTime) throws ParseException {
         DateFormat formatter
-                = new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a");
+                = new SimpleDateFormat("MM/dd/yy 'at' h:mm a");
         DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date date = originalFormat.parse(tripTime);
         return formatter.format(date);

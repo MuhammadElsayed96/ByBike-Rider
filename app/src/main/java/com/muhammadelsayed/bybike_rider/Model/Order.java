@@ -2,7 +2,7 @@ package com.muhammadelsayed.bybike_rider.Model;
 
 import java.io.Serializable;
 
-public class Order implements Serializable{
+public class Order implements Serializable {
 
     private int id;
     private String uuid;
@@ -15,10 +15,12 @@ public class Order implements Serializable{
     private String Updated_at;
     private Client user;
 
+    private String rate;
+
     public Order() {
     }
 
-    public Order(int id, String uuid, int status, String sender_Lat, String sender_Lng, String receiver_lat, String receiver_lng, String created_at, String updated_at, Client user) {
+    public Order(int id, String uuid, int status, String sender_Lat, String sender_Lng, String receiver_lat, String receiver_lng, Client user, String created_at, String updated_at, String rate) {
         this.id = id;
         this.uuid = uuid;
         this.status = status;
@@ -29,6 +31,15 @@ public class Order implements Serializable{
         Created_at = created_at;
         Updated_at = updated_at;
         this.user = user;
+        this.rate = rate;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 
     public int getId() {
