@@ -1,20 +1,25 @@
 package com.muhammadelsayed.bybike_rider.Fragments;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +39,7 @@ import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.StartActivity;
+import com.muhammadelsayed.bybike_rider.Utils.RealPathUtil;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -57,9 +63,6 @@ public class AccountFragment extends Fragment {
     // the fragment initialization parameters
     private static final String ARG_TITLE = "Account Fragment";
     private static final int FIRST_NAME_INDEX = 0;
-    private static final int GALLERY_INTENT_REQUEST_CODE = 100;
-    private String mTitle;
-    private TextView mTvAccountFragment;
     private TextView mTvUserName;
     private ConstraintLayout mClRiderProfile;
     private ConstraintLayout mClEditRiderProfile;
@@ -68,12 +71,14 @@ public class AccountFragment extends Fragment {
     private View rootView;
     private RiderInfoModel riderInfoModel;
     private RiderModel currentUser;
+    private static final int INTENT_REQUEST_CODE = 100;
+    private static final int REQUEST_STORAGE_PERMISSION = 200;
 
     private ConstraintLayout.OnClickListener mOnClEditRiderProfile = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getContext(), EditAccount.class);
-            RiderModel currentUser = (RiderModel) getActivity().getIntent().getSerializableExtra("current_rider");
+            RiderModel currentUser = ((RiderApplication) getContext().getApplicationContext()).getCurrentRider();
             intent.putExtra("current_user", currentUser);
             startActivity(intent);
         }
@@ -106,13 +111,20 @@ public class AccountFragment extends Fragment {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
 
-            try {
-                startActivityForResult(intent, GALLERY_INTENT_REQUEST_CODE);
 
-            } catch (ActivityNotFoundException e) {
-
-                e.printStackTrace();
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
+                }
+            } else {
+                try {
+                    startActivityForResult(intent, INTENT_REQUEST_CODE);
+                } catch (ActivityNotFoundException e) {
+                    Log.d(TAG, "onClick: ActivityNotFoundException !!!!!!!!!!!");
+                    e.printStackTrace();
+                }
             }
+
         }
     };
 
@@ -141,7 +153,6 @@ public class AccountFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mTitle = getArguments().getString(ARG_TITLE);
         }
     }
 
@@ -181,8 +192,7 @@ public class AccountFragment extends Fragment {
 
         mClEditRiderProfile = rootView.findViewById(R.id.cl_edit_rider_profile);
         mClRiderProfile = rootView.findViewById(R.id.cl_rider_profile);
-        mRiderImage = rootView.findViewById(R.id.profile_image);
-        mRiderImage.setImageResource(R.drawable.trump);
+        mRiderImage = rootView.findViewById(R.id.account_profile_image);
         mRiderImage.setOnClickListener(mOnCivRiderImage);
         mClRiderProfile.setOnClickListener(mOnClRiderProfile);
         mClEditRiderProfile.setOnClickListener(mOnClEditRiderProfile);
@@ -236,98 +246,92 @@ public class AccountFragment extends Fragment {
         });
     }
 
-    /**
-     * ref : https://stackoverflow.com/questions/2789276/android-get-real-path-by-uri-getpath
-     *
-     * @param uri The uri of the file.
-     * @return the real path of that uri
-     */
-    private String getRealPathFromURI(Uri uri) {
-        Log.wtf(TAG, "getRealPathFromURI() has been instantiated");
-
-        String filePath = "";
-        if (uri.getHost().contains("com.android.providers.media")) {
-            // Image pick from recent
-            String wholeID = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                wholeID = DocumentsContract.getDocumentId(uri);
-            }
-
-            // Split at colon, use second item in the array
-            String id = wholeID.split(":")[1];
-
-            String[] column = {MediaStore.Images.Media.DATA};
-
-            // where id is equal to
-            String sel = MediaStore.Images.Media._ID + "=?";
-
-            Cursor cursor = getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    column, sel, new String[]{id}, null);
-
-            int columnIndex = cursor.getColumnIndex(column[0]);
-
-            if (cursor.moveToFirst()) {
-                filePath = cursor.getString(columnIndex);
-            }
-            cursor.close();
-            return filePath;
-        } else {
-            // image pick from gallery
-            return getRealPathFromURI(uri);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.wtf(TAG, "onActivityResult() has been instantiated");
 
-        if (requestCode == GALLERY_INTENT_REQUEST_CODE) {
+        if (requestCode == INTENT_REQUEST_CODE) {
 
             if (resultCode == Activity.RESULT_OK) {
 
+                Log.d(TAG, "onActivityResult: ");
+
                 Uri uri = data.getData();
-                Log.d(TAG, "onActivityResult: URI = " + uri);
+                Log.d(TAG, "URI = " + uri);
+//                Log.d(TAG, "PATH--1 = " + getRealPathFromURI(uri));
+                Log.d(TAG, "PATH--2 = " + RealPathUtil.getRealPath(getActivity(), uri));
+                String path = RealPathUtil.getRealPath(getActivity(), uri);
+                if (path != null) {
 
-                File imageFile = new File(getRealPathFromURI(uri));
+                    File imageFile = new File(RealPathUtil.getRealPath(getActivity(), uri));
 
-                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
+                    RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
 
-                MultipartBody.Part body = MultipartBody.Part.createFormData("photo", imageFile.getName(), requestFile);
-                RequestBody token = RequestBody.create(okhttp3.MultipartBody.FORM, currentUser.getRider().getApi_token());
+                    MultipartBody.Part body = MultipartBody.Part.createFormData("photo", imageFile.getName(), requestFile);
+                    RequestBody token = RequestBody.create(okhttp3.MultipartBody.FORM, currentUser.getToken());
 
-                RiderClient service = RetrofitClientInstance.getRetrofitInstance()
-                        .create(RiderClient.class);
+                    RiderClient service = RetrofitClientInstance.getRetrofitInstance()
+                            .create(RiderClient.class);
 
-                Call<RiderModel> call = service.updateRiderProfileImage(token, body);
-                call.enqueue(new Callback<RiderModel>() {
-                    @Override
-                    public void onResponse(Call<RiderModel> call, Response<RiderModel> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body() != null) {
-                                Log.d(TAG, "onResponse: " + response.body());
-                                Picasso.get()
-                                        .load(RetrofitClientInstance.BASE_URL + response.body().getRider().getImage())
-                                        .placeholder(R.drawable.trump)
-                                        .error(R.drawable.trump)
-                                        .into(mRiderImage);
-                                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    Call<RiderModel> call = service.updateRiderProfileImage(token, body);
+
+                    call.enqueue(new Callback<RiderModel>() {
+                        @Override
+                        public void onResponse(Call<RiderModel> call, retrofit2.Response<RiderModel> response) {
+
+                            if (response.isSuccessful()) {
+                                if (response.body() != null) {
+                                    currentUser.setRider(response.body().getRider());
+                                    Log.d(TAG, "onResponse: " + response.body());
+                                    Picasso.get()
+                                            .load(RetrofitClientInstance.BASE_URL + response.body().getRider().getImage())
+                                            .error(R.drawable.trump)
+                                            .into(mRiderImage);
+                                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Log.d(TAG, "onResponse: RESPONSE BODY = " + response.body());
+                                }
                             } else {
-                                Log.d(TAG, "onResponse: RESPONSE BODY = " + response.body());
+                                Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(getContext(), "Error!", Toast.LENGTH_SHORT).show();
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<RiderModel> call, Throwable t) {
-                        Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
-                        Toast.makeText(getContext(), "Error!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<RiderModel> call, Throwable t) {
 
+                            Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+                            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                } else {
+                    Toast.makeText(getActivity(), "This image cannot be selected", Toast.LENGTH_SHORT).show();
+                }
             }
 
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 200:
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+
+                    try {
+                        startActivityForResult(intent, INTENT_REQUEST_CODE);
+                    } catch (ActivityNotFoundException e) {
+                        Log.d(TAG, "onClick: ActivityNotFoundException !!!!!!!!!!!");
+                        e.printStackTrace();
+                    }
+                }
+
+                break;
         }
     }
 }

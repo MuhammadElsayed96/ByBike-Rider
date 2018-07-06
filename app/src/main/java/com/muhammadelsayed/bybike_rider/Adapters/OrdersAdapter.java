@@ -129,7 +129,7 @@ public class OrdersAdapter extends BaseAdapter {
                     public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
 
                         Log.d(TAG, response.body().getMessage());
-                        Toast.makeText(context, "Trip Accepted", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context, "Trip Accepted", Toast.LENGTH_LONG).show();
 
                         // perform order info call to the server.
 
@@ -139,7 +139,7 @@ public class OrdersAdapter extends BaseAdapter {
                             @Override
                             public void onResponse(Call<OrderInfoModel> call, Response<OrderInfoModel> response) {
                                 Log.d(TAG, response.body().toString());
-                                Toast.makeText(context.getApplicationContext(), "get order info Success", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(context.getApplicationContext(), "get order info Success", Toast.LENGTH_LONG).show();
                                 OrderInfoModel orderInfo = response.body();
                                 orderInfo.getTransporter().setApi_token(riderToken);
                                 Intent intent = new Intent(context, DriverTracking.class);

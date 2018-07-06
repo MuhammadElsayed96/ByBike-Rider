@@ -1,5 +1,6 @@
 package com.muhammadelsayed.bybike_rider.Network;
 
+import com.muhammadelsayed.bybike_rider.Model.EarningsModel;
 import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
 import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
@@ -60,6 +61,6 @@ public interface RiderClient {
     Call<TripResponse> cancelOrder(@Body TripModel tripModel);
 
     @POST("api/rider/earnings")
-    Call<TripResponse> getRiderEarnings(@Body Rider rider);
+    Call<EarningsModel> getRiderEarnings(@Body Rider rider);
 
 }

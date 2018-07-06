@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
+import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import me.grantland.widget.AutofitTextView;
 
@@ -20,6 +23,7 @@ public class RiderProfile extends AppCompatActivity {
     private AutofitTextView riderRating;
     private AutofitTextView totalEmployingPeriod;
     private RiderInfoModel riderInfoModel;
+    private CircularImageView riderImageView;
 
     @Override
 
@@ -54,8 +58,14 @@ public class RiderProfile extends AppCompatActivity {
         riderTotalOrders = findViewById(R.id.tv_trips_number);
         riderRating = findViewById(R.id.tv_rider_rating);
         totalEmployingPeriod = findViewById(R.id.tv_rider_employing_period);
-
+        riderImageView = findViewById(R.id.profile_image);
         riderInfoModel = (RiderInfoModel) getIntent().getSerializableExtra("rider_Info_Model");
+        Picasso.get()
+                .load(RetrofitClientInstance.BASE_URL + riderInfoModel.getRider().getImage())
+                .placeholder(R.drawable.trump)
+                .error(R.drawable.trump)
+                .into(riderImageView);
+
 
         String fRiderName = Utils.splitName(riderInfoModel.getRider().getName())[0];
         riderName.setText(fRiderName);

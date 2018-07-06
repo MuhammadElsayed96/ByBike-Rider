@@ -115,7 +115,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
 
             final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
-            final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+//            final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
 
             String riderToken = orderInfo.getTransporter().getApi_token();
             String cancel = "Rider canceled order";
@@ -133,6 +133,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                 public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
                     if (response.body() != null) {
                         Log.e(TAG, response.body().toString());
+                        tripStatus = RIDER_ON_THE_WAY;
                         finish();
                     }
                 }
@@ -177,14 +178,14 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             Log.wtf(TAG, "Trip status:" + String.valueOf(RIDER_ON_THE_WAY));
             tripStatus++;
             if (tripStatus == PACKAGE_RECEIVED) {
-                Log.wtf(TAG, "Trip status:" + String.valueOf(PACKAGE_RECEIVED));
+//                Log.wtf(TAG, "Trip status:" + String.valueOf(PACKAGE_RECEIVED));
                 btnTripStatus.setBackground(getDrawable(R.drawable.transparent_button_red));
                 btnCancelTrip.setVisibility(View.GONE);
                 btnTripStatus.setText(RIDER_DELIVERED_PACKAGE);
 
                 String riderToken = orderInfo.getTransporter().getApi_token();
                 final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
-                final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+//                final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
 
                 TripModel tripModel = new TripModel(riderToken, orderId);
 
@@ -214,7 +215,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
                 String riderToken = orderInfo.getTransporter().getApi_token();
                 final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
-                final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+//                final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
 
                 TripModel tripModel = new TripModel(riderToken, orderId);
 
@@ -225,6 +226,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                     public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
                         if (response.body() != null) {
                             Log.wtf(TAG, response.body().toString());
+                            tripStatus = RIDER_ON_THE_WAY;
+                            finish();
                         }
                     }
 
@@ -552,10 +555,10 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         Log.wtf(TAG, "onRoutingFailure() has been instantiated");
 
         if (e != null) {
-            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.d(TAG, "onRoutingFailure: Error: " + e.getMessage());
         } else {
-            Toast.makeText(this, "Something went wrong, Try again", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Something went wrong, Try again", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -74,4 +74,9 @@ public class EarningsFragment extends Fragment {
         Log.wtf(TAG, "onDetach() has been instantiated");
 
     }
+
+
+    private void getRiderRatings() {
+        Log.wtf(TAG, "getRiderRatings() has been instantiated");
+    }
 }
