@@ -29,6 +29,7 @@ public class RequestsFragment extends Fragment {
     private String mTitle;
     private View rootView;
     private ListView requestListView;
+    private List<Orders> upsideDown;
     private List<Orders> orderList;
     private DatabaseReference mOrdersRef;
 
@@ -75,7 +76,7 @@ public class RequestsFragment extends Fragment {
 
         requestListView = rootView.findViewById(R.id.simpleListView);
         orderList = new ArrayList<>();
-
+        upsideDown = new ArrayList<>();
         mOrdersRef = FirebaseDatabase.getInstance().getReference("orders");
     }
 
@@ -87,6 +88,7 @@ public class RequestsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 orderList.clear();
+                upsideDown.clear();
                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
                 for (DataSnapshot child : children) {
                     Log.d(TAG, child.toString());
@@ -96,8 +98,13 @@ public class RequestsFragment extends Fragment {
                     orderList.add(orders);
                 }
 
+
+                for (int i = orderList.size() - 1; i >= 0; i--) {
+                    upsideDown.add(orderList.get(i));
+                }
+
                 if (getActivity() != null) {
-                    requestListView.setAdapter(new OrdersAdapter(getActivity(), orderList));
+                    requestListView.setAdapter(new OrdersAdapter(getActivity(), upsideDown));
                 }
             }
 

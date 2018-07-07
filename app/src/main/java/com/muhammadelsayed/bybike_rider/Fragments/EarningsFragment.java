@@ -141,9 +141,16 @@ public class EarningsFragment extends Fragment {
 
     private List<Earnings> extractEarningsData(EarningsModel model) {
         List<Earnings> earningsList = new ArrayList<>();
+        List<Earnings> upsideDownearningsList = new ArrayList<>();
         for (Earnings trip : model.getEarnings()) {
             earningsList.add(trip);
         }
-        return earningsList;
+
+        for (int i = earningsList.size() - 1; i >= 0; i--) {
+            upsideDownearningsList.add(earningsList.get(i));
+        }
+
+
+        return upsideDownearningsList;
     }
 }
