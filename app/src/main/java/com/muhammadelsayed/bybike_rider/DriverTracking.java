@@ -67,6 +67,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -116,36 +117,84 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             Toast.makeText(getApplicationContext(), "Trip canceled successfully", Toast.LENGTH_LONG).show();
 
 
-            final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
+//            final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
+////            final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+//
+//            String riderToken = orderInfo.getTransporter().getApi_token();
+//            String cancel = "Rider canceled order";
+//            TripModel tripModel = new TripModel(riderToken, orderId, cancel);
+//
+//            // Updating Firebase db.
+//            Order order = orderInfo.getOrder();
+//            order.setStatus(ORDER_CANCELED);
+//
+//
+//            RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+//            Call<TripResponse> call = service.cancelOrder(tripModel);
+//            call.enqueue(new Callback<TripResponse>() {
+//                @Override
+//                public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
+//                    if (response.body() != null) {
+//                        Log.e(TAG, response.body().toString());
+//                        tripStatus = RIDER_ON_THE_WAY;
+//                        finish();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<TripResponse> call, Throwable t) {
+//                    Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
+//                }
+//            });
+            new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Are you sure?")
+                    .setContentText("You wanna cancel!")
+                    .setConfirmText("Yes, Cancel it!")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(final SweetAlertDialog sDialog) {
+
+
+                            final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
 //            final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
 
-            String riderToken = orderInfo.getTransporter().getApi_token();
-            String cancel = "Rider canceled order";
-            TripModel tripModel = new TripModel(riderToken, orderId, cancel);
+                            String riderToken = orderInfo.getTransporter().getApi_token();
+                            String cancel = "Rider canceled order";
+                            TripModel tripModel = new TripModel(riderToken, orderId, cancel);
 
-            // Updating Firebase db.
-            Order order = orderInfo.getOrder();
-            order.setStatus(ORDER_CANCELED);
+                            // Updating Firebase db.
+                            Order order = orderInfo.getOrder();
+                            order.setStatus(ORDER_CANCELED);
 
 
-            RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
-            Call<TripResponse> call = service.cancelOrder(tripModel);
-            call.enqueue(new Callback<TripResponse>() {
-                @Override
-                public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
-                    if (response.body() != null) {
-                        Log.e(TAG, response.body().toString());
-                        tripStatus = RIDER_ON_THE_WAY;
-                        finish();
-                    }
-                }
+                            RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+                            Call<TripResponse> call = service.cancelOrder(tripModel);
+                            call.enqueue(new Callback<TripResponse>() {
+                                @Override
+                                public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
+                                    if (response.body() != null) {
+                                        Log.e(TAG, response.body().toString());
+                                        tripStatus = RIDER_ON_THE_WAY;
+                                        sDialog
+                                                .setTitleText("Canceled!")
+                                                .setContentText("You canceled successfully!")
+                                                .setConfirmText("OK")
+                                                .setConfirmClickListener(null)
+                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        finish();
+                                    }
+                                }
 
-                @Override
-                public void onFailure(Call<TripResponse> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
-                }
-            });
+                                @Override
+                                public void onFailure(Call<TripResponse> call, Throwable t) {
+                                    Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
+                                }
+                            });
 
+
+                        }
+                    })
+                    .show();
 
         }
     };

@@ -35,6 +35,7 @@ import com.muhammadelsayed.bybike_rider.Fragments.RatingFragment;
 import com.muhammadelsayed.bybike_rider.Fragments.RequestsFragment;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Utils.RiderSharedPreferences;
+import com.pusher.pushnotifications.PushNotifications;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -127,7 +128,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.wtf(TAG, "onCreate() has been instantiated");
-
+        PushNotifications.start(getApplicationContext(), "f003204c-30be-49af-b706-928d5d51ed69");
+        PushNotifications.subscribe("hello");
         fillRiderApplication();
 
         RiderModel currentRider = (RiderModel) getIntent().getSerializableExtra("current_rider");
