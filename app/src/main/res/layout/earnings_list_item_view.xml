@@ -64,9 +64,13 @@
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
             android:id="@+id/trip_rating_bar"
+            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small"
             android:layout_width="110dp"
             android:layout_height="21dp"
             android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:maxHeight="48dp"
+            android:minHeight="48dp"
             android:numStars="5"
             android:progressBackgroundTint="#c8c8c8"
             android:progressTint="#000"

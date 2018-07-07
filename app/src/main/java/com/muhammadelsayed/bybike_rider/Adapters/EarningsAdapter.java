@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.muhammadelsayed.bybike_rider.Model.Earnings;
+import com.muhammadelsayed.bybike_rider.Model.Rate;
 import com.muhammadelsayed.bybike_rider.R;
 
 import java.text.DateFormat;
@@ -65,11 +66,17 @@ public class EarningsAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        Earnings earnings = earningsList.get(position);
 
-        String clientName = earningsList.get(position).getOrder().getUser().getName();
-        String tripCost = earningsList.get(position).getTotal_cost();
-        String tripTime = earningsList.get(position).getCreated_at();
-        String riderRate = earningsList.get(position).getOrder().getRate();
+        String clientName = earnings.getOrder().getUser().getName();
+        String tripCost = earnings.getTotal_cost();
+        String tripTime = earnings.getCreated_at();
+        String riderRate = "";
+        try {
+            riderRate = earnings.getOrder().getRate().getRate();
+        } catch (Exception e) {
+            riderRate = "0";
+        }
 
 
         holder.tripClientTv.setText(clientName);

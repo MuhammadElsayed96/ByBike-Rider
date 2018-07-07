@@ -85,7 +85,7 @@ public class RiderProfile extends AppCompatActivity {
         String fRiderName = Utils.splitName(riderInfoModel.getRider().getName())[0];
         riderName.setText(fRiderName);
         riderTotalOrders.setText(riderInfoModel.getTotal_trips());
-        riderRating.setText(riderInfoModel.getRating());
+        riderRating.setText(String.format("%.2f", Float.valueOf(riderInfoModel.getRating())));
 
         totalEmployingPeriod.setText("1");
     }

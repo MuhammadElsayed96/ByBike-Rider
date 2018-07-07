@@ -14,13 +14,12 @@ public class Order implements Serializable {
     private String Created_at;
     private String Updated_at;
     private Client user;
-
-    private String rate;
+    private Rate rate;
 
     public Order() {
     }
 
-    public Order(int id, String uuid, int status, String sender_Lat, String sender_Lng, String receiver_lat, String receiver_lng, Client user, String created_at, String updated_at, String rate) {
+    public Order(int id, String uuid, int status, String sender_Lat, String sender_Lng, String receiver_lat, String receiver_lng, Client user, String created_at, String updated_at, Rate rate) {
         this.id = id;
         this.uuid = uuid;
         this.status = status;
@@ -34,11 +33,11 @@ public class Order implements Serializable {
         this.rate = rate;
     }
 
-    public String getRate() {
+    public Rate getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(Rate rate) {
         this.rate = rate;
     }
 

@@ -408,7 +408,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             double lat = mLastLocation.getLatitude();
             double lng = mLastLocation.getLongitude();
 
-            geoFire.setLocation(String.valueOf(orderInfo.getOrder().getId()), new GeoLocation(lat, lng), new GeoFire.CompletionListener() {
+            geoFire.setLocation(String.valueOf(orderInfo.getTransporter().getUuid()), new GeoLocation(lat, lng), new GeoFire.CompletionListener() {
                 @Override
                 public void onComplete(String key, DatabaseError error) {
                     handleNewLocation(mLastLocation);

@@ -50,7 +50,7 @@ public class RatingDetails extends AppCompatActivity {
         mTvStarRating = findViewById(R.id.star_rate);
         try {
             starRating = getIntent().getStringExtra("Rider_Star_Rating");
-            mTvStarRating.setText(starRating);
+            mTvStarRating.setText(String.format("%.2f", Float.valueOf(starRating)));
         } catch (NullPointerException e) {
             mTvStarRating.setText("0");
         }

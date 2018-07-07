@@ -140,7 +140,7 @@ public class RatingFragment extends Fragment {
                     Log.e(TAG, "onResponse: " + response.body());
                     riderRateModel = response.body();
                     mTvFiveStareRatings.setText(riderRateModel.getFive_stars());
-                    mTvStarRating.setText(riderRateModel.getRating());
+                    mTvStarRating.setText(String.format("%.2f", Float.valueOf(riderRateModel.getRating())));
                 } else {
                     Toast.makeText(getActivity(), "Error!!", Toast.LENGTH_SHORT).show();
                     mTvFiveStareRatings.setText("0");

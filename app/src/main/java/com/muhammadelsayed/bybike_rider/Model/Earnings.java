@@ -12,7 +12,6 @@ public class Earnings implements Serializable {
     private String created_at;
     private String updated_at;
 
-
     public Earnings() {
     }
 

@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_requests:
                     switchFragment(INT_FRAGMENT_REQUESTS_POS, TAG_FRAGMENT_REQUESTS);
-                    badgeView.hide(true);
+                    if (badgeView != null)
+                        badgeView.hide(true);
                     return true;
             }
             return false;
