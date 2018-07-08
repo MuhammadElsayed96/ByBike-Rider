@@ -25,6 +25,7 @@ import com.muhammadelsayed.bybike_rider.RiderApplication;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
@@ -141,16 +142,14 @@ public class EarningsFragment extends Fragment {
 
     private List<Earnings> extractEarningsData(EarningsModel model) {
         List<Earnings> earningsList = new ArrayList<>();
-        List<Earnings> upsideDownearningsList = new ArrayList<>();
-        for (Earnings trip : model.getEarnings()) {
-            earningsList.add(trip);
-        }
+        List<Earnings> upsideDownEarningsList = new ArrayList<>();
+        earningsList.addAll(Arrays.asList(model.getEarnings()));
 
         for (int i = earningsList.size() - 1; i >= 0; i--) {
-            upsideDownearningsList.add(earningsList.get(i));
+            upsideDownEarningsList.add(earningsList.get(i));
         }
 
 
-        return upsideDownearningsList;
+        return upsideDownEarningsList;
     }
 }

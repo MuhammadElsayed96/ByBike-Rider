@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +18,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +43,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import q.rorbin.badgeview.QBadgeView;
+
+import static android.provider.Contacts.PresenceColumns.OFFLINE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,7 +96,38 @@ public class MainActivity extends AppCompatActivity {
                     switchFragment(INT_FRAGMENT_ACCOUNT_POS, TAG_FRAGMENT_ACCOUNT);
                     return true;
                 case R.id.navigation_requests:
-                    switchFragment(INT_FRAGMENT_REQUESTS_POS, TAG_FRAGMENT_REQUESTS);
+                    if (buttonStatus == OFFLINE) {
+                        SweetAlertDialog dialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+                        dialog.setCancelable(false);
+                        dialog
+                                .setTitleText("You Are offline")
+                                .setContentText("Go online to get requests")
+                                .setConfirmText("Go Online")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                    @Override
+                                    public void onClick(final SweetAlertDialog sDialog) {
+                                        buttonStatus = BUTTON_STATUS_ONLINE;
+                                        mActionbarButton.setText("GO OFFLINE");
+                                        vibe.vibrate(TIME_OF_VIBRATION);
+                                        //mActionbarButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.offline));
+                                        mActionbarButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.offline)));
+                                        sDialog.dismissWithAnimation();
+                                        switchFragment(INT_FRAGMENT_REQUESTS_POS, TAG_FRAGMENT_REQUESTS);
+                                    }
+                                })
+                                .setCancelText("Cancel")
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        mBottomNavigation.getMenu().getItem(0).setChecked(true);
+                                        switchFragment(INT_FRAGMENT_HOME_POS, TAG_FRAGMENT_HOME);
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                })
+                                .show();
+                    } else
+                        switchFragment(INT_FRAGMENT_REQUESTS_POS, TAG_FRAGMENT_REQUESTS);
                     if (badgeView != null)
                         badgeView.hide(true);
                     return true;
@@ -140,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigation = findViewById(R.id.bottom_navigation_view);
         mBottomNavigation.getMenu().getItem(0).setChecked(true);
         mBottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         disableShiftMode(mBottomNavigation);
         buildFragmentsList();
         // Set the 0th Fragment to be displayed by default.
