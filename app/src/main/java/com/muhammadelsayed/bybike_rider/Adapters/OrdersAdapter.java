@@ -32,6 +32,7 @@ import com.muhammadelsayed.bybike_rider.Utils.Maps;
 import java.io.IOException;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +48,7 @@ public class OrdersAdapter extends BaseAdapter {
     private List<Orders> ordersList;
     private LayoutInflater inflater;
     private Context context;
+    private SweetAlertDialog orderAlreadyTakenDialog;
 
 
     public OrdersAdapter(@NonNull Context context, List<Orders> ordersList) {
@@ -115,8 +117,8 @@ public class OrdersAdapter extends BaseAdapter {
                 String childId = String.valueOf(ordersList.get(position).getId());
 //                DatabaseReference mOrderRef = FirebaseDatabase.getInstance().getReference("orders").child(childId).child("status");
 
-                final Orders order = ordersList.get(position);
 
+                final Orders order = ordersList.get(position);
 
 
                 final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();
@@ -129,32 +131,48 @@ public class OrdersAdapter extends BaseAdapter {
 
                         Log.d(TAG, response.body().getMessage());
 //                        Toast.makeText(context, "Trip Accepted", Toast.LENGTH_LONG).show();
+                        if (!response.body().getStatus()) {
+                            if (orderAlreadyTakenDialog != null)
+                                orderAlreadyTakenDialog = null;
+                            orderAlreadyTakenDialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE);
+                            orderAlreadyTakenDialog.setCancelable(false);
+                            orderAlreadyTakenDialog
+                                    .setTitleText("Order")
+                                    .setContentText("Order has been taken!")
+                                    .setConfirmText("Ok")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismissWithAnimation();
+                                        }
+                                    });
+                            orderAlreadyTakenDialog.show();
+                        } else {
+                            // perform order info call to the server.
 
-                        // perform order info call to the server.
 
-                        RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
-                        Call<OrderInfoModel> orderInfoCall = service.getOrderInfo(new TripModel(riderToken, order.getUuid()));
-                        orderInfoCall.enqueue(new Callback<OrderInfoModel>() {
-                            @Override
-                            public void onResponse(Call<OrderInfoModel> call, Response<OrderInfoModel> response) {
-                                Log.d(TAG, response.body().toString());
+                            RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+                            Call<OrderInfoModel> orderInfoCall = service.getOrderInfo(new TripModel(riderToken, order.getUuid()));
+                            orderInfoCall.enqueue(new Callback<OrderInfoModel>() {
+                                @Override
+                                public void onResponse(Call<OrderInfoModel> call, Response<OrderInfoModel> response) {
+                                    Log.d(TAG, response.body().toString());
 //                                Toast.makeText(context.getApplicationContext(), "get order info Success", Toast.LENGTH_LONG).show();
-                                OrderInfoModel orderInfo = response.body();
-                                orderInfo.getTransporter().setApi_token(riderToken);
-                                Intent intent = new Intent(context, DriverTracking.class);
-                                intent.putExtra("order_info_model", orderInfo);
-                                context.startActivity(intent);
+                                    OrderInfoModel orderInfo = response.body();
+                                    orderInfo.getTransporter().setApi_token(riderToken);
+                                    Intent intent = new Intent(context, DriverTracking.class);
+                                    intent.putExtra("order_info_model", orderInfo);
+                                    context.startActivity(intent);
 //                                ((Activity) context).finish();
-                            }
+                                }
 
-                            @Override
-                            public void onFailure(Call<OrderInfoModel> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<OrderInfoModel> call, Throwable t) {
 
-                            }
-                        });
-
+                                }
+                            });
+                        }
                         // Send notification to the user informing him that rider accepted his location
-
                     }
 
                     @Override
@@ -162,8 +180,6 @@ public class OrdersAdapter extends BaseAdapter {
 
                     }
                 });
-
-
             }
         });
 

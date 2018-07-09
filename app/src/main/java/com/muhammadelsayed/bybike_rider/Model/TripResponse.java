@@ -29,7 +29,7 @@ public class TripResponse {
         this.message = message;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 
