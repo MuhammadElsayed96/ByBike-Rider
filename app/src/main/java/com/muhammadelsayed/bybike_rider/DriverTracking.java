@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -46,21 +45,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
 import com.muhammadelsayed.bybike_rider.Model.Order;
 import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
-import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.TripModel;
 import com.muhammadelsayed.bybike_rider.Model.TripResponse;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.Network.RiderClient;
-import com.muhammadelsayed.bybike_rider.RatingActivities.RatingDetails;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -89,7 +84,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int[] COLORS = new int[]{R.color.colorPrimary, R.color.error};
-    private static int tripStatus = RIDER_ON_THE_WAY;
+    private static int tripStatus = PACKAGE_RECEIVED;
     private static int UPDATE_INTERVAL = 5000;
     private static int FASTEST_INTERVAL = 3000;
     private static int DISPLACEMENT = 10;
@@ -105,6 +100,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     private DatabaseReference ref;
     private GeoFire geoFire;
     private ValueEventListener statusEvenListener;
+    private SweetAlertDialog haveThePackageDialog;
     // widgets
     private Button btnCallClient, btnTripStatus, btnCancelTrip;
     private TextView txtClientName;
@@ -114,9 +110,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         @Override
         public void onClick(View v) {
             Log.e(TAG, "Cancel trip btn has been clicked");
-            Toast.makeText(getApplicationContext(), "Trip canceled successfully", Toast.LENGTH_LONG).show();
-
-
 //            final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
 ////            final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
 //
@@ -146,18 +139,25 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 //                    Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
 //                }
 //            });
-            new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE)
+            SweetAlertDialog dialog = new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE);
+            dialog.setCancelable(false);
+            dialog
                     .setTitleText("Are you sure?")
                     .setContentText("You wanna cancel!")
                     .setConfirmText("Yes, Cancel it!")
+                    .setCancelText("dismiss")
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    })
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(final SweetAlertDialog sDialog) {
 
 
                             final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
-//            final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
-
                             String riderToken = orderInfo.getTransporter().getApi_token();
                             String cancel = "Rider canceled order";
                             TripModel tripModel = new TripModel(riderToken, orderId, cancel);
@@ -173,6 +173,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                                 @Override
                                 public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
                                     if (response.body() != null) {
+//                                        Toast.makeText(getApplicationContext(), "Trip canceled successfully", Toast.LENGTH_LONG).show();
                                         Log.e(TAG, response.body().toString());
                                         tripStatus = RIDER_ON_THE_WAY;
                                         sDialog
@@ -227,70 +228,101 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         public void onClick(View v) {
             Log.wtf(TAG, "Trip btn has been clicked");
             Log.wtf(TAG, "Trip status:" + String.valueOf(RIDER_ON_THE_WAY));
-            tripStatus++;
             if (tripStatus == PACKAGE_RECEIVED) {
 //                Log.wtf(TAG, "Trip status:" + String.valueOf(PACKAGE_RECEIVED));
-                btnTripStatus.setBackground(getDrawable(R.drawable.transparent_button_red));
-                btnCancelTrip.setVisibility(View.GONE);
-                btnTripStatus.setText(RIDER_DELIVERED_PACKAGE);
+                if (haveThePackageDialog != null)
+                    haveThePackageDialog = null;
+                haveThePackageDialog = new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE);
+                haveThePackageDialog.setCancelable(false);
+                haveThePackageDialog
+                        .setTitleText("Package")
+                        .setContentText("Do you have the package?")
+                        .setConfirmText("Yes")
+                        .setCancelText("Cancel")
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(final SweetAlertDialog sDialog) {
+                                btnTripStatus.setBackground(getDrawable(R.drawable.transparent_button_red));
+                                btnCancelTrip.setVisibility(View.GONE);
+                                btnTripStatus.setText(RIDER_DELIVERED_PACKAGE);
 
-                String riderToken = orderInfo.getTransporter().getApi_token();
-                final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
-//                final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
+                                String riderToken = orderInfo.getTransporter().getApi_token();
+                                final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
+                                TripModel tripModel = new TripModel(riderToken, orderId);
+                                RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+                                Call<TripResponse> call = service.approveOrder(tripModel);
+                                call.enqueue(new Callback<TripResponse>() {
+                                    @Override
+                                    public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
+                                        if (response.body() != null) {
+                                            Log.wtf(TAG, response.body().toString());
+                                        }
+                                    }
 
-                TripModel tripModel = new TripModel(riderToken, orderId);
-
-                RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
-                Call<TripResponse> call = service.approveOrder(tripModel);
-                call.enqueue(new Callback<TripResponse>() {
-                    @Override
-                    public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
-                        if (response.body() != null) {
-                            Log.wtf(TAG, response.body().toString());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<TripResponse> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                // Updating Firebase db.
-                Order order = orderInfo.getOrder();
-                order.setStatus(PACKAGE_RECEIVED);
+                                    @Override
+                                    public void onFailure(Call<TripResponse> call, Throwable t) {
+                                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                sDialog.dismissWithAnimation();
+                                tripStatus++;
+                            }
+                        })
+                        .show();
 
 
             } else if (tripStatus == ORDER_DELIVERED) {
                 Log.wtf(TAG, "Trip status:" + String.valueOf(ORDER_DELIVERED));
 
-                String riderToken = orderInfo.getTransporter().getApi_token();
-                final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
-//                final String orderIdFirebase = String.valueOf(orderInfo.getOrder().getId());
 
-                TripModel tripModel = new TripModel(riderToken, orderId);
+                new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Package")
+                        .setContentText("Did you delivered package?")
+                        .setConfirmText("Yes")
+                        .setCancelText("Cancel")
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(final SweetAlertDialog sDialog) {
 
-                RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
-                Call<TripResponse> call = service.receiveOrder(tripModel);
-                call.enqueue(new Callback<TripResponse>() {
-                    @Override
-                    public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
-                        if (response.body() != null) {
-                            Log.wtf(TAG, response.body().toString());
-                            tripStatus = RIDER_ON_THE_WAY;
-                            finish();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<TripResponse> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
-                    }
-                });
+                                String riderToken = orderInfo.getTransporter().getApi_token();
+                                final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
 
-                // Updating Firebase db.
-                Order order = orderInfo.getOrder();
-                order.setStatus(ORDER_DELIVERED);
+                                TripModel tripModel = new TripModel(riderToken, orderId);
+
+                                RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
+                                Call<TripResponse> call = service.receiveOrder(tripModel);
+                                call.enqueue(new Callback<TripResponse>() {
+                                    @Override
+                                    public void onResponse(Call<TripResponse> call, Response<TripResponse> response) {
+                                        if (response.body() != null) {
+                                            Log.wtf(TAG, response.body().toString());
+                                            tripStatus = RIDER_ON_THE_WAY;
+                                            finish();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<TripResponse> call, Throwable t) {
+                                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .show();
 
             }
         }
