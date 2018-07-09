@@ -322,9 +322,19 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                Toast.makeText(getApplicationContext(), dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
                 if (dataSnapshot.getValue() == Long.valueOf(5)) {
-                    finish();
                     orderRef.removeEventListener(this);
-                    // Client canceled the order.
+                    new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Canceled")
+                            .setContentText("Client canceled the order")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(final SweetAlertDialog sDialog) {
+                                    finish();
+                                    // Client canceled the order.
+                                }
+                            })
+                            .show();
                 }
             }
 
@@ -337,10 +347,16 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         setupWidgets();
 
         createLocationRequest();
+
         buildGoogleApiClient();
 
-        ref = FirebaseDatabase.getInstance().getReference("Drivers");
-        geoFire = new GeoFire(ref);
+        ref = FirebaseDatabase.getInstance().
+
+                getReference("Drivers");
+
+        geoFire = new
+
+                GeoFire(ref);
 
 
     }
