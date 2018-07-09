@@ -113,11 +113,10 @@ public class OrdersAdapter extends BaseAdapter {
             @Override
             public void onStateChange(boolean active) {
                 String childId = String.valueOf(ordersList.get(position).getId());
-                DatabaseReference mOrderRef = FirebaseDatabase.getInstance().getReference("orders").child(childId).child("status");
+//                DatabaseReference mOrderRef = FirebaseDatabase.getInstance().getReference("orders").child(childId).child("status");
 
                 final Orders order = ordersList.get(position);
-                order.setStatus(1);
-                mOrderRef.setValue(1);
+
 
 
                 final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();

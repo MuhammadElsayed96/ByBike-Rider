@@ -101,6 +101,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     private GeoFire geoFire;
     private ValueEventListener statusEvenListener;
     private SweetAlertDialog haveThePackageDialog;
+    private SweetAlertDialog cancelDialog;
+    private SweetAlertDialog orderDeliveredDialog;
     // widgets
     private Button btnCallClient, btnTripStatus, btnCancelTrip;
     private TextView txtClientName;
@@ -139,9 +141,11 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 //                    Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
 //                }
 //            });
-            SweetAlertDialog dialog = new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE);
-            dialog.setCancelable(false);
-            dialog
+            if (cancelDialog != null)
+                cancelDialog = null;
+            cancelDialog = new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE);
+            cancelDialog.setCancelable(false);
+            cancelDialog
                     .setTitleText("Are you sure?")
                     .setContentText("You wanna cancel!")
                     .setConfirmText("Yes, Cancel it!")
@@ -155,8 +159,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(final SweetAlertDialog sDialog) {
-
-
                             final String orderId = String.valueOf(orderInfo.getOrder().getUuid());
                             String riderToken = orderInfo.getTransporter().getApi_token();
                             String cancel = "Rider canceled order";
@@ -165,7 +167,6 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                             // Updating Firebase db.
                             Order order = orderInfo.getOrder();
                             order.setStatus(ORDER_CANCELED);
-
 
                             RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
                             Call<TripResponse> call = service.cancelOrder(tripModel);
@@ -191,12 +192,9 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                                     Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_LONG).show();
                                 }
                             });
-
-
                         }
-                    })
-                    .show();
-
+                    });
+            cancelDialog.show();
         }
     };
 
@@ -280,8 +278,10 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
             } else if (tripStatus == ORDER_DELIVERED) {
                 Log.wtf(TAG, "Trip status:" + String.valueOf(ORDER_DELIVERED));
 
-
-                new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE)
+                if (orderDeliveredDialog != null)
+                    orderDeliveredDialog = null;
+                orderDeliveredDialog = new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE);
+                orderDeliveredDialog
                         .setTitleText("Package")
                         .setContentText("Did you delivered package?")
                         .setConfirmText("Yes")
@@ -321,8 +321,8 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                                 });
                                 sDialog.dismissWithAnimation();
                             }
-                        })
-                        .show();
+                        });
+                orderDeliveredDialog.show();
 
             }
         }
