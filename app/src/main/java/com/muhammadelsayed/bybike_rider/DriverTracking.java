@@ -154,6 +154,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismissWithAnimation();
+                            tripStatus = PACKAGE_RECEIVED;
                         }
                     })
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
