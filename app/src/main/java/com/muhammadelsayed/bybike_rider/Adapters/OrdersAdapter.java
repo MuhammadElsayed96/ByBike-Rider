@@ -121,7 +121,7 @@ public class OrdersAdapter extends BaseAdapter {
 
 
                 final String riderToken = ((RiderApplication) context.getApplicationContext()).getCurrentRider().getToken();
-                Toast.makeText(context.getApplicationContext(), riderToken, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context.getApplicationContext(), riderToken, Toast.LENGTH_SHORT).show();
                 RiderClient service = RetrofitClientInstance.getRetrofitInstance().create(RiderClient.class);
                 Call<TripResponse> call = service.takeOrder(new TripModel(riderToken, order.getUuid()));
                 call.enqueue(new Callback<TripResponse>() {

@@ -320,7 +320,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         orderRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(getApplicationContext(), dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
                 if (dataSnapshot.getValue() == Long.valueOf(5)) {
                     finish();
                     orderRef.removeEventListener(this);
