@@ -71,7 +71,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener,
-        RoutingListener {
+        RoutingListener, ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = DriverTracking.class.getSimpleName();
     private static final int GOOGLE_PLAY_SERVICES_RESOLUTION_REQUEST = 101;
@@ -89,6 +89,7 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
     private static int FASTEST_INTERVAL = 3000;
     private static int DISPLACEMENT = 10;
     private static LatLng origin, destination;
+    private SweetAlertDialog connectionLossDialog;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
@@ -697,4 +698,22 @@ public class DriverTracking extends FragmentActivity implements OnMapReadyCallba
 
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        //show a No Internet Alert or Dialog
+        if (connectionLossDialog != null)
+            connectionLossDialog = null;
+        connectionLossDialog = new SweetAlertDialog(DriverTracking.this, SweetAlertDialog.WARNING_TYPE);
+        connectionLossDialog.setCancelable(false);
+        connectionLossDialog.setTitleText("Connection Loss")
+                .setContentText("Connect to Internet and try again")
+                .setConfirmText("Ok")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        connectionLossDialog.dismissWithAnimation();
+                    }
+                });
+        connectionLossDialog.show();
+    }
 }

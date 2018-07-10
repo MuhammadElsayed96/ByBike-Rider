@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.muhammadelsayed.bybike_rider.ConnectionReceiver;
+import com.muhammadelsayed.bybike_rider.DriverTracking;
 import com.muhammadelsayed.bybike_rider.MainActivity;
 import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
@@ -15,11 +18,12 @@ import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.StartActivity;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Utils {
+public class Utils implements ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = Utils.class.getSimpleName();
 
@@ -31,6 +35,7 @@ public class Utils {
     public static final String SING_UP_FRAGMENT = "SingUpFragment";
     public static final String FORGOT_PASSWORD_FRAGMENT = "FORGOT_PASSWORD_FRAGMENT";
     public static final String EXTENDED_SIGN_UP = "ExtendedSignUpFragment";
+    private static SweetAlertDialog connectionLossDialog;
 
 
     /**
@@ -78,13 +83,33 @@ public class Utils {
                         Log.d(TAG, "onResponse: " + response.body());
                     }
                 }
+
                 @Override
                 public void onFailure(Call<RiderInfoModel> call, Throwable t) {
                     Log.d(TAG, "onFailure: Failed");
-                    Intent intent = new Intent(context, StartActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    context.startActivity(intent);
-                    ((Activity)context).finish();
+                    if (checkConnection()) {
+                        Intent intent = new Intent(context, StartActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        context.startActivity(intent);
+                        ((Activity) context).finish();
+                    } else {
+                        // Notify Collection Loss.
+                        if (connectionLossDialog != null)
+                            connectionLossDialog = null;
+                        connectionLossDialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE);
+                        connectionLossDialog.setCancelable(false);
+                        connectionLossDialog.setTitleText("Connection Loss")
+                                .setContentText("Connect to Internet and try again")
+                                .setConfirmText("Ok")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        connectionLossDialog.dismissWithAnimation();
+                                    }
+                                });
+                        connectionLossDialog.show();
+
+                    }
                 }
             });
         } else {
@@ -92,8 +117,17 @@ public class Utils {
             Intent intent = new Intent(context, StartActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             context.startActivity(intent);
-            ((Activity)context).finish();
+            ((Activity) context).finish();
         }
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+    }
+
+
+    private static boolean checkConnection() {
+        return ConnectionReceiver.isConnected();
+    }
 }

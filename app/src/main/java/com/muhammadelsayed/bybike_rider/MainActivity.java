@@ -48,7 +48,7 @@ import q.rorbin.badgeview.QBadgeView;
 
 import static android.provider.Contacts.PresenceColumns.OFFLINE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     // Variables Declaration.
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int BUTTON_STATUS_ONLINE = 1;
     public static final int BUTTON_STATUS_OFFLINE = 0;
     public static int buttonStatus = BUTTON_STATUS_OFFLINE;
+    private SweetAlertDialog connectionLossDialog;
     private static Button mActionbarButton;
     private ActionBar mActionBar;
     public static BottomNavigationView mBottomNavigation;
@@ -164,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.wtf(TAG, "onCreate() has been instantiated");
+
+        //check the network connectivity when activity is created
+        checkConnection();
+
         PushNotifications.start(getApplicationContext(), "f003204c-30be-49af-b706-928d5d51ed69");
         PushNotifications.subscribe("hello");
         fillRiderApplication();
@@ -237,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.wtf(TAG, "onResume() has been instantiated");
+        RiderApplication.getInstance().setConnectionListener(this);
     }
 
     @Override
@@ -331,4 +337,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (!isConnected) {
+
+//            private SweetAlertDialog connectionLossDialog;
+
+
+            //show a No Internet Alert or Dialog
+            if (connectionLossDialog != null)
+                connectionLossDialog = null;
+            connectionLossDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+            connectionLossDialog.setCancelable(false);
+            connectionLossDialog.setTitleText("Connection Loss")
+                    .setContentText("Connect to Internet and try again")
+                    .setConfirmText("Ok")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            connectionLossDialog.dismissWithAnimation();
+                        }
+                    });
+            connectionLossDialog.show();
+        } else {
+
+            // dismiss the dialog or refresh the activity
+        }
+    }
+
+    private void checkConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected();
+        if (!isConnected) {
+            //show a No Internet Alert or Dialog
+            Toast.makeText(getApplicationContext(), "No Internet Network", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

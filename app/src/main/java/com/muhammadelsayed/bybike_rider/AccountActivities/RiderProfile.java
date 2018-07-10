@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.muhammadelsayed.bybike_rider.ConnectionReceiver;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.R;
@@ -28,9 +29,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.grantland.widget.AutofitTextView;
 
-public class RiderProfile extends AppCompatActivity {
+public class RiderProfile extends AppCompatActivity implements ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = RiderProfile.class.getSimpleName();
     private AutofitTextView riderName;
@@ -39,9 +41,9 @@ public class RiderProfile extends AppCompatActivity {
     private AutofitTextView totalEmployingPeriod;
     private RiderInfoModel riderInfoModel;
     private CircularImageView riderImageView;
+    private SweetAlertDialog connectionLossDialog;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_profile);
@@ -101,5 +103,25 @@ public class RiderProfile extends AppCompatActivity {
         Period period = Period.between(date, now);
 
         return String.valueOf(period.getMonths());
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+//        private SweetAlertDialog connectionLossDialog;
+        //show a No Internet Alert or Dialog
+        if (connectionLossDialog != null)
+            connectionLossDialog = null;
+        connectionLossDialog = new SweetAlertDialog(getApplicationContext(), SweetAlertDialog.WARNING_TYPE);
+        connectionLossDialog.setCancelable(false);
+        connectionLossDialog.setTitleText("Connection Loss")
+                .setContentText("Connect to Internet and try again")
+                .setConfirmText("Ok")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        connectionLossDialog.dismissWithAnimation();
+                    }
+                });
+        connectionLossDialog.show();
     }
 }
