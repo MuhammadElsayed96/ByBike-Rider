@@ -28,9 +28,9 @@
     <!-- Splash Screen theme. -->
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
-        <item name="android:windowBackground">@drawable/splash_background</item>
-
+        <item name="android:windowBackground">@drawable/bybike_logo</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
     </style>
 
         <!--Custom Alert dialog-->
@@ -43,5 +43,12 @@
         <item name="DialogSpotColor">@color/colorAccent</item>
         <item name="DialogSpotCount">4</item>
     </style>
+
+    <style name="Theme_Custom_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">false</item>
+        <item name="android:windowActionBarOverlay">false</item>
+    </style>
+
 
 </resources>
