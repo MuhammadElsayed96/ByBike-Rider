@@ -42,7 +42,6 @@
                 android:backgroundTint="#49a3bb"
                 android:hint="@string/vehicle_description"
                 android:inputType="text"
-                android:text="Green Bike"
                 android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 

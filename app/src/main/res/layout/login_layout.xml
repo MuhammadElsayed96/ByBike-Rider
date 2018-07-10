@@ -45,8 +45,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/ET_Background_tint"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:text="elsheikh@yahoo.com" />
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -63,8 +62,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#49a3bb"
                 android:hint="Password"
-                android:inputType="textPassword"
-                android:text="123456" />
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 

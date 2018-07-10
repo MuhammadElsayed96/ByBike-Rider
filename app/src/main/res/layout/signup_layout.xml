@@ -38,7 +38,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#49a3bb"
-                    android:text="Muhammad"
                     android:hint="First Name"
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
@@ -57,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="#49a3bb"
                     android:hint="Last Name"
-                    android:text="Khaled"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
@@ -74,7 +72,6 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="elsheikh@yahoo.com"
                 android:backgroundTint="#49a3bb"
                 android:hint="Email"
                 android:inputType="textEmailAddress" />
@@ -93,7 +90,6 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#49a3bb"
                 android:hint="Phone"
-                android:text="01025444333"
                 android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
         <!-- Password Label -->
@@ -110,7 +106,6 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#49a3bb"
                 android:hint="Create Password"
-                android:text="123456"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
@@ -156,8 +151,6 @@
             android:textColor="@color/colorAccent"
             android:textSize="14sp" />
     </LinearLayout>
-
-
 
 
 </android.support.constraint.ConstraintLayout>
