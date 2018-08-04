@@ -8,12 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -63,6 +60,8 @@ public class AccountFragment extends Fragment {
     // the fragment initialization parameters
     private static final String ARG_TITLE = "Account Fragment";
     private static final int FIRST_NAME_INDEX = 0;
+    private static final int INTENT_REQUEST_CODE = 100;
+    private static final int REQUEST_STORAGE_PERMISSION = 200;
     private TextView mTvUserName;
     private ConstraintLayout mClRiderProfile;
     private ConstraintLayout mClEditRiderProfile;
@@ -71,9 +70,6 @@ public class AccountFragment extends Fragment {
     private View rootView;
     private RiderInfoModel riderInfoModel;
     private RiderModel currentUser;
-    private static final int INTENT_REQUEST_CODE = 100;
-    private static final int REQUEST_STORAGE_PERMISSION = 200;
-
     private ConstraintLayout.OnClickListener mOnClEditRiderProfile = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

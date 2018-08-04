@@ -1,13 +1,10 @@
 package com.muhammadelsayed.bybike_rider.RatingActivities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.muhammadelsayed.bybike_rider.AccountActivities.EditAccount;
-import com.muhammadelsayed.bybike_rider.AccountActivities.RiderProfile;
 import com.muhammadelsayed.bybike_rider.ConnectionReceiver;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;

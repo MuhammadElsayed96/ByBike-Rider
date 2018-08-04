@@ -22,10 +22,10 @@ import java.util.regex.Pattern;
 public class ForgotPasswordFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = ForgotPasswordFragment.class.getSimpleName();
+    private static FragmentManager mFragmentManager;
     private View mView;
     private EditText mEmail;
     private TextView mSubmit, mBack;
-    private static FragmentManager mFragmentManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

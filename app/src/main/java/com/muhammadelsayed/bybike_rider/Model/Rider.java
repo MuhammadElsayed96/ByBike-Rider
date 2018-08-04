@@ -19,10 +19,6 @@ public class Rider implements Serializable {
     private String created_at;
     private String updated_at;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Rider(String id, String uuid, String name, String email, String password, String phone, String image, String vehicle_ID, String vehicle_Data, String api_token, String created_at, String updated_at) {
         this.id = id;
         this.uuid = uuid;
@@ -71,6 +67,10 @@ public class Rider implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getVehicle_ID() {

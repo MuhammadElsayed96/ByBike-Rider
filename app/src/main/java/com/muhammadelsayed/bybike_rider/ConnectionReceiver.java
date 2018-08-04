@@ -14,6 +14,15 @@ public class ConnectionReceiver extends BroadcastReceiver {
         super();
     }
 
+    public static boolean isConnected() {
+        ConnectivityManager
+                cm = (ConnectivityManager) RiderApplication.getInstance().getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null
+                && activeNetwork.isConnectedOrConnecting();
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -26,15 +35,6 @@ public class ConnectionReceiver extends BroadcastReceiver {
         if (connectionReceiverListener != null) {
             connectionReceiverListener.onNetworkConnectionChanged(isConnected);
         }
-    }
-
-    public static boolean isConnected() {
-        ConnectivityManager
-                cm = (ConnectivityManager) RiderApplication.getInstance().getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null
-                && activeNetwork.isConnectedOrConnecting();
     }
 
 

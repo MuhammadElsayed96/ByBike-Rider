@@ -84,7 +84,7 @@
             android:name=".StartActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme_Custom_NoActionBar"/>
+            android:theme="@style/Theme_Custom_NoActionBar" />
 
         <activity
             android:name=".SplashActivity"

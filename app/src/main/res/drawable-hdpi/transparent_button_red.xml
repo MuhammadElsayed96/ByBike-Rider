@@ -5,10 +5,7 @@
         <shape>
             <stroke android:width="2dp" android:color="#ff5252" />
             <solid android:color="@color/white" />
-            <corners android:bottomLeftRadius="16dp"
-                android:bottomRightRadius="16dp"
-                android:topLeftRadius="16dp"
-                android:topRightRadius="16dp" />
+            <corners android:bottomLeftRadius="16dp" android:bottomRightRadius="16dp" android:topLeftRadius="16dp" android:topRightRadius="16dp" />
         </shape>
     </item>
 

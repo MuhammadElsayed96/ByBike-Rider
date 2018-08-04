@@ -5,6 +5,14 @@ public class SignUpResponse {
     private String token;
 
 
+    public SignUpResponse(String message, String token) {
+        this.message = message;
+        this.token = token;
+    }
+
+    public SignUpResponse() {
+    }
+
     public String getMessage() {
         return message;
     }
@@ -27,13 +35,5 @@ public class SignUpResponse {
                 "message='" + message + '\'' +
                 ", token='" + token + '\'' +
                 '}';
-    }
-
-    public SignUpResponse(String message, String token) {
-        this.message = message;
-        this.token = token;
-    }
-
-    public SignUpResponse() {
     }
 }

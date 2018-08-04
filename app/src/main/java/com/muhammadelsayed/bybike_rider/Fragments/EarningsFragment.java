@@ -9,15 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhammadelsayed.bybike_rider.Adapters.EarningsAdapter;
 import com.muhammadelsayed.bybike_rider.Model.Earnings;
 import com.muhammadelsayed.bybike_rider.Model.EarningsModel;
 import com.muhammadelsayed.bybike_rider.Model.Rider;
-import com.muhammadelsayed.bybike_rider.Model.TripModel;
-import com.muhammadelsayed.bybike_rider.Model.TripResponse;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.Network.RiderClient;
 import com.muhammadelsayed.bybike_rider.R;

@@ -15,8 +15,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.muhammadelsayed.bybike_rider.Model.Orders;
 import com.muhammadelsayed.bybike_rider.Adapters.OrdersAdapter;
+import com.muhammadelsayed.bybike_rider.Model.Orders;
 import com.muhammadelsayed.bybike_rider.R;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
@@ -33,6 +33,16 @@ public class RequestsFragment extends Fragment {
     private List<Orders> orderList;
     private DatabaseReference mOrdersRef;
 
+    public static RequestsFragment requestsFragmentInstance(String title) {
+        Log.wtf(TAG, "requestsFragmentInstance() has been instantiated");
+
+        RequestsFragment fragment = new RequestsFragment();
+        Bundle args = new Bundle();
+        args.putString(TAG, title);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,16 +54,6 @@ public class RequestsFragment extends Fragment {
         getOrdersInfo();
 
         return rootView;
-    }
-
-    public static RequestsFragment requestsFragmentInstance(String title) {
-        Log.wtf(TAG, "requestsFragmentInstance() has been instantiated");
-
-        RequestsFragment fragment = new RequestsFragment();
-        Bundle args = new Bundle();
-        args.putString(TAG, title);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

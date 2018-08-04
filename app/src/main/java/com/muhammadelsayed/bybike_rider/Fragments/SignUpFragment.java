@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
@@ -29,16 +27,15 @@ import java.util.regex.Pattern;
 public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = SignUpFragment.class.getSimpleName();
+    private static final String ARG_FNAME = "fName";
+    private static final String ARG_LNAME = "lName";
+    private static final String ARG_EMAIL = "email";
+    private static final String ARG_PHONE = "phone";
     private View view;
     private EditText mEmail, mFirstName, mLastName, mPhone, mPassword;
     private FloatingActionButton fab;
     private LinearLayout mLogIn;
     private FragmentManager mFragmentManager;
-    private static final String ARG_FNAME = "fName";
-    private static final String ARG_LNAME = "lName";
-    private static final String ARG_EMAIL = "email";
-    private static final String ARG_PHONE = "phone";
-
     private String fName;
     private String lName;
     private String email;

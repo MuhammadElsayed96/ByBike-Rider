@@ -1,7 +1,5 @@
 package com.muhammadelsayed.bybike_rider.Model;
 
-import android.text.TextUtils;
-
 import java.io.Serializable;
 
 public class RiderModel implements Serializable {

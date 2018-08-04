@@ -1,22 +1,19 @@
 package com.muhammadelsayed.bybike_rider;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.muhammadelsayed.bybike_rider.Fragments.LoginFragment;
-import com.muhammadelsayed.bybike_rider.Model.RiderModel;
-import com.muhammadelsayed.bybike_rider.Utils.RiderSharedPreferences;
 import com.muhammadelsayed.bybike_rider.Utils.Utils;
 
 public class StartActivity extends AppCompatActivity {
 
+    private static final String TAG = StartActivity.class.getSimpleName();
     private static FragmentManager fragmentManager;
     private Context mContext = StartActivity.this;
-    private static final String TAG = StartActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +22,6 @@ public class StartActivity extends AppCompatActivity {
         Log.wtf(TAG, "onCreate() has been instantiated");
 
         fragmentManager = getSupportFragmentManager();
-
 
 
         if (savedInstanceState == null) {

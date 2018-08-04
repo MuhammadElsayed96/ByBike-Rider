@@ -39,6 +39,7 @@ import retrofit2.Response;
 public class ExtendedSignUpFragment extends Fragment {
 
     private static final String TAG = ExtendedSignUpFragment.class.getSimpleName();
+    List<Transportation> vehicles;
     private CardView mSignUpButton;
     private FragmentManager mFragmentManager;
     private Spinner transportationSpinner;
@@ -46,8 +47,6 @@ public class ExtendedSignUpFragment extends Fragment {
     private EditText mVehicleData;
     private CustomSpinnerAdapter spinnerAdapter;
     private String vehicleData;
-    List<Transportation> vehicles;
-
     private CardView.OnClickListener onCvSignUpListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

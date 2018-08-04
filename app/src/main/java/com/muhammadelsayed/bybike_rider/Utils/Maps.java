@@ -30,7 +30,6 @@ public class Maps {
         }
 
 
-
         String city = addresses.get(0).getLocality();
         String state = addresses.get(0).getAdminArea();
         String country = addresses.get(0).getCountryName();

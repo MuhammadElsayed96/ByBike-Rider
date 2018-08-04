@@ -2,7 +2,7 @@ package com.muhammadelsayed.bybike_rider.Model;
 
 import java.io.Serializable;
 
-public class OrderInfoModel implements Serializable{
+public class OrderInfoModel implements Serializable {
     private Order order;
     private Rider transporter;
 

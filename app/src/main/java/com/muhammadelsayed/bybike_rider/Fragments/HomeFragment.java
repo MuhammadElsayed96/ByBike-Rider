@@ -46,25 +46,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
 
-    // The fragment initialization parameters
-    private GoogleMap mMap;
-    private MapView mMapView;
-    private View mRootView;
-
-    private Boolean mLocationPermissionGranted = false;
     public static final String TAG = HomeFragment.class.getSimpleName();
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 99;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private Location mLastLocation;
-
     private static int UPDATE_INTERVAL = 5000;
     private static int FASTEST_INTERVAL = 3000;
     private static int DISPLACEMENT = 10;
     Marker currentLocation;
-
+    // The fragment initialization parameters
+    private GoogleMap mMap;
+    private MapView mMapView;
+    private View mRootView;
+    private Boolean mLocationPermissionGranted = false;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private Location mLastLocation;
     private DatabaseReference drivers;
     private GeoFire geoFire;
 

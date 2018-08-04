@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.muhammadelsayed.bybike_rider.ConnectionReceiver;
-import com.muhammadelsayed.bybike_rider.DriverTracking;
-import com.muhammadelsayed.bybike_rider.MainActivity;
 import com.muhammadelsayed.bybike_rider.Model.Rider;
 import com.muhammadelsayed.bybike_rider.Model.RiderInfoModel;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
@@ -25,16 +22,14 @@ import retrofit2.Response;
 
 public class Utils implements ConnectionReceiver.ConnectionReceiverListener {
 
-    private static final String TAG = Utils.class.getSimpleName();
-
     // Email Validation pattern
     public static final String regEx = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b";
-
     // Fragments Tags
     public static final String LOGIN_FRAGMENT = "LOGIN_FRAGMENT";
     public static final String SING_UP_FRAGMENT = "SingUpFragment";
     public static final String FORGOT_PASSWORD_FRAGMENT = "FORGOT_PASSWORD_FRAGMENT";
     public static final String EXTENDED_SIGN_UP = "ExtendedSignUpFragment";
+    private static final String TAG = Utils.class.getSimpleName();
     private static SweetAlertDialog connectionLossDialog;
 
 
@@ -121,13 +116,12 @@ public class Utils implements ConnectionReceiver.ConnectionReceiverListener {
         }
     }
 
+    private static boolean checkConnection() {
+        return ConnectionReceiver.isConnected();
+    }
+
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
 
-    }
-
-
-    private static boolean checkConnection() {
-        return ConnectionReceiver.isConnected();
     }
 }

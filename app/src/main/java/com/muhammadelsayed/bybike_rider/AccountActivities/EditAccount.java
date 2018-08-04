@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.muhammadelsayed.bybike_rider.ConnectionReceiver;
-import com.muhammadelsayed.bybike_rider.DriverTracking;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 import com.muhammadelsayed.bybike_rider.Network.RetrofitClientInstance;
 import com.muhammadelsayed.bybike_rider.R;
@@ -25,6 +24,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class EditAccount extends AppCompatActivity implements ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = EditAccount.class.getSimpleName();
+    private static final int EDIT_PHONE_ACTIVITY_REQUEST_CODE = 2;
+    private static final int EDIT_PASSWORD_ACTIVITY_REQUEST_CODE = 3;
     private LinearLayout mLlEditPhone;
     private LinearLayout mLlEditPassword;
     private TextView mTvPhoneInfo;
@@ -33,9 +34,6 @@ public class EditAccount extends AppCompatActivity implements ConnectionReceiver
     private CircularImageView mRiderImage;
     private RiderModel currentRider;
     private SweetAlertDialog connectionLossDialog;
-    private static final int EDIT_PHONE_ACTIVITY_REQUEST_CODE = 2;
-    private static final int EDIT_PASSWORD_ACTIVITY_REQUEST_CODE = 3;
-
     private LinearLayout.OnClickListener mOnLlEditPhoneClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

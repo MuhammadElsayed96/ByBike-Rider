@@ -2,9 +2,7 @@ package com.muhammadelsayed.bybike_rider;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.muhammadelsayed.bybike_rider.Model.OrderInfoModel;
 import com.muhammadelsayed.bybike_rider.Model.RiderModel;
 
 /**
@@ -34,6 +32,10 @@ public class RiderApplication extends Application {
         this.currentRider = currentRider;
     }
 
+    public static synchronized RiderApplication getInstance() {
+        return mInstance;
+    }
+
     public RiderModel getCurrentRider() {
         Log.wtf(TAG, "getCurrentRider() has been instantiated");
 
@@ -51,15 +53,9 @@ public class RiderApplication extends Application {
         mInstance = this;
     }
 
-    public static synchronized RiderApplication getInstance() {
-        return mInstance;
-    }
-
     public void setConnectionListener(ConnectionReceiver.ConnectionReceiverListener listener) {
         ConnectionReceiver.connectionReceiverListener = listener;
     }
-
-
 
 
 }

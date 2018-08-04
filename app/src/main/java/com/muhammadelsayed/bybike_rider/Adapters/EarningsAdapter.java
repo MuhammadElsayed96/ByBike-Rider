@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.muhammadelsayed.bybike_rider.Model.Earnings;
-import com.muhammadelsayed.bybike_rider.Model.Rate;
 import com.muhammadelsayed.bybike_rider.R;
 
 import java.text.DateFormat;
@@ -32,6 +31,14 @@ public class EarningsAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
         this.earningsList = earningsList;
         this.context = context;
+    }
+
+    private static String formatTime(String tripTime) throws ParseException {
+        DateFormat formatter
+                = new SimpleDateFormat("MM/dd/yy 'at' h:mm a");
+        DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        Date date = originalFormat.parse(tripTime);
+        return formatter.format(date);
     }
 
     @Override
@@ -98,15 +105,6 @@ public class EarningsAdapter extends BaseAdapter {
         TextView tripClientTv; //trip_client_tv
         TextView tripDateTv;   //trip_date_tv
         MaterialRatingBar tripStarRatingBar; // trip_rating_bar
-    }
-
-
-    private static String formatTime(String tripTime) throws ParseException {
-        DateFormat formatter
-                = new SimpleDateFormat("MM/dd/yy 'at' h:mm a");
-        DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        Date date = originalFormat.parse(tripTime);
-        return formatter.format(date);
     }
 
 }

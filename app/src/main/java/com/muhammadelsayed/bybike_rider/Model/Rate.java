@@ -2,7 +2,7 @@ package com.muhammadelsayed.bybike_rider.Model;
 
 import java.io.Serializable;
 
-public class Rate implements Serializable{
+public class Rate implements Serializable {
 
     private String id;
     private String rate;

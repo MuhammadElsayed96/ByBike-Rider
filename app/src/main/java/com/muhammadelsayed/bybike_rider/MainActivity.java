@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +49,8 @@ import static android.provider.Contacts.PresenceColumns.OFFLINE;
 
 public class MainActivity extends AppCompatActivity implements ConnectionReceiver.ConnectionReceiverListener {
 
+    public static final int BUTTON_STATUS_ONLINE = 1;
+    public static final int BUTTON_STATUS_OFFLINE = 0;
     private static final String TAG = MainActivity.class.getSimpleName();
     // Variables Declaration.
     private static final String TAG_FRAGMENT_HOME = "tag_frag_home";
@@ -64,13 +65,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionReceive
     private static final int INT_FRAGMENT_RATING_POS = 2;
     private static final int INT_FRAGMENT_ACCOUNT_POS = 3;
     private static final int INT_FRAGMENT_REQUESTS_POS = 4;
-    public static final int BUTTON_STATUS_ONLINE = 1;
-    public static final int BUTTON_STATUS_OFFLINE = 0;
     public static int buttonStatus = BUTTON_STATUS_OFFLINE;
-    private SweetAlertDialog connectionLossDialog;
-    private static Button mActionbarButton;
-    private ActionBar mActionBar;
     public static BottomNavigationView mBottomNavigation;
+    private static Button mActionbarButton;
+    private SweetAlertDialog connectionLossDialog;
+    private ActionBar mActionBar;
     private Toast mStateToast;
     private TextView mTvState;
     private DatabaseReference mOrdersRef;
@@ -159,6 +158,38 @@ public class MainActivity extends AppCompatActivity implements ConnectionReceive
             }
         }
     };
+
+    /**
+     * This method will force the BottomNavigationView to show both the icon and the label
+     * of each element in the BottomNavigationView, not only the highlighted element
+     * <p>
+     * I got this method from STACKOVERFLOW.com and here's the link
+     * see <a href="https://stackoverflow.com/questions/41352934/force-showing-icon-and-title-in-bottomnavigationview-support-android/41374515"</a>
+     *
+     * @param view is the BottomNavigationView object on which the force showing will be applied
+     */
+    @SuppressLint("RestrictedApi")
+    public static void disableShiftMode(BottomNavigationView view) {
+        Log.wtf(TAG, "disableShiftMode() has been instantiated");
+
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                item.setShiftingMode(false);
+                // set once again checked value, so view will be updated
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            //Timber.e(e, "Unable to get shift mode field");
+        } catch (IllegalAccessException e) {
+            //Timber.e(e, "Unable to change value of shift mode");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,38 +334,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionReceive
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_fragment_holder, mFragmentsList.get(pos), tag)
                 .commit();
-    }
-
-    /**
-     * This method will force the BottomNavigationView to show both the icon and the label
-     * of each element in the BottomNavigationView, not only the highlighted element
-     * <p>
-     * I got this method from STACKOVERFLOW.com and here's the link
-     * see <a href="https://stackoverflow.com/questions/41352934/force-showing-icon-and-title-in-bottomnavigationview-support-android/41374515"</a>
-     *
-     * @param view is the BottomNavigationView object on which the force showing will be applied
-     */
-    @SuppressLint("RestrictedApi")
-    public static void disableShiftMode(BottomNavigationView view) {
-        Log.wtf(TAG, "disableShiftMode() has been instantiated");
-
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShiftingMode(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
-            }
-        } catch (NoSuchFieldException e) {
-            //Timber.e(e, "Unable to get shift mode field");
-        } catch (IllegalAccessException e) {
-            //Timber.e(e, "Unable to change value of shift mode");
-        }
     }
 
     @Override

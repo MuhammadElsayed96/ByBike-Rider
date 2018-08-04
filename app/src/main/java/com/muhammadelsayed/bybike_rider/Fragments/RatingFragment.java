@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,15 +56,15 @@ public class RatingFragment extends Fragment {
         }
     };
 
+    public RatingFragment() {
+    }
+
     public static RatingFragment ratingFragmentInstance(String title) {
         RatingFragment fragment = new RatingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public RatingFragment() {
     }
 
     @Override

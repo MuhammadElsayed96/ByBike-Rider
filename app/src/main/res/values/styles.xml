@@ -33,7 +33,7 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
-        <!--Custom Alert dialog-->
+    <!--Custom Alert dialog-->
     <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">
         <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
         <item name="DialogTitleText">Loading…</item>

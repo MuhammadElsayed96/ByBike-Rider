@@ -17,6 +17,18 @@ public class Client implements Serializable {
     public Client() {
     }
 
+    public Client(String id, String uuid, String name, String email, String phone, String image, String api_token, String created_at, String updated_at) {
+        this.id = id;
+        this.uuid = uuid;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.image = image;
+        this.api_token = api_token;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
     @Override
     public String toString() {
         return "Client{" +
@@ -30,18 +42,6 @@ public class Client implements Serializable {
                 ", created_at='" + created_at + '\'' +
                 ", updated_at='" + updated_at + '\'' +
                 '}';
-    }
-
-    public Client(String id, String uuid, String name, String email, String phone, String image, String api_token, String created_at, String updated_at) {
-        this.id = id;
-        this.uuid = uuid;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.image = image;
-        this.api_token = api_token;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
     }
 
     public String getId() {

@@ -29,9 +29,9 @@
         <EditText
             android:id="@+id/et_edit_phone"
             android:layout_width="match_parent"
-            android:inputType="number"
             android:layout_height="wrap_content"
             android:backgroundTint="#49a3bb"
+            android:inputType="number"
             android:maxLines="1" />
     </LinearLayout>
 
