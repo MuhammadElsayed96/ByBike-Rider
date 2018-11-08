@@ -27,3 +27,8 @@ Screenshots
 
 ### Ratings Screen
 <img src="https://user-images.githubusercontent.com/17935590/48106365-caecc180-e243-11e8-8bbc-06699355eab1.png" width="800" height="802">
+
+### Account Screen
+<img src="https://user-images.githubusercontent.com/17935590/48167410-4e65eb80-e2f4-11e8-9294-478f995dd3dd.png" width="800" height="802">
+<img src="https://user-images.githubusercontent.com/17935590/48173333-018e0f00-e30c-11e8-9928-f4e79e655e68.png" width="800" height="802">
+<img src="https://user-images.githubusercontent.com/17935590/48169229-20d07080-e2fb-11e8-9dca-ff92937f6f21.png" width="800" height="802">
