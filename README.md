@@ -36,3 +36,7 @@ Screenshots
 ### Requests screen
 <img src="https://user-images.githubusercontent.com/17935590/48174499-e83b9180-e310-11e8-9d4f-ea9ec886d583.png" width="800" height="802">
 <img src="https://user-images.githubusercontent.com/17935590/48174799-1e2d4580-e312-11e8-9bda-05079428073b.png" width="800" height="802">
+<img src="https://user-images.githubusercontent.com/17935590/48227184-51231800-e3aa-11e8-8684-ab7edec06b5b.png" width="800" height="802">
+
+### Offline-Online Rider State
+<img src="https://user-images.githubusercontent.com/17935590/48227167-436d9280-e3aa-11e8-94a7-06f74d6dc6f2.png" width="800" height="802">
